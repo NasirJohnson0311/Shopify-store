@@ -63,8 +63,11 @@ export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
   return (
-    <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
+    <div className="home" style={{ position: 'relative', zIndex: 1 }}>
+      <div className="featured-section">
+        <p className="featured-items">Featured Items</p>
+        <hr />
+      </div>
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
   );
@@ -101,11 +104,10 @@ function FeaturedCollection({collection}) {
 function RecommendedProducts({products}) {
   return (
     <div className="recommended-products">
-      <h2>Recommended Products</h2>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
           {(response) => (
-            <div className="recommended-products-grid">
+            <div className="product-cards recommended-products-grid">
               {response
                 ? response.products.nodes.map((product) => (
                     <ProductItem key={product.id} product={product} />

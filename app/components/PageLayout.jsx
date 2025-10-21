@@ -9,6 +9,7 @@ import {
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
+import ZoomedParticleAnimation from '~/components/ZoomedParticleAnimation';
 
 /**
  * @param {PageLayoutProps}
@@ -23,6 +24,7 @@ export function PageLayout({
 }) {
   return (
     <Aside.Provider>
+      <ZoomedParticleAnimation />
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />

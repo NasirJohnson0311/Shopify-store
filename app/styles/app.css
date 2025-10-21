@@ -6,10 +6,55 @@
   --header-height: 64px;
   --color-dark: #000;
   --color-light: #fff;
+
+  /* Art React App Theme */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #000000;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 img {
   border-radius: 4px;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }
 
 /*
@@ -51,6 +96,7 @@ aside header {
   height: var(--header-height);
   justify-content: space-between;
   padding: 0 20px;
+  color:black
 }
 
 aside header h3 {
@@ -91,7 +137,7 @@ aside li {
 }
 
 .overlay {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.6);
   bottom: 0;
   left: 0;
   opacity: 0;
@@ -164,13 +210,32 @@ button.reset:hover:not(:has(> *)) {
 */
 .header {
   align-items: center;
-  background: #fff;
+  background: transparent;
   display: flex;
+  justify-content: space-between;
   height: var(--header-height);
-  padding: 0 1rem;
+  padding: 0px 80px;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 100;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+.header a {
+  color: white;
+  text-decoration: none;
+}
+
+.header a:hover {
+  color: white;
+}
+
+.header strong {
+  color: white;
+  font-size: 50px;
+  font-weight: 400;
+  letter-spacing: 2px;
 }
 
 .header-menu-mobile-toggle {
@@ -210,14 +275,29 @@ button.reset:hover:not(:has(> *)) {
   min-width: fit-content;
 }
 
+.header-ctas a,
+.header-ctas button {
+  color: white;
+}
+
+.header-ctas li {
+  display: inline;
+  margin: 10px;
+}
+
 /*
 * --------------------------------------------------
 * components/Footer
 * --------------------------------------------------
 */
 .footer {
-  background: var(--color-dark);
-  margin-top: auto;
+  background: transparent;
+  margin-top: 150px;
+}
+
+.footer-container {
+  background-color: transparent;
+  text-align: center;
 }
 
 .footer-menu {
@@ -228,9 +308,24 @@ button.reset:hover:not(:has(> *)) {
   padding: 1rem;
 }
 
+.footer-menu li {
+  display: inline;
+  margin: 20px;
+}
+
 .footer-menu a {
   color: var(--color-light);
   min-width: fit-content;
+}
+
+.footer-menu svg {
+  vertical-align: middle;
+}
+
+.footer p {
+  color: rgb(246, 245, 245);
+  display: inline;
+  margin: 20px;
 }
 
 /*
@@ -571,4 +666,146 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+/*
+* --------------------------------------------------
+* Custom Product Card Styling (from art-react-app)
+* --------------------------------------------------
+*/
+.card {
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 10px;
+  box-shadow: 0px 5px 20px hsla(0, 3%, 93%, 0);
+  padding: 0px;
+  margin: 20px;
+  text-align: center;
+  width: 21%;
+  height: 70%;
+  display: inline-block;
+}
+
+.card-image:hover {
+  transform: scale(1);
+  filter: contrast(1.2) saturate(1.2) brightness(1.05);
+}
+
+.card .card-image {
+  max-width: 100%;
+  height: auto;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.card .card-image:hover {
+  opacity: 50%;
+}
+
+.card .card-title {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding-left: 20px;
+  color: hsl(0, 0%, 100%);
+  text-align: left;
+  height: 25px;
+}
+
+.card .card-text {
+  font-family: Arial;
+  text-align: left;
+  padding-left: 20px;
+  height: 10px;
+}
+
+.card .add-to-cart {
+  margin-bottom: 20px;
+  width: 90%;
+  height: 8%;
+}
+
+.card .card-br {
+  width: 80%;
+  color: red;
+}
+
+/* Featured Items Section */
+.featured-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 40px 0 30px 0;
+}
+
+.featured-items {
+  text-align: center;
+  margin: 0 0 1px 0;
+  height: auto;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+hr {
+  width: 12%;
+  height: 2px;
+  background: white;
+  border: none;
+  margin: 0;
+  border-radius: 2px;
+}
+
+.product-cards {
+  margin-left: 4%;
+}
+
+/* Background Effects */
+.background-effects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  animation: float 6s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #ff0000, #cc0000, #800000);
+  top: 10%;
+  right: 20%;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #ff4500, #ff2200, #cc1100);
+  bottom: 20%;
+  left: 10%;
+  animation-delay: 2s;
+}
+
+.orb-3 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, #ffffff, #cccccc, #999999);
+  top: 60%;
+  right: 60%;
+  animation-delay: 4s;
+  opacity: 0.1;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(10deg); }
 }

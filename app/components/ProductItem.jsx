@@ -20,6 +20,7 @@ export function ProductItem({product, loading}) {
       key={product.id}
       prefetch="intent"
       to={variantUrl}
+      style={{color: 'white', textDecoration: 'none'}}
     >
       {image && (
         <Image
@@ -30,8 +31,8 @@ export function ProductItem({product, loading}) {
           sizes="(min-width: 45em) 400px, 100vw"
         />
       )}
-      <h4>{product.title}</h4>
-      <small>
+      <h4 style={{color: 'white'}}>{product.title}</h4>
+      <small style={{color: 'white'}}>
         <Money data={product.priceRange.minVariantPrice} />
       </small>
     </Link>
