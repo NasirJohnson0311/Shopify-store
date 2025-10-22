@@ -20,19 +20,19 @@ export function ProductItem({product, loading}) {
       key={product.id}
       prefetch="intent"
       to={variantUrl}
-      style={{color: 'white', textDecoration: 'none'}}
     >
       {image && (
-        <Image
-          alt={image.altText || product.title}
-          aspectRatio="1/1"
-          data={image}
-          loading={loading}
-          sizes="(min-width: 45em) 400px, 100vw"
-        />
+        <div className="product-item__image-wrapper">
+          <Image
+            alt={image.altText || product.title}
+            data={image}
+            loading={loading}
+            sizes="(min-width: 45em) 400px, 100vw"
+          />
+        </div>
       )}
-      <h4 style={{color: 'white'}}>{product.title}</h4>
-      <small style={{color: 'white'}}>
+      <h4>{product.title}</h4>
+      <small>
         <Money data={product.priceRange.minVariantPrice} />
       </small>
     </Link>

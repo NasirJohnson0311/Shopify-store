@@ -65,7 +65,7 @@ export default function Homepage() {
   return (
     <div className="home" style={{ position: 'relative', zIndex: 1 }}>
       <div className="featured-section">
-        <p className="featured-items">Featured Items</p>
+        <p className="featured-items">Products</p>
       </div>
       <RecommendedProducts products={data.recommendedProducts} />
     </div>

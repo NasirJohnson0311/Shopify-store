@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx shopify:*)"
+      "Bash(npx shopify:*)",
+      "Read(//Users/nasirjohnson/Downloads/**)",
+      "Bash(npm run dev:*)",
+      "Read(//Users/nasirjohnson/Desktop/**)"
     ],
     "deny": [],
     "ask": []
