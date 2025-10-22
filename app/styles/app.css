@@ -732,13 +732,14 @@ button.reset:hover:not(:has(> *)) {
 .featured-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   margin: 40px 0 30px 0;
+  padding-left: 80px;
 }
 
 .featured-items {
-  text-align: center;
+  text-align: left;
   margin: 0 0 1px 0;
   height: auto;
   font-size: 1.2rem;
