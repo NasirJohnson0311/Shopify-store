@@ -684,3 +684,16 @@ button.reset:hover:not(:has(> *)) {
   font-weight: 500;
 }
 
+.recommended-products-section {
+  max-width: 1200px;
+  margin: 4rem auto 0;
+  padding: 0 2rem 2rem;
+}
+
+.recommended-products-section h2 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  color: white;
+}
+

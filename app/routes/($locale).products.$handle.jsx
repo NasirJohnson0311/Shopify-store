@@ -1,4 +1,5 @@
-import {useLoaderData} from 'react-router';
+import {useLoaderData, Await} from 'react-router';
+import {Suspense} from 'react';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -10,6 +11,7 @@ import {
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
+import {ProductItem} from '~/components/ProductItem';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 /**
@@ -80,12 +82,21 @@ function loadDeferredData({context, params}) {
   // Put any API calls that is not critical to be available on first page render
   // For example: product reviews, product recommendations, social feeds.
 
-  return {};
+  const recommendedProducts = context.storefront
+    .query(RECOMMENDED_PRODUCTS_QUERY)
+    .catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+  return {
+    recommendedProducts,
+  };
 }
 
 export default function Product() {
   /** @type {LoaderReturnData} */
-  const {product} = useLoaderData();
+  const {product, recommendedProducts} = useLoaderData();
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -106,38 +117,75 @@ export default function Product() {
   const {title, descriptionHtml} = product;
 
   return (
-    <div className="product">
-      <ProductImage image={selectedVariant?.image} />
-      <div className="product-main">
-        <h1>{title}</h1>
-        <ProductPrice
-          price={selectedVariant?.price}
-          compareAtPrice={selectedVariant?.compareAtPrice}
-        />
-        <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 255, 255, 0.2)', margin: '1rem 0' }} />
-        <div style={{ marginTop: '2rem' }}>
-          <ProductForm
-            productOptions={productOptions}
-            selectedVariant={selectedVariant}
+    <>
+      <div className="product">
+        <ProductImage image={selectedVariant?.image} />
+        <div className="product-main">
+          <h1>{title}</h1>
+          <ProductPrice
+            price={selectedVariant?.price}
+            compareAtPrice={selectedVariant?.compareAtPrice}
           />
+          <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 255, 255, 0.2)', margin: '1rem 0' }} />
+          <div style={{ marginTop: '2rem' }}>
+            <ProductForm
+              productOptions={productOptions}
+              selectedVariant={selectedVariant}
+            />
+          </div>
+          <div style={{ marginTop: '2rem' }} dangerouslySetInnerHTML={{__html: descriptionHtml}} />
         </div>
-        <div style={{ marginTop: '2rem' }} dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+        <Analytics.ProductView
+          data={{
+            products: [
+              {
+                id: product.id,
+                title: product.title,
+                price: selectedVariant?.price.amount || '0',
+                vendor: product.vendor,
+                variantId: selectedVariant?.id || '',
+                variantTitle: selectedVariant?.title || '',
+                quantity: 1,
+              },
+            ],
+          }}
+        />
       </div>
-      <Analytics.ProductView
-        data={{
-          products: [
-            {
-              id: product.id,
-              title: product.title,
-              price: selectedVariant?.price.amount || '0',
-              vendor: product.vendor,
-              variantId: selectedVariant?.id || '',
-              variantTitle: selectedVariant?.title || '',
-              quantity: 1,
-            },
-          ],
-        }}
-      />
+      <RecommendedProducts products={recommendedProducts} currentProductHandle={product.handle} />
+    </>
+  );
+}
+
+function RecommendedProducts({products, currentProductHandle}) {
+  return (
+    <div className="recommended-products-section">
+      <h2>You may also like</h2>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Await resolve={products}>
+          {(response) => {
+            if (!response?.products?.nodes) {
+              return null;
+            }
+
+            // Filter out the current product and limit to 4
+            const filteredProducts = response.products.nodes
+              .filter((product) => product.handle !== currentProductHandle)
+              .slice(0, 4);
+
+            if (filteredProducts.length === 0) {
+              return null;
+            }
+
+            return (
+              <div className="recommended-products-grid">
+                {filteredProducts.map((product) => (
+                  <ProductItem key={product.id} product={product} />
+                ))}
+              </div>
+            );
+          }}
+        </Await>
+      </Suspense>
     </div>
   );
 }
@@ -232,6 +280,36 @@ const PRODUCT_QUERY = `#graphql
     }
   }
   ${PRODUCT_FRAGMENT}
+`;
+
+const RECOMMENDED_PRODUCTS_QUERY = `#graphql
+  fragment RecommendedProduct on Product {
+    id
+    title
+    handle
+    productType
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    featuredImage {
+      id
+      url
+      altText
+      width
+      height
+    }
+  }
+  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    products(first: 8, sortKey: UPDATED_AT, reverse: true) {
+      nodes {
+        ...RecommendedProduct
+      }
+    }
+  }
 `;
 
 /** @typedef {import('./+types/products.$handle').Route} Route */
