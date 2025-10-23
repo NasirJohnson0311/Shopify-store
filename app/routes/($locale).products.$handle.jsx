@@ -114,11 +114,14 @@ export default function Product() {
           price={selectedVariant?.price}
           compareAtPrice={selectedVariant?.compareAtPrice}
         />
-        <ProductForm
-          productOptions={productOptions}
-          selectedVariant={selectedVariant}
-        />
-        <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+        <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 255, 255, 0.2)', margin: '1rem 0' }} />
+        <div style={{ marginTop: '2rem' }}>
+          <ProductForm
+            productOptions={productOptions}
+            selectedVariant={selectedVariant}
+          />
+        </div>
+        <div style={{ marginTop: '2rem' }} dangerouslySetInnerHTML={{__html: descriptionHtml}} />
       </div>
       <Analytics.ProductView
         data={{
