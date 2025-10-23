@@ -510,6 +510,10 @@ button.reset:hover:not(:has(> *)) {
   }
 }
 
+.recommended-products-section .recommended-products-grid {
+  padding: 0;
+}
+
 .recommended-products-grid .product-item {
   display: flex;
   flex-direction: column;
@@ -686,8 +690,8 @@ button.reset:hover:not(:has(> *)) {
 
 .recommended-products-section {
   max-width: 1200px;
-  margin: 4rem auto 0;
-  padding: 0 2rem 2rem;
+  margin: 4rem auto -120px;
+  padding: 0 px 2rem 80px;
 }
 
 .recommended-products-section h2 {
