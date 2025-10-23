@@ -675,6 +675,11 @@ button.reset:hover:not(:has(> *)) {
 .product-main {
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 2rem;
+  align-self: flex-start;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
 }
 
 .product-main p {
