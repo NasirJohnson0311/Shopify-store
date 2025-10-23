@@ -7,7 +7,13 @@
       "Read(//Users/nasirjohnson/Desktop/**)",
       "Bash(git checkout:*)",
       "Read(//Users/nasirjohnson/**)",
-      "Bash(git diff:*)"
+      "Bash(git diff:*)",
+      "Bash(cat:*)",
+      "Bash(tree:*)",
+      "Bash(md5:*)",
+      "Bash(mv:*)",
+      "Bash(sips:*)",
+      "Bash(cp:*)"
     ],
     "deny": [],
     "ask": []
