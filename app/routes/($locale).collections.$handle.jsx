@@ -71,16 +71,39 @@ function loadDeferredData({context}) {
   return {};
 }
 
+/**
+ * Sort products by priority: Prints/Posters first, then Decks, then others
+ */
+function sortProductsByPriority(products) {
+  if (!products || !Array.isArray(products)) return [];
+
+  return [...products].sort((a, b) => {
+    const getPriority = (product) => {
+      const type = (product.productType || '').toLowerCase();
+      if (type.includes('print') || type.includes('poster')) return 1;
+      if (type.includes('deck') || type.includes('skateboard')) return 2;
+      return 3;
+    };
+
+    return getPriority(a) - getPriority(b);
+  });
+}
+
 export default function Collection() {
   /** @type {LoaderReturnData} */
   const {collection} = useLoaderData();
+
+  const sortedProducts = {
+    ...collection.products,
+    nodes: sortProductsByPriority(collection.products.nodes),
+  };
 
   return (
     <div className="collection">
       <h1>{collection.title}</h1>
       <p className="collection-description">{collection.description}</p>
       <PaginatedResourceSection
-        connection={collection.products}
+        connection={sortedProducts}
         resourcesClassName="products-grid"
       >
         {({node: product, index}) => (
@@ -112,6 +135,7 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
     id
     handle
     title
+    productType
     featuredImage {
       id
       altText

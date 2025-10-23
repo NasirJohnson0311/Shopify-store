@@ -28,7 +28,7 @@ body {
 }
 
 img {
-  border-radius: 4px;
+  border-radius: 0;
 }
 
 h1 {
@@ -313,7 +313,8 @@ button.reset:hover:not(:has(> *)) {
 
 .footer-container {
   background-color: transparent;
-  text-align: center;
+  text-align: left;
+  padding: 0 80px;
 }
 
 .footer-menu {
@@ -523,7 +524,7 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .recommended-products-grid .product-item__image-wrapper {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: transparent;
 }
 
 .recommended-products-grid .product-item__image-wrapper img {
@@ -599,17 +600,18 @@ button.reset:hover:not(:has(> *)) {
 .product-item__image-wrapper {
   overflow: hidden;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  max-height: 500px;
 }
 
 .product-item__image-wrapper img {
   width: 100% !important;
   height: auto !important;
-  max-height: none !important;
+  max-height: 500px !important;
   object-fit: contain !important;
   position: relative !important;
   display: block !important;

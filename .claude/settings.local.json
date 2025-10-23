@@ -4,7 +4,10 @@
       "Bash(npx shopify:*)",
       "Read(//Users/nasirjohnson/Downloads/**)",
       "Bash(npm run dev:*)",
-      "Read(//Users/nasirjohnson/Desktop/**)"
+      "Read(//Users/nasirjohnson/Desktop/**)",
+      "Bash(git checkout:*)",
+      "Read(//Users/nasirjohnson/**)",
+      "Bash(git diff:*)"
     ],
     "deny": [],
     "ask": []

@@ -96,6 +96,24 @@ function FeaturedCollection({collection}) {
 }
 
 /**
+ * Sort products by priority: Prints/Posters first, then Decks, then others
+ */
+function sortProductsByPriority(products) {
+  if (!products || !Array.isArray(products)) return [];
+
+  return [...products].sort((a, b) => {
+    const getPriority = (product) => {
+      const type = (product.productType || '').toLowerCase();
+      if (type.includes('print') || type.includes('poster')) return 1;
+      if (type.includes('deck') || type.includes('skateboard')) return 2;
+      return 3;
+    };
+
+    return getPriority(a) - getPriority(b);
+  });
+}
+
+/**
  * @param {{
  *   products: Promise<RecommendedProductsQuery | null>;
  * }}
@@ -105,15 +123,17 @@ function RecommendedProducts({products}) {
     <div className="recommended-products">
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
-          {(response) => (
-            <div className="product-cards recommended-products-grid">
-              {response
-                ? response.products.nodes.map((product) => (
-                    <ProductItem key={product.id} product={product} />
-                  ))
-                : null}
-            </div>
-          )}
+          {(response) => {
+            const sortedProducts = sortProductsByPriority(response?.products?.nodes);
+
+            return (
+              <div className="product-cards recommended-products-grid">
+                {sortedProducts.map((product) => (
+                  <ProductItem key={product.id} product={product} />
+                ))}
+              </div>
+            );
+          }}
         </Await>
       </Suspense>
       <br />
@@ -149,6 +169,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
     id
     title
     handle
+    productType
     priceRange {
       minVariantPrice {
         amount
