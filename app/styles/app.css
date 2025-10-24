@@ -696,7 +696,7 @@ button.reset:hover:not(:has(> *)) {
 .recommended-products-section {
   max-width: 1200px;
   margin: 4rem auto -120px;
-  padding: 0 px 2rem 80px;
+  padding: 0 60px 2rem 80px;
 }
 
 .recommended-products-section h2 {
