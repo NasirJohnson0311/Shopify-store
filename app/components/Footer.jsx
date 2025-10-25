@@ -14,9 +14,14 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
               {/* Divider */}
               <div style={{
                 width: '100%',
-                height: '1px',
-                backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                marginBottom: '16px'
+                height: '15px',
+                backgroundImage: 'url(/LINE_07.png)',
+                backgroundSize: '100% 100%',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                marginBottom: '16px',
+                filter: 'brightness(0) invert(1)',
+                transform: 'scaleY(1.2)'
               }} />
 
               {/* Email Signup Section */}

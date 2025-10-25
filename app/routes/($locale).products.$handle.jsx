@@ -122,11 +122,23 @@ export default function Product() {
         <ProductImage image={selectedVariant?.image} />
         <div className="product-main">
           <h1>{title}</h1>
-          <ProductPrice
-            price={selectedVariant?.price}
-            compareAtPrice={selectedVariant?.compareAtPrice}
+          <div style={{ marginTop: '0.5rem' }}>
+            <ProductPrice
+              price={selectedVariant?.price}
+              compareAtPrice={selectedVariant?.compareAtPrice}
+            />
+          </div>
+          <img
+            src="/LINE_01.png"
+            alt="divider"
+            style={{
+              width: '100%',
+              height: 'auto',
+              margin: '0.5rem 0 1rem 0',
+              filter: 'brightness(0) invert(1)',
+              transform: 'scaleY(0.8)'
+            }}
           />
-          <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 255, 255, 0.2)', margin: '1rem 0' }} />
           <div style={{ marginTop: '2rem' }}>
             <ProductForm
               productOptions={productOptions}

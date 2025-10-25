@@ -47,14 +47,14 @@ export function CartMain({layout, cart: originalCart}) {
 function CartEmpty({hidden = false}) {
   const {close} = useAside();
   return (
-    <div hidden={hidden}>
+    <div hidden={hidden} style={{ color: 'black' }}>
       <br />
       <p>
         Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
         started!
       </p>
       <br />
-      <Link to="/collections" onClick={close} prefetch="viewport">
+      <Link to="/collections" onClick={close} prefetch="viewport" style={{ color: 'black' }}>
         Continue shopping →
       </Link>
     </div>

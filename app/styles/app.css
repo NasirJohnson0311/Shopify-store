@@ -91,12 +91,30 @@ aside {
 
 aside header {
   align-items: center;
-  border-bottom: 1px solid var(--color-dark);
+  border-bottom: none;
   display: flex;
   height: var(--header-height);
   justify-content: space-between;
   padding: 0 20px;
-  color:black
+  color:black;
+  position: relative;
+}
+
+aside header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  width: auto;
+  height: 14px;
+  background-image: url('/LINE_01.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: brightness(0) saturate(0) contrast(1000);
+  image-rendering: crisp-edges;
+  transform: scaleY(0.8);
 }
 
 aside header h3 {
@@ -109,6 +127,11 @@ aside header .close {
   text-decoration: none;
   transition: all 200ms;
   width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
 }
 
 aside header .close:hover {
@@ -187,10 +210,12 @@ button.reset {
   border: 0;
   background: inherit;
   font-size: inherit;
+  color: black
 }
 
 button.reset > * {
   margin: 0;
+  
 }
 
 button.reset:not(:has(> *)) {
@@ -364,29 +389,108 @@ button.reset:hover:not(:has(> *)) {
 .cart-line {
   display: flex;
   padding: 0.75rem 0;
+  gap: 1.5rem;
+  color:black
 }
 
 .cart-line img {
   height: 100%;
   display: block;
-  margin-right: 0.75rem;
+  margin-right: 0;
 }
 
 .cart-summary-page {
   position: relative;
+  color:black
 }
 
 .cart-summary-aside {
   background: white;
-  border-top: 1px solid var(--color-dark);
+  border-top: none;
   bottom: 0;
   padding-top: 0.75rem;
   position: absolute;
   width: calc(var(--aside-width) - 40px);
+  color:black
+}
+
+.cart-summary-aside::before {
+  content: '';
+  display: block;
+  width: calc(100% + 40px);
+  height: 20px;
+  background-image: url('/LINE_08.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0.75rem;
+  filter: brightness(0) saturate(0) contrast(1000);
+  image-rendering: crisp-edges;
+  transform: scaleY(1.5);
 }
 
 .cart-line-quantity {
   display: flex;
+  align-items: center;
+  gap: 20px;
+  color:black
+}
+
+.quantity-control-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-image: url('/SHAPE_03.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 110px;
+  height: 60px;
+  padding: 0 10px;
+  filter: contrast(2) brightness(0.8);
+}
+
+.quantity-btn {
+  background: transparent;
+  border: none;
+  color: black;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  font-weight: 300;
+  z-index: 1;
+}
+
+.quantity-btn:hover {
+  opacity: 0.7;
+}
+
+.quantity-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.quantity-number {
+  color: black;
+  font-weight: 300;
+  font-size: 1rem;
+  z-index: 1;
+}
+
+.cart-line-quantity > form:last-child button {
+  background: transparent;
+  border: none;
+  color: black;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.cart-line-quantity > form:last-child button:hover {
+  opacity: 0.7;
 }
 
 .cart-discount {
@@ -398,6 +502,7 @@ button.reset:hover:not(:has(> *)) {
 .cart-subtotal {
   align-items: center;
   display: flex;
+  
 }
 /*
 * --------------------------------------------------
@@ -705,4 +810,48 @@ button.reset:hover:not(:has(> *)) {
   margin-bottom: 2rem;
   color: white;
 }
+
+/*
+* --------------------------------------------------
+* gradient orbs
+* --------------------------------------------------
+*/
+
+.gradient-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.19;
+  animation: float 6s ease-in-out infinite;
+  z-index: -1;
+}
+
+.orb-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #ff0000, #cc0000, #800000);
+  top: 10%;
+  right: 20%;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #ff4500, #ff2200, #cc1100);
+  bottom: 20%;
+  left: 10%;
+  animation-delay: 2s;
+}
+
+.orb-3 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, #ffffff, #cccccc, #999999);
+  top: 60%;
+  right: 60%;
+  animation-delay: 4s;
+  opacity: 0.1;
+}
+
 
