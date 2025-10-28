@@ -86,6 +86,7 @@ aside {
   position: fixed;
   right: calc(-1 * var(--aside-width));
   top: 0;
+  transform: translateX(0);
   transition: transform 200ms ease-in-out;
 }
 
@@ -168,10 +169,9 @@ aside li {
   position: fixed;
   right: 0;
   top: 0;
-  transition: opacity 400ms ease-in-out;
-  transition: opacity 400ms;
+  transition: opacity 400ms ease-in-out, visibility 0s 400ms;
   visibility: hidden;
-  z-index: 10;
+  z-index: 200;
 }
 
 .overlay .close-outside {
@@ -200,6 +200,7 @@ aside li {
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
+  transition: opacity 400ms ease-in-out;
 }
 /* reveal aside */
 .overlay.expanded aside {
