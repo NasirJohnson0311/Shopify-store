@@ -134,9 +134,12 @@ export default function Product() {
             style={{
               width: '100%',
               height: 'auto',
+              maxHeight: '20px',
               margin: '0.5rem 0 1rem 0',
               filter: 'brightness(0) invert(1)',
-              transform: 'scaleY(0.8)'
+              transform: 'scaleY(0.8)',
+              objectFit: 'fill',
+              display: 'block'
             }}
           />
           <div style={{ marginTop: '2rem' }}>
