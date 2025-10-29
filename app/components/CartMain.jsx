@@ -54,9 +54,9 @@ function CartEmpty({hidden = false}) {
         started!
       </p>
       <br />
-      <Link to="/collections" onClick={close} prefetch="viewport" style={{ color: 'black' }}>
+      <button onClick={close} style={{ color: 'black', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
         Continue shopping →
-      </Link>
+      </button>
     </div>
   );
 }

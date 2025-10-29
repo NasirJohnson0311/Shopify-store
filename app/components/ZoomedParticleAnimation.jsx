@@ -73,10 +73,10 @@ const ZoomedParticleAnimation = () => {
           if (distance < maxConnectionDistance * zoomLevel) {
             let alpha;
             if (distance < (maxConnectionDistance - fadeZoneWidth) * zoomLevel) {
-              alpha = Math.min(0.24, 0.36 * (1 - distance / ((maxConnectionDistance - fadeZoneWidth) * zoomLevel)));
+              alpha = Math.min(0.12, 0.18 * (1 - distance / ((maxConnectionDistance - fadeZoneWidth) * zoomLevel)));
             } else {
               const fadeProgress = (distance - (maxConnectionDistance - fadeZoneWidth) * zoomLevel) / (fadeZoneWidth * zoomLevel);
-              alpha = 0.24 * Math.pow(1 - fadeProgress, 3);
+              alpha = 0.12 * Math.pow(1 - fadeProgress, 3);
             }
 
             if (alpha > 0.001) {
@@ -179,12 +179,12 @@ const ZoomedParticleAnimation = () => {
 
       particles.forEach(particle => {
         const distanceToCenter = Math.sqrt(
-          Math.pow(particle.x - centerX, 2) + 
+          Math.pow(particle.x - centerX, 2) +
           Math.pow(particle.y - centerY, 2)
         );
         const alphaVariation = isSmallContainer ? 0.4 : 0.5;
-        const alpha = Math.max(0.3, Math.min(0.7, 1 - distanceToCenter / (500 + alphaVariation * 100)));
-        
+        const alpha = Math.max(0.15, Math.min(0.35, 1 - distanceToCenter / (500 + alphaVariation * 100)));
+
         ctx.fillStyle = `rgba(255, 3, 3, ${alpha})`;
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
