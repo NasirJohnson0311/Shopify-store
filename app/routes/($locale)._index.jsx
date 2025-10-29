@@ -128,8 +128,8 @@ function RecommendedProducts({products}) {
 
             return (
               <div className="product-cards recommended-products-grid">
-                {sortedProducts.map((product) => (
-                  <ProductItem key={product.id} product={product} />
+                {sortedProducts.map((product, index) => (
+                  <ProductItem key={product.id} product={product} index={index} />
                 ))}
               </div>
             );

@@ -15,7 +15,8 @@
       "Bash(sips:*)",
       "Bash(cp:*)",
       "Bash(grep:*)",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

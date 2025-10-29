@@ -190,8 +190,8 @@ function RecommendedProducts({products, currentProductHandle}) {
 
             return (
               <div className="recommended-products-grid">
-                {filteredProducts.map((product) => (
-                  <ProductItem key={product.id} product={product} />
+                {filteredProducts.map((product, index) => (
+                  <ProductItem key={product.id} product={product} index={index} />
                 ))}
               </div>
             );
