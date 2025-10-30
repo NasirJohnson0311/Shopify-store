@@ -461,26 +461,6 @@ button.reset:hover:not(:has(> *)) {
   color:black
 }
 
-.cart-summary-aside::before {
-  content: '';
-  display: block;
-  width: calc(100% + 40px);
-  height: 20px;
-  background-image: url('/LINE_08.png');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 0.75rem;
-  filter: brightness(0) saturate(0) invert(0);
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  transform: scaleY(1.5);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
 .cart-line-quantity {
   display: flex;
   align-items: center;

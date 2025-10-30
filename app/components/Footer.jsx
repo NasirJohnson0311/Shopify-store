@@ -19,9 +19,7 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
                 backgroundSize: '100% 100%',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
-                marginBottom: '16px',
-                filter: 'brightness(0) invert(1)',
-                transform: 'scaleY(1.2)'
+                marginBottom: '16px'
               }} />
 
               {/* Email Signup Section */}
