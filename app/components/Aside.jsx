@@ -49,6 +49,12 @@ export function Aside({children, heading, type}) {
           <button className="close reset" onClick={close} aria-label="Close">
             &times;
           </button>
+          {type === 'cart' && (
+            <div className="cart-labels">
+              <span className="cart-label-product">PRODUCT</span>
+              <span className="cart-label-total">TOTAL</span>
+            </div>
+          )}
         </header>
         <main>{children}</main>
       </aside>

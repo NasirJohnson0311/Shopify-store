@@ -20,7 +20,8 @@
       "Bash(for file in LINE_01.png LINE_07.png LINE_08.png)",
       "Bash(do cp \"$file\" \"$file%.png_white.png\")",
       "Bash(done)",
-      "Bash(git status:*)"
+      "Bash(git status:*)",
+      "Bash(git log:*)"
     ],
     "deny": [],
     "ask": []
