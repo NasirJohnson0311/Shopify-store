@@ -467,6 +467,32 @@ button.reset:hover:not(:has(> *)) {
   margin-right: 0;
 }
 
+.cart-line-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 1rem;
+}
+
+.cart-line-info {
+  flex: 1;
+}
+
+.cart-line-info p {
+  margin: 0;
+}
+
+.cart-line-price {
+  display: flex;
+  align-items: flex-start;
+}
+
+.cart-line-price .product-price {
+  margin: 0;
+  line-height: 1;
+}
+
 .cart-summary-page {
   position: relative;
   color:black
@@ -553,7 +579,19 @@ button.reset:hover:not(:has(> *)) {
 .cart-subtotal {
   align-items: center;
   display: flex;
-  
+  justify-content: space-between;
+}
+
+.cart-subtotal dd {
+  margin: 0;
+  text-align: right;
+}
+
+.cart-tax-shipping-notice {
+  font-size: 0.875rem;
+  color: black;
+  margin: 0.5rem 0;
+  opacity: 0.8;
 }
 /*
 * --------------------------------------------------

@@ -31,33 +31,38 @@ export function CartLineItem({layout, line}) {
         />
       )}
 
-      <div>
-        <Link
-          prefetch="intent"
-          to={lineItemUrl}
-          onClick={() => {
-            if (layout === 'aside') {
-              close();
-            }
-          }}
-        >
-          <p>
-            <strong>{product.title}</strong>
-          </p>
-        </Link>
-        <ProductPrice price={line?.cost?.totalAmount} />
-        <ul>
-          {selectedOptions
-            .filter((option) => !(option.name === 'Title' && option.value === 'Default Title'))
-            .map((option) => (
-              <li key={option.name}>
-                <small>
-                  {option.name}: {option.value}
-                </small>
-              </li>
-            ))}
-        </ul>
-        <CartLineQuantity line={line} />
+      <div className="cart-line-content">
+        <div className="cart-line-info">
+          <Link
+            prefetch="intent"
+            to={lineItemUrl}
+            onClick={() => {
+              if (layout === 'aside') {
+                close();
+              }
+            }}
+          >
+            <p>
+              <strong>{product.title}</strong>
+            </p>
+          </Link>
+          <ProductPrice price={merchandise?.price} />
+          <ul>
+            {selectedOptions
+              .filter((option) => !(option.name === 'Title' && option.value === 'Default Title'))
+              .map((option) => (
+                <li key={option.name}>
+                  <small>
+                    {option.name}: {option.value}
+                  </small>
+                </li>
+              ))}
+          </ul>
+          <CartLineQuantity line={line} />
+        </div>
+        <div className="cart-line-price">
+          <ProductPrice price={line?.cost?.totalAmount} />
+        </div>
       </div>
     </li>
   );

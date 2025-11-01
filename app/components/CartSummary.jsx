@@ -11,7 +11,6 @@ export function CartSummary({cart, layout}) {
 
   return (
     <div aria-labelledby="cart-summary" className={className}>
-      <h4>Totals</h4>
       <dl className="cart-subtotal">
         <dt>Subtotal</dt>
         <dd>
@@ -22,6 +21,7 @@ export function CartSummary({cart, layout}) {
           )}
         </dd>
       </dl>
+      <p className="cart-tax-shipping-notice">Taxes and shipping calculated at checkout</p>
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
     </div>
   );
