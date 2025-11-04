@@ -109,10 +109,9 @@ aside {
 aside[data-type="search"] {
   width: 100vw;
   height: auto;
-  max-height: 20vh;
   right: 0;
-  top: -20vh;
-  transform: translateY(0);
+  top: 0;
+  transform: translateY(-100%);
   transition: transform 200ms ease-in-out;
 }
 
@@ -132,11 +131,13 @@ aside[data-type="search"] main {
 
 aside[data-type="search"] .predictive-search {
   width: 100%;
-  padding: 1rem;
+  padding: 1.5rem 0.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  height: auto;
+  min-height: 80px;
 }
 
 aside[data-type="search"] .predictive-search form {
@@ -154,7 +155,12 @@ aside[data-type="search"] .predictive-search form input {
   padding: 0.5rem;
 }
 
-.search-results-container {
+/* Search results dropdown that appears outside the aside */
+.search-results-dropdown {
+  position: fixed;
+  top: calc(var(--header-height) + 20px);
+  left: 50%;
+  transform: translateX(-50%);
   width: 80%;
   max-width: 800px;
   min-width: 300px;
@@ -162,33 +168,34 @@ aside[data-type="search"] .predictive-search form input {
   padding: 0.5rem;
   box-sizing: border-box;
   border: 1px solid black;
+  z-index: 201;
+  max-height: 60vh;
+  overflow-y: auto;
+  transition: opacity 200ms ease-in-out;
 }
 
-.search-results-container.hidden {
+.search-results-dropdown.hidden {
   opacity: 0;
   pointer-events: none;
-  height: 0;
-  overflow: hidden;
-  padding: 0;
+  visibility: hidden;
 }
 
-.search-results-container.visible {
+.search-results-dropdown.visible {
   opacity: 1;
   pointer-events: auto;
-  height: auto;
-  overflow: visible;
+  visibility: visible;
 }
 
 @media (max-width: 900px) {
   aside[data-type="search"] .predictive-search form input,
-  .search-results-container {
+  .search-results-dropdown {
     width: 90%;
   }
 }
 
 @media (max-width: 600px) {
   aside[data-type="search"] .predictive-search form input,
-  .search-results-container {
+  .search-results-dropdown {
     width: 95%;
   }
 }
@@ -345,7 +352,7 @@ aside li {
 
 /* reveal search aside from top */
 .overlay.expanded aside[data-type="search"] {
-  transform: translateY(20vh);
+  transform: translateY(0);
 }
 
 button.reset {
@@ -714,19 +721,20 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .predictive-search-result {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .predictive-search-result h5 {
   text-transform: uppercase;
   color: black;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
   border-bottom: 1px solid #ddd;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
 }
 
 .predictive-search-result-item {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .predictive-search-result-item a {
@@ -739,14 +747,16 @@ button.reset:hover:not(:has(> *)) {
   height: 100%;
 }
 
-.search-results-container a[href*="search"] {
+.search-results-container a[href*="search"],
+.search-results-dropdown a[href*="search"] {
   display: block;
   padding-top: 0.5rem;
   margin-top: 0.5rem;
   border-top: 1px solid #ddd;
 }
 
-.search-results-container p {
+.search-results-container p,
+.search-results-dropdown p {
   color: black;
 }
 

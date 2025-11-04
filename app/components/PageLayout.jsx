@@ -97,32 +97,36 @@ function SearchAside() {
   }, [searchTerm]);
 
   return (
-    <Aside type="search" heading="SEARCH">
-      <div className={`predictive-search ${searchTerm.trim() ? 'has-results' : ''}`}>
-        <SearchFormPredictive>
-          {({fetchResults, inputRef}) => (
-            <input
-              name="q"
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                fetchResults(e);
-              }}
-              onFocus={fetchResults}
-              onBlur={(e) => {
-                if (!e.target.value.trim()) {
-                  setSearchTerm('');
-                }
-              }}
-              placeholder="Search"
-              ref={inputRef}
-              type="search"
-              list={queriesDatalistId}
-              value={searchTerm}
-            />
-          )}
-        </SearchFormPredictive>
+    <>
+      <Aside type="search" heading="SEARCH">
+        <div className="predictive-search">
+          <SearchFormPredictive>
+            {({fetchResults, inputRef}) => (
+              <input
+                name="q"
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  fetchResults(e);
+                }}
+                onFocus={fetchResults}
+                onBlur={(e) => {
+                  if (!e.target.value.trim()) {
+                    setSearchTerm('');
+                  }
+                }}
+                placeholder="Search"
+                ref={inputRef}
+                type="search"
+                list={queriesDatalistId}
+                value={searchTerm}
+              />
+            )}
+          </SearchFormPredictive>
+        </div>
+      </Aside>
 
-        <div className={`search-results-container ${showDropdown ? 'visible' : 'hidden'}`} style={{minHeight: hasSearched && showDropdown ? '100px' : '0'}}>
+      {asideType === 'search' && (
+        <div className={`search-results-dropdown ${showDropdown ? 'visible' : 'hidden'}`}>
           <SearchResultsPredictive>
             {({items, total, term, state}) => {
               const {articles, collections, pages, products, queries} = items;
@@ -173,8 +177,8 @@ function SearchAside() {
             }}
           </SearchResultsPredictive>
         </div>
-      </div>
-    </Aside>
+      )}
+    </>
   );
 }
 
