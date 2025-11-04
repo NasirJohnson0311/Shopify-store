@@ -1,6 +1,6 @@
-import {Await, Link} from 'react-router';
-import {Suspense, useId} from 'react';
-import {Aside} from '~/components/Aside';
+import {Await, Link, useLocation} from 'react-router';
+import {Suspense, useId, useState, useEffect, useRef} from 'react';
+import {Aside, useAside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
 import {CartMain} from '~/components/CartMain';
@@ -65,81 +65,114 @@ function CartAside({cart}) {
 
 function SearchAside() {
   const queriesDatalistId = useId();
+  const location = useLocation();
+  const {close: closeAside, type: asideType} = useAside();
+  const prevPathnameRef = useRef(location.pathname);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
+
+  // Close aside when pathname changes (user navigated to a new page)
+  useEffect(() => {
+    if (prevPathnameRef.current !== location.pathname && asideType === 'search') {
+      closeAside();
+      setSearchTerm('');
+      setShowDropdown(false);
+      setHasSearched(false);
+    }
+    prevPathnameRef.current = location.pathname;
+  }, [location.pathname, asideType, closeAside]);
+
+  useEffect(() => {
+    if (searchTerm.trim()) {
+      setShowDropdown(true);
+      setHasSearched(true);
+    } else {
+      const timer = setTimeout(() => {
+        setShowDropdown(false);
+        setHasSearched(false);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [searchTerm]);
+
   return (
     <Aside type="search" heading="SEARCH">
-      <div className="predictive-search">
-        <br />
+      <div className={`predictive-search ${searchTerm.trim() ? 'has-results' : ''}`}>
         <SearchFormPredictive>
-          {({fetchResults, goToSearch, inputRef}) => (
-            <>
-              <input
-                name="q"
-                onChange={fetchResults}
-                onFocus={fetchResults}
-                placeholder="Search"
-                ref={inputRef}
-                type="search"
-                list={queriesDatalistId}
-              />
-              &nbsp;
-              <button onClick={goToSearch}>Search</button>
-            </>
+          {({fetchResults, inputRef}) => (
+            <input
+              name="q"
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                fetchResults(e);
+              }}
+              onFocus={fetchResults}
+              onBlur={(e) => {
+                if (!e.target.value.trim()) {
+                  setSearchTerm('');
+                }
+              }}
+              placeholder="Search"
+              ref={inputRef}
+              type="search"
+              list={queriesDatalistId}
+              value={searchTerm}
+            />
           )}
         </SearchFormPredictive>
 
-        <SearchResultsPredictive>
-          {({items, total, term, state, closeSearch}) => {
-            const {articles, collections, pages, products, queries} = items;
+        <div className={`search-results-container ${showDropdown ? 'visible' : 'hidden'}`} style={{minHeight: hasSearched && showDropdown ? '100px' : '0'}}>
+          <SearchResultsPredictive>
+            {({items, total, term, state}) => {
+              const {articles, collections, pages, products, queries} = items;
 
-            if (state === 'loading' && term.current) {
-              return <div>Loading...</div>;
-            }
+              // Don't render anything if no search term yet
+              if (!term.current) {
+                return null;
+              }
 
-            if (!total) {
-              return <SearchResultsPredictive.Empty term={term} />;
-            }
+              // Show loading state
+              if (state === 'loading') {
+                return <div style={{padding: '1rem', color: 'black'}}>Searching...</div>;
+              }
 
-            return (
-              <>
-                <SearchResultsPredictive.Queries
-                  queries={queries}
-                  queriesDatalistId={queriesDatalistId}
-                />
-                <SearchResultsPredictive.Products
-                  products={products}
-                  closeSearch={closeSearch}
-                  term={term}
-                />
-                <SearchResultsPredictive.Collections
-                  collections={collections}
-                  closeSearch={closeSearch}
-                  term={term}
-                />
-                <SearchResultsPredictive.Pages
-                  pages={pages}
-                  closeSearch={closeSearch}
-                  term={term}
-                />
-                <SearchResultsPredictive.Articles
-                  articles={articles}
-                  closeSearch={closeSearch}
-                  term={term}
-                />
-                {term.current && total ? (
-                  <Link
-                    onClick={closeSearch}
-                    to={`${SEARCH_ENDPOINT}?q=${term.current}`}
-                  >
-                    <p>
-                      View all results for <q>{term.current}</q>
-                      &nbsp; →
-                    </p>
-                  </Link>
-                ) : null}
-              </>
-            );
-          }}
-        </SearchResultsPredictive>
+              // Show empty state if no results
+              if (!total) {
+                return <SearchResultsPredictive.Empty term={term} />;
+              }
+
+              return (
+                <>
+                  <SearchResultsPredictive.Queries
+                    queries={queries}
+                    queriesDatalistId={queriesDatalistId}
+                  />
+                  <SearchResultsPredictive.Products
+                    products={products}
+                  />
+                  <SearchResultsPredictive.Collections
+                    collections={collections}
+                  />
+                  <SearchResultsPredictive.Pages
+                    pages={pages}
+                  />
+                  <SearchResultsPredictive.Articles
+                    articles={articles}
+                  />
+                  {term.current && total ? (
+                    <Link to={`${SEARCH_ENDPOINT}?q=${term.current}`}>
+                      <p>
+                        View all results for <q>{term.current}</q>
+                        &nbsp; →
+                      </p>
+                    </Link>
+                  ) : null}
+                </>
+              );
+            }}
+          </SearchResultsPredictive>
+        </div>
       </div>
     </Aside>
   );

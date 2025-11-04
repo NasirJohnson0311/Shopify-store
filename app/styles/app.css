@@ -105,6 +105,103 @@ aside {
   transition: transform 200ms ease-in-out;
 }
 
+/* Search aside comes from top */
+aside[data-type="search"] {
+  width: 100vw;
+  height: auto;
+  max-height: 20vh;
+  right: 0;
+  top: -20vh;
+  transform: translateY(0);
+  transition: transform 200ms ease-in-out;
+}
+
+aside[data-type="search"] header {
+  display: none;
+}
+
+aside[data-type="search"] main {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+aside[data-type="search"] .predictive-search {
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+aside[data-type="search"] .predictive-search form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+aside[data-type="search"] .predictive-search form input {
+  width: 80%;
+  max-width: 800px;
+  min-width: 300px;
+  box-sizing: border-box;
+  display: block;
+  padding: 0.5rem;
+}
+
+.search-results-container {
+  width: 80%;
+  max-width: 800px;
+  min-width: 300px;
+  background: white;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
+.search-results-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.search-results-container.visible {
+  opacity: 1;
+  pointer-events: auto;
+  height: auto;
+  overflow: visible;
+}
+
+@media (max-width: 900px) {
+  aside[data-type="search"] .predictive-search form input,
+  .search-results-container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 600px) {
+  aside[data-type="search"] .predictive-search form input,
+  .search-results-container {
+    width: 95%;
+  }
+}
+
+.search-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0.5rem;
+}
+
 aside header {
   align-items: center;
   border-bottom: none;
@@ -244,6 +341,11 @@ aside li {
 /* reveal aside */
 .overlay.expanded aside {
   transform: translateX(calc(var(--aside-width) * -1));
+}
+
+/* reveal search aside from top */
+.overlay.expanded aside[data-type="search"] {
+  transform: translateY(20vh);
 }
 
 button.reset {
@@ -603,7 +705,9 @@ button.reset:hover:not(:has(> *)) {
   overflow-y: auto;
 }
 
-.predictive-search-form {
+
+
+.form {
   background: var(--color-light);
   position: sticky;
   top: 0;
@@ -615,6 +719,10 @@ button.reset:hover:not(:has(> *)) {
 
 .predictive-search-result h5 {
   text-transform: uppercase;
+  color: black;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 0.5rem;
 }
 
 .predictive-search-result-item {
@@ -629,6 +737,17 @@ button.reset:hover:not(:has(> *)) {
 .predictive-search-result-item a img {
   margin-right: 0.75rem;
   height: 100%;
+}
+
+.search-results-container a[href*="search"] {
+  display: block;
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid #ddd;
+}
+
+.search-results-container p {
+  color: black;
 }
 
 .search-result {
