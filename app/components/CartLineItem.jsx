@@ -21,14 +21,14 @@ export function CartLineItem({layout, line}) {
   return (
     <li key={id} className="cart-line">
       {image && (
-        <Image
-          alt={title}
-          aspectRatio="1/1"
-          data={image}
-          height={100}
-          loading="lazy"
-          width={100}
-        />
+        <div className="cart-line-image-wrapper">
+          <Image
+            alt={title}
+            data={image}
+            loading="lazy"
+            sizes="100px"
+          />
+        </div>
       )}
 
       <div className="cart-line-content">

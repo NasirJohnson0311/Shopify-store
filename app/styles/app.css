@@ -570,10 +570,20 @@ button.reset:hover:not(:has(> *)) {
   color:black
 }
 
-.cart-line img {
-  height: 100%;
-  display: block;
-  margin-right: 0;
+.cart-line-image-wrapper {
+  width: 100px;
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cart-line-image-wrapper img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  display: block !important;
 }
 
 .cart-line-content {
