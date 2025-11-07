@@ -63,13 +63,15 @@ function SearchResultsPredictiveArticles({articles}) {
         {articles.map((article) => (
           <li className="predictive-search-result-item" key={article.id}>
             <Link to={`/blogs/${article.blog.handle}/${article.handle}`}>
-              {article.image?.url && (
-                <Image
-                  alt={article.image.altText ?? ''}
-                  src={article.image.url}
-                  width={50}
-                  height={50}
-                />
+              {article.image && (
+                <div className="predictive-search-image-wrapper">
+                  <Image
+                    alt={article.image.altText ?? ''}
+                    data={article.image}
+                    loading="lazy"
+                    sizes="100px"
+                  />
+                </div>
               )}
               <div>
                 <span>{article.title}</span>
@@ -95,13 +97,15 @@ function SearchResultsPredictiveCollections({collections}) {
         {collections.map((collection) => (
           <li className="predictive-search-result-item" key={collection.id}>
             <Link to={`/collections/${collection.handle}`}>
-              {collection.image?.url && (
-                <Image
-                  alt={collection.image.altText ?? ''}
-                  src={collection.image.url}
-                  width={50}
-                  height={50}
-                />
+              {collection.image && (
+                <div className="predictive-search-image-wrapper">
+                  <Image
+                    alt={collection.image.altText ?? ''}
+                    data={collection.image}
+                    loading="lazy"
+                    sizes="100px"
+                  />
+                </div>
               )}
               <div>
                 <span>{collection.title}</span>
@@ -156,12 +160,14 @@ function SearchResultsPredictiveProducts({products}) {
             <li className="predictive-search-result-item" key={product.id}>
               <Link to={`/products/${product.handle}`}>
                 {image && (
-                  <Image
-                    alt={image.altText ?? ''}
-                    src={image.url}
-                    width={50}
-                    height={50}
-                  />
+                  <div className="predictive-search-image-wrapper">
+                    <Image
+                      alt={image.altText ?? ''}
+                      data={image}
+                      loading="lazy"
+                      sizes="100px"
+                    />
+                  </div>
                 )}
                 <div>
                   <p>{product.title}</p>

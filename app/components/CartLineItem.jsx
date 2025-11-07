@@ -18,8 +18,11 @@ export function CartLineItem({layout, line}) {
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const {close} = useAside();
 
+  const isSkateboard = product.productType === 'Skateboard Decks';
+  const cartLineClass = isSkateboard ? 'cart-line cart-line-skateboard' : 'cart-line';
+
   return (
-    <li key={id} className="cart-line">
+    <li key={id} className={cartLineClass}>
       {image && (
         <div className="cart-line-image-wrapper">
           <Image
