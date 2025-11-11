@@ -16,6 +16,12 @@ import {motion} from 'framer-motion';
 export function ProductItem({product, loading, index = 0}) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
+  const isSkateboard = product.productType === 'Skateboard Decks' ||
+                       product.productType === 'Skateboard Deck' ||
+                       product.productType?.toLowerCase().includes('skateboard') ||
+                       product.title?.toLowerCase().includes('deck');
+  const productClass = isSkateboard ? 'product-item product-item-skateboard' : 'product-item';
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -27,7 +33,7 @@ export function ProductItem({product, loading, index = 0}) {
       }}
     >
       <Link
-        className="product-item"
+        className={productClass}
         key={product.id}
         prefetch="intent"
         to={variantUrl}

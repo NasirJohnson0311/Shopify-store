@@ -928,10 +928,22 @@ button.reset:hover:not(:has(> *)) {
 
 .recommended-products-grid .product-item__image-wrapper {
   background-color: transparent;
+  height: 400px;
+  max-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .recommended-products-grid .product-item__image-wrapper img {
   object-fit: contain !important;
+  max-height: 400px;
+}
+
+.recommended-products-grid .product-item-skateboard .product-item__image-wrapper img {
+  height: 100% !important;
+  width: auto !important;
+  max-width: 100% !important;
 }
 
 .recommended-products-grid .product-item h4 {

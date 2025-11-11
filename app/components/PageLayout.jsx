@@ -117,7 +117,6 @@ function SearchAside() {
                 placeholder="Search"
                 ref={inputRef}
                 type="search"
-                list={queriesDatalistId}
                 value={searchTerm}
               />
             )}
