@@ -155,9 +155,14 @@ function SearchResultsPredictiveProducts({products}) {
         {products.map((product) => {
           const price = product?.selectedOrFirstAvailableVariant?.price;
           const image = product?.selectedOrFirstAvailableVariant?.image;
+          const isSkateboard = product.productType === 'Skateboard Decks' ||
+                               product.productType === 'Skateboard Deck' ||
+                               product.productType?.toLowerCase().includes('skateboard') ||
+                               product.title?.toLowerCase().includes('deck');
+          const itemClass = isSkateboard ? 'predictive-search-result-item predictive-search-skateboard' : 'predictive-search-result-item';
 
           return (
-            <li className="predictive-search-result-item" key={product.id}>
+            <li className={itemClass} key={product.id}>
               <Link to={`/products/${product.handle}`}>
                 {image && (
                   <div className="predictive-search-image-wrapper">

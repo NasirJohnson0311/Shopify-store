@@ -586,6 +586,19 @@ button.reset:hover:not(:has(> *)) {
   display: block !important;
 }
 
+.cart-line-skateboard .cart-line-image-wrapper {
+  height: 150px !important;
+  max-height: 150px !important;
+  min-height: 150px !important;
+}
+
+.cart-line-skateboard .cart-line-image-wrapper img {
+  height: 150px !important;
+  max-height: 150px !important;
+  width: auto !important;
+  max-width: 100% !important;
+}
+
 .cart-line-content {
   display: flex;
   justify-content: space-between;
@@ -755,6 +768,36 @@ button.reset:hover:not(:has(> *)) {
 .predictive-search-result-item a img {
   margin-right: 0.75rem;
   height: 100%;
+}
+
+.predictive-search-image-wrapper {
+  width: 100px;
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.predictive-search-image-wrapper img {
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+.predictive-search-skateboard .predictive-search-image-wrapper {
+  height: 150px !important;
+  max-height: 150px !important;
+  min-height: 150px !important;
+}
+
+.predictive-search-skateboard .predictive-search-image-wrapper img {
+  height: 150px !important;
+  max-height: 150px !important;
+  width: auto !important;
+  max-width: 100% !important;
 }
 
 .search-results-container a[href*="search"],
@@ -966,7 +1009,7 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .product-item__image-wrapper {
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
   background-color: transparent;
   display: flex;

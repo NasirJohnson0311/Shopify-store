@@ -18,7 +18,10 @@ export function CartLineItem({layout, line}) {
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const {close} = useAside();
 
-  const isSkateboard = product.productType === 'Skateboard Decks';
+  const isSkateboard = product.productType === 'Skateboard Decks' ||
+                       product.productType === 'Skateboard Deck' ||
+                       product.productType?.toLowerCase().includes('skateboard') ||
+                       product.title?.toLowerCase().includes('deck');
   const cartLineClass = isSkateboard ? 'cart-line cart-line-skateboard' : 'cart-line';
 
   return (
