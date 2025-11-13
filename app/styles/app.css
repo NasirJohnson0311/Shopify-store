@@ -142,17 +142,45 @@ aside[data-type="search"] .predictive-search {
 
 aside[data-type="search"] .predictive-search form {
   width: 100%;
+  max-width: none !important;
   display: flex;
   justify-content: center;
 }
 
+@media (min-width: 768px) {
+  aside[data-type="search"] .predictive-search form {
+    max-width: none !important;
+  }
+}
+
 aside[data-type="search"] .predictive-search form input {
-  width: 80%;
-  max-width: 800px;
+  width: 70%;
   min-width: 300px;
   box-sizing: border-box;
   display: block;
-  padding: 0.5rem;
+  padding: 1rem 4rem;
+  background-color: transparent;
+  background-image: url('/LINE_134.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 1rem;
+  height: 50px;
+}
+
+aside[data-type="search"] .predictive-search form input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+aside[data-type="search"] .predictive-search form input:focus {
+  outline: none;
+}
+
+aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-button {
+  cursor: pointer;
 }
 
 /* Search results dropdown that appears outside the aside */
@@ -202,11 +230,14 @@ aside[data-type="search"] .predictive-search form input {
 
 .search-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 1.5rem;
+  top: 50%;
+  left: calc(50% + (70% / 2) + 1rem);
+  transform: translateY(-50%);
+  font-size: 2rem;
   line-height: 1;
   padding: 0.5rem;
+  color: white;
+  z-index: 300;
 }
 
 aside header {
