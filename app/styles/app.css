@@ -168,7 +168,7 @@ aside[data-type="search"] .predictive-search form input {
   outline: none;
   color: white;
   font-size: 1rem;
-  height: 50px;
+  height: 70px;
 }
 
 aside[data-type="search"] .predictive-search form input::placeholder {
@@ -186,7 +186,7 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
 /* Search results dropdown that appears outside the aside */
 .search-results-dropdown {
   position: fixed;
-  top: calc(var(--header-height) + 20px);
+  top: calc(var(--header-height) + 25px);
   left: 50%;
   transform: translateX(-50%);
   width: 80%;
@@ -235,9 +235,13 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
   transform: translateY(-50%);
   font-size: 2rem;
   line-height: 1;
-  padding: 0.5rem;
+  padding: 0;
+  margin: 0;
   color: white;
   z-index: 300;
+  display: flex;
+  align-items: center;
+  height: 70px;
 }
 
 aside header {
