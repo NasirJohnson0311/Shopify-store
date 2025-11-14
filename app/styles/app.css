@@ -94,7 +94,7 @@ button:focus-visible {
 }
 
 aside {
-  background: var(--color-light);
+  background: #1a1a1a;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
   height: 100vh;
   width: min(var(--aside-width), 100vw);
@@ -253,7 +253,7 @@ aside header {
   min-height: var(--header-height);
   justify-content: space-between;
   padding: 20px 20px 0 20px;
-  color:black;
+  color:white;
   position: relative;
 }
 
@@ -310,7 +310,7 @@ aside header h2 {
   padding: 0;
   margin-top: 10px;
   margin-bottom: 20px;
-  color: black;
+  color: white;
   font-size: 0.875rem;
 }
 
@@ -394,7 +394,7 @@ button.reset {
   border: 0;
   background: inherit;
   font-size: inherit;
-  color: black
+  color: white
 }
 
 button.reset > * {
@@ -602,7 +602,7 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
   padding: 0.75rem 0;
   gap: 1.5rem;
-  color:black
+  color:white
 }
 
 .cart-line-image-wrapper {
@@ -644,42 +644,55 @@ button.reset:hover:not(:has(> *)) {
 
 .cart-line-info {
   flex: 1;
+  color: white;
 }
 
 .cart-line-info p {
   margin: 0;
+  color: white;
 }
 
 .cart-line-price {
   display: flex;
   align-items: flex-start;
+  color: white;
 }
 
 .cart-line-price .product-price {
   margin: 0;
   line-height: 1;
+  color: white;
 }
 
 .cart-summary-page {
   position: relative;
-  color:black
+  color:white
 }
 
 .cart-summary-aside {
-  background: white;
+  background: #1a1a1a;
   border-top: none;
   bottom: 0;
   padding-top: 0.75rem;
   position: absolute;
   width: calc(var(--aside-width) - 40px);
-  color:black
+  color:white
+}
+
+.cart-summary-aside a {
+  color: white;
+  text-decoration: none;
+}
+
+.cart-summary-aside a p {
+  color: white;
 }
 
 .cart-line-quantity {
   display: flex;
   align-items: center;
   gap: 20px;
-  color:black
+  color:white
 }
 
 .quantity-control-wrapper {
@@ -700,7 +713,7 @@ button.reset:hover:not(:has(> *)) {
 .quantity-btn {
   background: transparent;
   border: none;
-  color: black;
+  color: white;
   cursor: pointer;
   padding: 5px 10px;
   font-size: 1.2rem;
@@ -718,7 +731,7 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .quantity-number {
-  color: black;
+  color: white;
   font-weight: 300;
   font-size: 1rem;
   z-index: 1;
@@ -727,7 +740,7 @@ button.reset:hover:not(:has(> *)) {
 .cart-line-quantity > form:last-child button {
   background: transparent;
   border: none;
-  color: black;
+  color: white;
   cursor: pointer;
   padding: 0;
   font-size: 1rem;
@@ -756,7 +769,7 @@ button.reset:hover:not(:has(> *)) {
 
 .cart-tax-shipping-notice {
   font-size: 0.875rem;
-  color: black;
+  color: white;
   margin: 0.5rem 0;
   opacity: 0.8;
 }
