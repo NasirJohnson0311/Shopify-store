@@ -255,6 +255,13 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
   display: flex;
   align-items: center;
   height: 70px;
+  text-decoration: none !important;
+  transition: transform 0.2s ease;
+}
+
+.search-close:hover {
+  transform: translateY(-50%) scale(1.2);
+  text-decoration: none !important;
 }
 
 aside header {
@@ -296,8 +303,8 @@ aside header h3 {
 aside header .close {
   font-weight: bold;
   opacity: 0.8;
-  text-decoration: none;
-  transition: all 200ms;
+  text-decoration: none !important;
+  transition: transform 0.2s ease, opacity 200ms;
   width: 20px;
   display: flex;
   align-items: center;
@@ -308,6 +315,8 @@ aside header .close {
 
 aside header .close:hover {
   opacity: 1;
+  transform: scale(1.2);
+  text-decoration: none !important;
 }
 
 aside header h2 {
@@ -819,6 +828,13 @@ button.reset:hover:not(:has(> *)) {
   align-items: center;
   display: flex;
   padding: 0.75rem 0 0.75rem 1rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.predictive-search-result-item a:hover {
+  background-color: #2a2a2a;
+  text-decoration: none;
 }
 
 .predictive-search-result-item a img {
@@ -867,6 +883,13 @@ button.reset:hover:not(:has(> *)) {
   margin-top: 0.5rem;
   border-top: 1px solid #333;
   color: white;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.search-results-dropdown a[href*="search"]:hover {
+  background-color: #2a2a2a;
+  text-decoration: none;
 }
 
 .search-results-dropdown a[href*="search"] p {
