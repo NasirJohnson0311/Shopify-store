@@ -160,7 +160,7 @@ aside[data-type="search"] .predictive-search form input {
   display: block;
   padding: 1rem 4rem;
   background-color: transparent;
-  background-image: url('/LINE_134.png');
+  background-image: url('/SHAPE_03LG.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -168,7 +168,7 @@ aside[data-type="search"] .predictive-search form input {
   outline: none;
   color: white;
   font-size: 1rem;
-  height: 70px;
+  height: 45px;
 }
 
 aside[data-type="search"] .predictive-search form input::placeholder {
