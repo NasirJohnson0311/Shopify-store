@@ -176,7 +176,6 @@ function SearchResultsPredictiveProducts({products}) {
                 )}
                 <div>
                   <p>{product.title}</p>
-                  <small>{price && <Money data={price} />}</small>
                 </div>
               </Link>
             </li>

@@ -166,8 +166,8 @@ function SearchAside() {
                   {term.current && total ? (
                     <Link to={`${SEARCH_ENDPOINT}?q=${term.current}`}>
                       <p>
-                        View all results for <q>{term.current}</q>
-                        &nbsp; →
+                        <span>View all results for <q>{term.current}</q></span>
+                        <span>→</span>
                       </p>
                     </Link>
                   ) : null}
