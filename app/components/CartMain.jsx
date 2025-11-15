@@ -50,8 +50,7 @@ function CartEmpty({hidden = false}) {
     <div hidden={hidden} style={{ color: 'white' }}>
       <br />
       <p>
-        Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
-        started!
+        Your cart is empty
       </p>
       <br />
       <button onClick={close} style={{ color: 'white', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
