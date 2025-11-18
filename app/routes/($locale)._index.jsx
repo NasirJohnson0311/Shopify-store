@@ -121,7 +121,7 @@ function sortProductsByPriority(products) {
 function RecommendedProducts({products}) {
   return (
     <div className="recommended-products">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div></div>}>
         <Await resolve={products}>
           {(response) => {
             const sortedProducts = sortProductsByPriority(response?.products?.nodes);

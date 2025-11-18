@@ -64,7 +64,11 @@ button {
 }
 
 button:hover {
-  border-color: #646cff;
+  border-color: transparent;
+}
+
+.add-to-cart-button {
+  border-radius: 0;
 }
 
 button:focus,
@@ -709,6 +713,36 @@ button.reset:hover:not(:has(> *)) {
 
 .cart-summary-aside a p {
   color: white;
+}
+
+.checkout-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.checkout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3a3a3a;
+  color: white;
+  text-decoration: none !important;
+  padding: 0;
+  width: 90%;
+  max-width: 350px;
+  height: 35px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.checkout-button:hover {
+  transform: scale(1.05);
+  text-decoration: none !important;
 }
 
 .cart-line-quantity {
