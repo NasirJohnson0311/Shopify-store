@@ -915,7 +915,7 @@ button.reset:hover:not(:has(> *)) {
 .search-results-container a[href*="search"],
 .search-results-dropdown a[href*="search"] {
   display: block;
-  padding-top: 0.5rem;
+  padding: 0.75rem 1rem;
   margin-top: 0.5rem;
   border-top: 1px solid #333;
   color: white;
