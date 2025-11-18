@@ -137,7 +137,7 @@ function SearchAside() {
 
               // Show loading state
               if (state === 'loading') {
-                return <div style={{padding: '1rem', color: 'black'}}>Searching...</div>;
+                return null;
               }
 
               // Show empty state if no results
