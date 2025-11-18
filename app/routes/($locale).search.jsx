@@ -39,20 +39,16 @@ export default function SearchPage() {
 
   return (
     <div className="search">
-      <h1>Search</h1>
+      <h1>Search Results</h1>
       <SearchForm>
         {({inputRef}) => (
-          <>
-            <input
-              defaultValue={term}
-              name="q"
-              placeholder="Search…"
-              ref={inputRef}
-              type="search"
-            />
-            &nbsp;
-            <button type="submit">Search</button>
-          </>
+          <input
+            defaultValue={term}
+            name="q"
+            placeholder="Search…"
+            ref={inputRef}
+            type="search"
+          />
         )}
       </SearchForm>
       {error && <p style={{color: 'red'}}>{error}</p>}
