@@ -47,14 +47,13 @@ export function CartMain({layout, cart: originalCart}) {
 function CartEmpty({hidden = false}) {
   const {close} = useAside();
   return (
-    <div hidden={hidden} style={{ color: 'black' }}>
+    <div hidden={hidden} style={{ color: 'white' }}>
       <br />
       <p>
-        Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
-        started!
+        Your cart is empty
       </p>
       <br />
-      <button onClick={close} style={{ color: 'black', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
+      <button onClick={close} style={{ color: 'white', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
         Continue shopping →
       </button>
     </div>

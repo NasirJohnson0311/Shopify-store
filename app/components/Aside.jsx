@@ -43,14 +43,29 @@ export function Aside({children, heading, type}) {
       role="dialog"
     >
       <button className="close-outside" onClick={close} />
-      <aside>
+      <aside data-type={type}>
         <header>
-          <h3>{heading}</h3>
-          <button className="close reset" onClick={close} aria-label="Close">
-            &times;
-          </button>
+          {type !== 'search' && <h3>{heading}</h3>}
+          {type !== 'search' && (
+            <button className="close reset" onClick={close} aria-label="Close">
+              &times;
+            </button>
+          )}
+          {type === 'cart' && (
+            <div className="cart-labels">
+              <span className="cart-label-product">PRODUCT</span>
+              <span className="cart-label-total">TOTAL</span>
+            </div>
+          )}
         </header>
-        <main>{children}</main>
+        <main>
+          {children}
+          {type === 'search' && (
+            <button className="close reset search-close" onClick={close} aria-label="Close">
+              &times;
+            </button>
+          )}
+        </main>
       </aside>
     </div>
   );
