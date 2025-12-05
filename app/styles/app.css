@@ -1271,7 +1271,7 @@ button.reset:hover:not(:has(> *)) {
 /* Mobile Products Grid */
 @media (max-width: 768px) {
   .products-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 0.5rem;
     justify-items: start;
     padding: 0 10px;
@@ -1540,13 +1540,13 @@ button.reset:hover:not(:has(> *)) {
 
 /* Small mobile devices (phones in portrait) */
 @media (max-width: 480px) {
-  /* Single column for very small screens */
+  /* Two columns for small screens */
   .recommended-products-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .products-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   /* Adjust typography for tiny screens */
