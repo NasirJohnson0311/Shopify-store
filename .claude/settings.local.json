@@ -26,7 +26,8 @@
       "Read(//var/folders/6l/mnlhy4vn0hjfc8t9t1w4j2z40000gn/T/TemporaryItems/NSIRD_screencaptureui_KGq4oT/**)",
       "Read(//var/folders/6l/mnlhy4vn0hjfc8t9t1w4j2z40000gn/T/TemporaryItems/NSIRD_screencaptureui_E6th0S/**)",
       "Read(//var/folders/6l/mnlhy4vn0hjfc8t9t1w4j2z40000gn/T/TemporaryItems/NSIRD_screencaptureui_bIjIpd/**)",
-      "Read(//var/folders/6l/mnlhy4vn0hjfc8t9t1w4j2z40000gn/T/TemporaryItems/NSIRD_screencaptureui_5vfK4W/**)"
+      "Read(//var/folders/6l/mnlhy4vn0hjfc8t9t1w4j2z40000gn/T/TemporaryItems/NSIRD_screencaptureui_5vfK4W/**)",
+      "WebFetch(domain:code.claude.com)"
     ],
     "deny": [],
     "ask": []
