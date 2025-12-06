@@ -1,7 +1,9 @@
 import {useLoaderData} from 'react-router';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
 import {SearchForm} from '~/components/SearchForm';
+import {SearchFormPredictive} from '~/components/SearchFormPredictive';
 import {SearchResults} from '~/components/SearchResults';
+import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
 import {getEmptyPredictiveSearchResult} from '~/lib/search';
 
 /**
@@ -40,19 +42,38 @@ export default function SearchPage() {
   return (
     <div className="search">
       <h1>Search Results</h1>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '100px'}}>
-        <SearchForm style={{width: '100%', maxWidth: '1400px', display: 'flex', justifyContent: 'center', padding: '0 20px', boxSizing: 'border-box'}}>
-          {({inputRef}) => (
-            <input
-              defaultValue={term}
-              name="q"
-              placeholder="Search…"
-              ref={inputRef}
-              type="search"
-              style={{width: '100%', minWidth: '0'}}
-            />
+      <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '100px', position: 'relative'}}>
+        <SearchFormPredictive style={{width: '100%', maxWidth: '1400px', display: 'flex', justifyContent: 'center', padding: '0 20px', boxSizing: 'border-box', position: 'relative'}}>
+          {({inputRef, fetcher, fetchResults, goToSearch}) => (
+            <>
+              <input
+                defaultValue={term}
+                name="q"
+                placeholder="Search…"
+                ref={inputRef}
+                type="search"
+                style={{width: '100%', minWidth: '0'}}
+                onChange={fetchResults}
+                onFocus={fetchResults}
+              />
+              {fetcher?.state === 'loading' ? (
+                <div className="search-results-dropdown visible">
+                  <p>Searching...</p>
+                </div>
+              ) : (
+                <SearchResultsPredictive goToSearch={goToSearch}>
+                  {({items, total}) => (
+                    <div className={`search-results-dropdown ${total > 0 ? 'visible' : 'hidden'}`}>
+                      <SearchResultsPredictive.Products products={items.products} closeSearch={goToSearch} term={term} />
+                      <SearchResultsPredictive.Pages pages={items.pages} closeSearch={goToSearch} term={term} />
+                      <SearchResultsPredictive.Articles articles={items.articles} closeSearch={goToSearch} term={term} />
+                    </div>
+                  )}
+                </SearchResultsPredictive>
+              )}
+            </>
           )}
-        </SearchForm>
+        </SearchFormPredictive>
       </div>
       {error && <p style={{color: 'red', marginBottom: '20px'}}>{error}</p>}
       {!term || !result?.total ? (

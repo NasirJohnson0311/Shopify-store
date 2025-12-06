@@ -208,6 +208,17 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
   color: white;
 }
 
+/* Search results dropdown on search results page */
+.search .search-results-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 800px;
+  margin-top: 10px;
+}
+
 .search-results-dropdown div {
   color: white;
 }
