@@ -40,17 +40,20 @@ export default function SearchPage() {
   return (
     <div className="search">
       <h1>Search Results</h1>
-      <SearchForm>
-        {({inputRef}) => (
-          <input
-            defaultValue={term}
-            name="q"
-            placeholder="Search…"
-            ref={inputRef}
-            type="search"
-          />
-        )}
-      </SearchForm>
+      <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+        <SearchForm style={{width: '85%', maxWidth: '1000px', display: 'flex', justifyContent: 'center'}}>
+          {({inputRef}) => (
+            <input
+              defaultValue={term}
+              name="q"
+              placeholder="Search…"
+              ref={inputRef}
+              type="search"
+              style={{width: '100%'}}
+            />
+          )}
+        </SearchForm>
+      </div>
       {error && <p style={{color: 'red'}}>{error}</p>}
       {!term || !result?.total ? (
         <SearchResults.Empty />

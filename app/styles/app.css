@@ -159,7 +159,7 @@ aside[data-type="search"] .predictive-search form {
 }
 
 aside[data-type="search"] .predictive-search form input {
-  width: 70%;
+  width: 85%;
   min-width: 300px;
   box-sizing: border-box;
   display: block;
@@ -249,7 +249,7 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
 .search-close {
   position: absolute;
   top: 50%;
-  left: calc(50% + (70% / 2) + 1rem);
+  left: calc(50% + (85% / 2) + 1rem);
   transform: translateY(-50%);
   font-size: 2rem;
   line-height: 1;
@@ -1025,8 +1025,9 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .search input[type="search"] {
-  width: 70%;
+  width: 85%;
   min-width: 300px;
+  max-width: 1000px;
   box-sizing: border-box;
   display: block;
   padding: 1rem 4rem;
@@ -1271,7 +1272,7 @@ button.reset:hover:not(:has(> *)) {
 /* Mobile Products Grid */
 @media (max-width: 768px) {
   .products-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     grid-gap: 0.5rem;
     justify-items: start;
     padding: 0 10px;
@@ -1540,7 +1541,7 @@ button.reset:hover:not(:has(> *)) {
 
 /* Small mobile devices (phones in portrait) */
 @media (max-width: 480px) {
-  /* Two columns for small screens */
+  /* Two columns for very small screens */
   .recommended-products-grid {
     grid-template-columns: repeat(2, 1fr);
   }
