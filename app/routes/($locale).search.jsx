@@ -40,8 +40,8 @@ export default function SearchPage() {
   return (
     <div className="search">
       <h1>Search Results</h1>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-        <SearchForm style={{width: '85%', maxWidth: '1000px', display: 'flex', justifyContent: 'center'}}>
+      <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '100px'}}>
+        <SearchForm style={{width: '100%', maxWidth: '1400px', display: 'flex', justifyContent: 'center', padding: '0 20px', boxSizing: 'border-box'}}>
           {({inputRef}) => (
             <input
               defaultValue={term}
@@ -49,12 +49,12 @@ export default function SearchPage() {
               placeholder="Search…"
               ref={inputRef}
               type="search"
-              style={{width: '100%'}}
+              style={{width: '100%', minWidth: '0'}}
             />
           )}
         </SearchForm>
       </div>
-      {error && <p style={{color: 'red'}}>{error}</p>}
+      {error && <p style={{color: 'red', marginBottom: '20px'}}>{error}</p>}
       {!term || !result?.total ? (
         <SearchResults.Empty />
       ) : (

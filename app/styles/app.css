@@ -961,7 +961,7 @@ button.reset:hover:not(:has(> *)) {
 .search-result > div > div {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  gap: 3rem;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
