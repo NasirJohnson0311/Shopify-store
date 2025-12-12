@@ -107,7 +107,7 @@ function EmptyOrders({hasFilters = false}) {
           <p>You haven&apos;t placed any orders yet.</p>
           <br />
           <p>
-            <Link to="/collections">Start Shopping →</Link>
+            <Link to="/collections" style={{color: 'white'}}>Start Shopping →</Link>
           </p>
         </>
       )}

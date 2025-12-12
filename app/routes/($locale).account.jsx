@@ -62,12 +62,12 @@ function AccountMenu() {
   function isActiveStyle({isActive, isPending}) {
     return {
       fontWeight: isActive ? 'bold' : undefined,
-      color: isPending ? 'grey' : 'black',
+      color: isPending ? 'grey' : 'white',
     };
   }
 
   return (
-    <nav role="navigation">
+    <nav role="navigation" style={{color: 'white'}}>
       <NavLink to="/account/orders" style={isActiveStyle}>
         Orders &nbsp;
       </NavLink>

@@ -11,7 +11,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   return (
     <header className="header">
       <NavLink prefetch="intent" to="/" end>
-        <strong>My Store</strong>
+        <strong>ULTRLX</strong>
       </NavLink>
       <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
     </header>
