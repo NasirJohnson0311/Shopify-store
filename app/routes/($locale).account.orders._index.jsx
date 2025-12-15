@@ -60,7 +60,6 @@ export default function Orders() {
 
   return (
     <div className="orders">
-      <OrderSearchForm currentFilters={filters} />
       <OrdersTable orders={orders} filters={filters} />
     </div>
   );

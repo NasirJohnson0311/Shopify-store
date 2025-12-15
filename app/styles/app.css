@@ -1576,4 +1576,354 @@ button.reset:hover:not(:has(> *)) {
   }
 }
 
+/* --------------------------------------------------
+* Account Pages - Glassmorphism Checkout Style
+* --------------------------------------------------
+*/
+
+/* Account page container */
+.account {
+  padding: 0 80px;
+  margin-bottom: 2rem;
+}
+
+.account h1 {
+  color: #fff;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.account h2 {
+  color: #fff;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.account nav {
+  text-align: left;
+}
+
+/* Glass card styling - matching checkout */
+.product-card,
+.acccount-orders fieldset,
+.orders fieldset,
+.order-search-form fieldset,
+.account-profile fieldset,
+.account-addresses fieldset {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+/* Order search form */
+.order-search-form {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.order-search-form fieldset {
+  width: 100% !important;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-sizing: border-box;
+}
+
+.order-search-legend {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.order-search-inputs {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.order-search-input {
+  flex: 1;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.order-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.order-search-input:focus {
+  background: rgba(0, 0, 0, 0.5);
+  transform: translateY(-1px);
+}
+
+.order-search-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.order-search-buttons button {
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.order-search-buttons button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.order-search-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Profile Page - matching checkout form inputs */
+.account-profile > form,
+.account-profile > div,
+.account-profile div,
+.account-profile form {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.profile-form-field-inline {
+  flex: 1;
+}
+
+.profile-update-button {
+  flex-shrink: 0;
+  align-self: flex-end;
+  margin-bottom: 15px;
+  background: transparent !important;
+  border: none !important;
+  padding: 0;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.profile-update-button:hover {
+  color: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.profile-update-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.profile-update-button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.account-profile > form fieldset,
+.account-profile fieldset,
+.account-profile form fieldset,
+.account-profile div fieldset,
+.account-profile div form fieldset {
+  width: 100% !important;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-sizing: border-box;
+}
+
+.account-profile input,
+.account-addresses input {
+  width: 100%;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+.account-profile input::placeholder,
+.account-addresses input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.account-profile input:focus,
+.account-addresses input:focus {
+  background: rgba(0, 0, 0, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Label styling */
+.account-profile label,
+.account-addresses label {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Button styling - matching checkout buttons */
+.account-profile button,
+.account-addresses button {
+  padding: 15px 25px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 10px;
+}
+
+.account-profile button:hover,
+.account-addresses button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.account-profile button:disabled,
+.account-addresses button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Two-column grid layout for Orders and Profile */
+.account-profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.orders-column,
+.profile-column {
+  min-width: 0; /* Prevents grid overflow */
+}
+
+/* Order items styling */
+.acccount-orders fieldset a,
+.orders fieldset a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.acccount-orders fieldset a:hover,
+.orders fieldset a:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.acccount-orders fieldset p,
+.orders fieldset p {
+  margin: 8px 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Logout styling */
+.account-logout {
+  display: inline-block;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.account-logout button {
+  background: none;
+  border: none;
+  color: white;
+  padding: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  min-height: auto;
+}
+
+.account-logout button:hover {
+  opacity: 0.8;
+  transform: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .account {
+    padding: 0 20px;
+  }
+
+  /* Stack grid columns on mobile */
+  .account-profile-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .acccount-orders fieldset,
+  .orders fieldset,
+  .order-search-form fieldset,
+  .account-profile fieldset,
+  .account-addresses fieldset {
+    padding: 20px;
+    margin-bottom: 15px;
+  }
+
+  .order-search-inputs {
+    flex-direction: column;
+  }
+
+  .account-profile button,
+  .account-addresses button {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+}
+
 

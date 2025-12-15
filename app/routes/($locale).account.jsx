@@ -40,17 +40,11 @@ export default function AccountLayout() {
   /** @type {LoaderReturnData} */
   const {customer} = useLoaderData();
 
-  const heading = customer
-    ? customer.firstName
-      ? `Welcome, ${customer.firstName}`
-      : `Welcome to your account.`
-    : 'Account Details';
-
   return (
     <div className="account">
-      <h1>{heading}</h1>
-      <br />
-      <AccountMenu />
+      <div style={{marginTop: '60px'}}>
+        <AccountMenu />
+      </div>
       <br />
       <br />
       <Outlet context={{customer}} />
@@ -67,19 +61,8 @@ function AccountMenu() {
   }
 
   return (
-    <nav role="navigation" style={{color: 'white'}}>
-      <NavLink to="/account/orders" style={isActiveStyle}>
-        Orders &nbsp;
-      </NavLink>
-      &nbsp;|&nbsp;
-      <NavLink to="/account/profile" style={isActiveStyle}>
-        &nbsp; Profile &nbsp;
-      </NavLink>
-      &nbsp;|&nbsp;
-      <NavLink to="/account/addresses" style={isActiveStyle}>
-        &nbsp; Addresses &nbsp;
-      </NavLink>
-      &nbsp;|&nbsp;
+    <nav role="navigation" style={{color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem'}}>
+      <span style={{fontSize: '1.5rem', fontWeight: '500'}}>Account</span>
       <Logout />
     </nav>
   );
@@ -88,7 +71,7 @@ function AccountMenu() {
 function Logout() {
   return (
     <Form className="account-logout" method="POST" action="/account/logout">
-      &nbsp;<button type="submit">Sign out</button>
+      <button type="submit">Sign out</button>
     </Form>
   );
 }

@@ -27,7 +27,9 @@
       "Read(//var/folders/6l/mnlhy4vn0hjfc8t9t1w4j2z40000gn/T/TemporaryItems/NSIRD_screencaptureui_E6th0S/**)",
       "Read(//var/folders/6l/mnlhy4vn0hjfc8t9t1w4j2z40000gn/T/TemporaryItems/NSIRD_screencaptureui_bIjIpd/**)",
       "Read(//var/folders/6l/mnlhy4vn0hjfc8t9t1w4j2z40000gn/T/TemporaryItems/NSIRD_screencaptureui_5vfK4W/**)",
-      "WebFetch(domain:code.claude.com)"
+      "WebFetch(domain:code.claude.com)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)"
     ],
     "deny": [],
     "ask": []
