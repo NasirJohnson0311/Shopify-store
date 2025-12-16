@@ -225,7 +225,7 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
   width: 80%;
   max-width: 800px;
   min-width: 300px;
-  background: #0f0f0f;
+  background: #000000;
   padding: 0.5rem;
   box-sizing: border-box;
   border: 1px solid #333;
