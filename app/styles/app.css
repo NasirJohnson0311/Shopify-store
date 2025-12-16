@@ -76,6 +76,7 @@ button:hover {
   transition: all 0.3s ease;
   width: 100%;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .add-to-cart-button:hover {
@@ -87,6 +88,20 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.product-form {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.product-form form {
+  width: 100%;
+  max-width: none !important;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 /*
@@ -750,22 +765,27 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #3a3a3a;
-  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
   text-decoration: none !important;
-  padding: 0;
+  padding: 0.6em 1.2em;
   width: 90%;
   max-width: 350px;
   height: 35px;
-  border: none;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
   font-size: 1rem;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .checkout-button:hover {
-  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
   text-decoration: none !important;
 }
 
