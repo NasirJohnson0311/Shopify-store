@@ -23,7 +23,7 @@ export function CartMain({layout, cart: originalCart}) {
 
   return (
     <div className={className}>
-      <CartEmpty hidden={linesCount} layout={layout} />
+      {!linesCount && <CartEmpty layout={layout} />}
       <div className="cart-details">
         <div aria-labelledby="cart-lines">
           <ul>
@@ -40,14 +40,13 @@ export function CartMain({layout, cart: originalCart}) {
 
 /**
  * @param {{
- *   hidden: boolean;
  *   layout?: CartMainProps['layout'];
  * }}
  */
-function CartEmpty({hidden = false}) {
+function CartEmpty() {
   const {close} = useAside();
   return (
-    <div hidden={hidden} style={{
+    <div style={{
       color: 'white',
       display: 'flex',
       flexDirection: 'column',
