@@ -68,7 +68,20 @@ button:hover {
 }
 
 .add-to-cart-button {
-  border-radius: 0;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.add-to-cart-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 button:focus,

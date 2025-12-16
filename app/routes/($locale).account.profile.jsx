@@ -628,14 +628,16 @@ function OrdersTable({orders, filters}) {
 
   return (
     <div className="acccount-orders" aria-live="polite">
-      <legend style={{fontSize: '1.5rem', fontWeight: '500', margin: 0, padding: 0}}>Orders</legend>
-      {orders?.nodes.length ? (
-        <PaginatedResourceSection connection={orders}>
-          {({node: order}) => <OrderItem key={order.id} order={order} />}
-        </PaginatedResourceSection>
-      ) : (
-        <EmptyOrders hasFilters={hasFilters} />
-      )}
+      <legend style={{fontSize: '1.5rem', fontWeight: '500', marginBottom: '1.5rem'}}>Orders</legend>
+      <fieldset>
+        {orders?.nodes.length ? (
+          <PaginatedResourceSection connection={orders}>
+            {({node: order}) => <OrderItem key={order.id} order={order} />}
+          </PaginatedResourceSection>
+        ) : (
+          <EmptyOrders hasFilters={hasFilters} />
+        )}
+      </fieldset>
     </div>
   );
 }
