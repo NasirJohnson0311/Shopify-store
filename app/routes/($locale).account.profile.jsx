@@ -379,7 +379,7 @@ export default function AccountProfile() {
               </>
             )}
             <Link to="/account/addresses" style={{color: 'white', textDecoration: 'underline'}}>
-              View addresses ({addresses.nodes.length})
+              Manage addresses ({addresses.nodes.length})
             </Link>
           </fieldset>
         </div>
@@ -628,7 +628,7 @@ function OrdersTable({orders, filters}) {
 
   return (
     <div className="acccount-orders" aria-live="polite">
-      <legend style={{fontSize: '1.5rem', fontWeight: '500'}}>Orders</legend>
+      <legend style={{fontSize: '1.5rem', fontWeight: '500', margin: 0, padding: 0}}>Orders</legend>
       {orders?.nodes.length ? (
         <PaginatedResourceSection connection={orders}>
           {({node: order}) => <OrderItem key={order.id} order={order} />}
@@ -656,7 +656,11 @@ function EmptyOrders({hasFilters = false}) {
         </>
       ) : (
         <>
-          <p>You haven&apos;t placed any orders yet.</p>
+          <p>You don't own any ULTRLX pieces yet.</p>
+          <br />
+          <p>
+            <Link to="/" style={{color: 'white', textDecoration: 'underline'}}>Explore Drops →</Link>
+          </p>
         </>
       )}
     </div>

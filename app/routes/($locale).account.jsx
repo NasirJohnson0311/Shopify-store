@@ -42,17 +42,15 @@ export default function AccountLayout() {
 
   return (
     <div className="account">
-      <div style={{marginTop: '60px'}}>
-        <AccountMenu />
+      <div style={{marginTop: '60px', marginBottom: '60px'}}>
+        <AccountMenu customer={customer} />
       </div>
-      <br />
-      <br />
       <Outlet context={{customer}} />
     </div>
   );
 }
 
-function AccountMenu() {
+function AccountMenu({customer}) {
   function isActiveStyle({isActive, isPending}) {
     return {
       fontWeight: isActive ? 'bold' : undefined,
@@ -60,9 +58,11 @@ function AccountMenu() {
     };
   }
 
+  const userName = customer?.firstName || customer?.displayName || 'there';
+
   return (
     <nav role="navigation" style={{color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem'}}>
-      <span style={{fontSize: '1.5rem', fontWeight: '500'}}>Account</span>
+      <span style={{fontSize: '2.5rem', fontWeight: '500'}}>Welcome back, {userName}</span>
       <Logout />
     </nav>
   );

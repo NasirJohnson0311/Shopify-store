@@ -103,10 +103,10 @@ function EmptyOrders({hasFilters = false}) {
         </>
       ) : (
         <>
-          <p>You haven&apos;t placed any orders yet.</p>
+          <p>You don't own any ULTRLX pieces yet.</p>
           <br />
           <p>
-            <Link to="/collections" style={{color: 'white'}}>Start Shopping →</Link>
+            <Link to="/" style={{color: 'white', textDecoration: 'underline'}}>Explore Drops →</Link>
           </p>
         </>
       )}
