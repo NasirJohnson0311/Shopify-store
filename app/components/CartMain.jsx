@@ -59,44 +59,22 @@ function CartEmpty() {
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,
-        textAlign: 'center'
+        textAlign: 'center',
+        gap: '1rem',
+        paddingTop: '10rem'
       }}>
         <p>
           Your cart is empty
         </p>
-      </div>
-      <div style={{
-        padding: '1rem 0'
-      }}>
         <button onClick={close} style={{
-          background: 'rgba(255, 255, 255, 0.05)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '12px',
-          color: '#fff',
-          padding: '0.6em 1.2em',
+          color: 'white',
+          background: 'none',
+          border: 'none',
           cursor: 'pointer',
-          transition: 'all 0.3s ease',
-          fontSize: '1rem',
-          textAlign: 'center',
-          boxSizing: 'border-box',
-          width: '100%',
-          height: '35px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-          e.currentTarget.style.transform = 'translateY(-2px)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-          e.currentTarget.style.transform = 'translateY(0)';
+          padding: 0,
+          textDecoration: 'underline'
         }}>
-          Continue shopping →
+          Continue shopping
         </button>
       </div>
     </div>

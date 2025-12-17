@@ -52,7 +52,19 @@ export default function SearchPage() {
                 placeholder="Search…"
                 ref={inputRef}
                 type="search"
-                style={{width: '100%', minWidth: '0'}}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '12px',
+                  color: '#fff',
+                  padding: '0.6em 1.2em',
+                  fontSize: '1rem',
+                  width: '80%',
+                  maxWidth: '800px',
+                  boxSizing: 'border-box',
+                  outline: 'none'
+                }}
                 onChange={fetchResults}
                 onFocus={fetchResults}
               />

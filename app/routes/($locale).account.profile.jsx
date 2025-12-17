@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {CUSTOMER_UPDATE_MUTATION} from '~/graphql/customer-account/CustomerUpdateMutation';
 import {
   UPDATE_ADDRESS_MUTATION,
@@ -349,6 +350,39 @@ export default function AccountProfile() {
   const {defaultAddress, addresses} = customer;
   const {orders, filters} = loaderData;
 
+  // Modal state management
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [isAddAddressOpen, setIsAddAddressOpen] = useState(false);
+  const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
+  const [isEditProfileClosing, setIsEditProfileClosing] = useState(false);
+  const [isAddAddressClosing, setIsAddAddressClosing] = useState(false);
+  const [isEditAddressClosing, setIsEditAddressClosing] = useState(false);
+
+  // Close handlers with animation
+  const closeEditProfile = () => {
+    setIsEditProfileClosing(true);
+    setTimeout(() => {
+      setIsEditProfileOpen(false);
+      setIsEditProfileClosing(false);
+    }, 300);
+  };
+
+  const closeAddAddress = () => {
+    setIsAddAddressClosing(true);
+    setTimeout(() => {
+      setIsAddAddressOpen(false);
+      setIsAddAddressClosing(false);
+    }, 300);
+  };
+
+  const closeEditAddress = () => {
+    setIsEditAddressClosing(true);
+    setTimeout(() => {
+      setIsEditAddressOpen(false);
+      setIsEditAddressClosing(false);
+    }, 300);
+  };
+
   return (
     <div className="account-profile">
       <div className="account-profile-grid">
@@ -359,31 +393,277 @@ export default function AccountProfile() {
 
         {/* Right Column - Account Details */}
         <div className="profile-column">
-          <legend style={{fontSize: '1.5rem', fontWeight: '500'}}>Account details</legend>
           <fieldset>
-            <p style={{marginBottom: '10px'}}>
-              {customer.firstName} {customer.lastName}
-            </p>
-            {defaultAddress && (
-              <>
+            <h2 style={{fontSize: '1.5rem', fontWeight: '500', margin: '0 0 1.5rem 0'}}>Account details</h2>
+
+            {/* Profile Section */}
+            <div style={{marginBottom: '2rem'}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem'}}>
+                <h3 style={{fontSize: '1.1rem', fontWeight: '500', margin: 0}}>Profile</h3>
+                <button onClick={() => setIsEditProfileOpen(true)} style={{color: 'white', display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
+                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                  </svg>
+                </button>
+              </div>
+              <div style={{paddingLeft: '1rem'}}>
                 <p style={{marginBottom: '10px'}}>
-                  {defaultAddress.address1}
-                  {defaultAddress.address2 && ` ${defaultAddress.address2}`}
+                  {customer.firstName} {customer.lastName}
                 </p>
                 <p style={{marginBottom: '10px'}}>
-                  {defaultAddress.city} {defaultAddress.zoneCode} {defaultAddress.zip}
+                  {customer.emailAddress?.emailAddress || 'No email'}
                 </p>
-                <p style={{marginBottom: '10px'}}>
-                  {defaultAddress.territoryCode === 'US' ? 'United States' : defaultAddress.territoryCode}
-                </p>
-              </>
-            )}
-            <Link to="/account/addresses" style={{color: 'white', textDecoration: 'underline'}}>
-              Manage addresses ({addresses.nodes.length})
-            </Link>
+              </div>
+            </div>
+
+            {/* Addresses Section */}
+            <div>
+              <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem'}}>
+                <h3 style={{fontSize: '1.1rem', fontWeight: '500', margin: 0}}>Addresses</h3>
+                <button onClick={() => setIsAddAddressOpen(true)} style={{color: 'white', textDecoration: 'none', fontSize: '1rem', background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>+ Add</button>
+              </div>
+              <div style={{paddingLeft: '1rem'}}>
+                {defaultAddress && (
+                  <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                    <p style={{margin: 0}}>
+                      {defaultAddress.territoryCode === 'US' ? 'United States' : defaultAddress.territoryCode}
+                    </p>
+                    <button onClick={() => setIsEditAddressOpen(true)} style={{color: 'white', display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
+                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                      </svg>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
           </fieldset>
         </div>
       </div>
+
+      {/* Edit Profile Modal */}
+      {isEditProfileOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          animation: isEditProfileClosing ? 'fadeOut 0.3s ease-out' : 'fadeIn 0.3s ease-out'
+        }} onClick={closeEditProfile}>
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '20px',
+            padding: '30px',
+            color: '#fff',
+            maxWidth: '500px',
+            width: '90%',
+            position: 'relative',
+            animation: isEditProfileClosing ? 'slideOut 0.3s ease-out' : 'slideIn 0.3s ease-out'
+          }} onClick={(e) => e.stopPropagation()}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+              <h2 style={{margin: 0, fontSize: '1.5rem'}}>Edit profile</h2>
+              <button onClick={closeEditProfile} style={{background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', padding: 0}}>×</button>
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px'}}>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>First name</label>
+                <input type="text" defaultValue={customer.firstName} style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+              </div>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Last name</label>
+                <input type="text" defaultValue={customer.lastName} style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+              </div>
+            </div>
+            <div style={{marginBottom: '10px'}}>
+              <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Email</label>
+              <input type="email" defaultValue={customer.emailAddress?.emailAddress} style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+            </div>
+            <p style={{fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '20px'}}>This email is used for sign-in and order updates.</p>
+            <div style={{display: 'flex', justifyContent: 'flex-end', gap: '10px'}}>
+              <button onClick={closeEditProfile} style={{padding: '10px 20px', background: 'none', border: 'none', color: '#4A9EFF', cursor: 'pointer', fontSize: '1rem'}}>Cancel</button>
+              <button style={{padding: '10px 20px', background: '#4A9EFF', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '1rem'}}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Address Modal */}
+      {isAddAddressOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          animation: isAddAddressClosing ? 'fadeOut 0.3s ease-out' : 'fadeIn 0.3s ease-out'
+        }} onClick={closeAddAddress}>
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '20px',
+            padding: '30px',
+            color: '#fff',
+            maxWidth: '600px',
+            width: '90%',
+            position: 'relative',
+            animation: isAddAddressClosing ? 'slideOut 0.3s ease-out' : 'slideIn 0.3s ease-out'
+          }} onClick={(e) => e.stopPropagation()}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+              <h2 style={{margin: 0, fontSize: '1.5rem'}}>Add address</h2>
+              <button onClick={closeAddAddress} style={{background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', padding: 0}}>×</button>
+            </div>
+            <div style={{marginBottom: '15px'}}>
+              <label style={{display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem'}}>
+                <input type="checkbox" />
+                This is my default address
+              </label>
+            </div>
+            <div style={{marginBottom: '15px'}}>
+              <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Country/region</label>
+              <select style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
+                <option>United States</option>
+              </select>
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px'}}>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>First name</label>
+                <input type="text" placeholder="First name" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+              </div>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Last name</label>
+                <input type="text" placeholder="Last name" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+              </div>
+            </div>
+            <div style={{marginBottom: '15px'}}>
+              <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Address</label>
+              <input type="text" placeholder="Address" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+            </div>
+            <div style={{marginBottom: '15px'}}>
+              <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Apartment, suite, etc (optional)</label>
+              <input type="text" placeholder="Apartment, suite, etc (optional)" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px', marginBottom: '20px'}}>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>City</label>
+                <input type="text" placeholder="City" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+              </div>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>State</label>
+                <select style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
+                  <option>Alabama</option>
+                </select>
+              </div>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>ZIP code</label>
+                <input type="text" placeholder="ZIP code" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+              </div>
+            </div>
+            <div style={{display: 'flex', justifyContent: 'flex-end', gap: '10px'}}>
+              <button onClick={closeAddAddress} style={{padding: '10px 20px', background: 'none', border: 'none', color: '#4A9EFF', cursor: 'pointer', fontSize: '1rem'}}>Cancel</button>
+              <button style={{padding: '10px 20px', background: '#4A9EFF', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '1rem'}}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Address Modal */}
+      {isEditAddressOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          animation: isEditAddressClosing ? 'fadeOut 0.3s ease-out' : 'fadeIn 0.3s ease-out'
+        }} onClick={closeEditAddress}>
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '20px',
+            padding: '30px',
+            color: '#fff',
+            maxWidth: '600px',
+            width: '90%',
+            position: 'relative',
+            animation: isEditAddressClosing ? 'slideOut 0.3s ease-out' : 'slideIn 0.3s ease-out'
+          }} onClick={(e) => e.stopPropagation()}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+              <h2 style={{margin: 0, fontSize: '1.5rem'}}>Edit address</h2>
+              <button onClick={closeEditAddress} style={{background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', padding: 0}}>×</button>
+            </div>
+            <div style={{marginBottom: '15px'}}>
+              <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Country/region</label>
+              <select style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
+                <option>United States</option>
+              </select>
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px'}}>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>First name</label>
+                <input type="text" defaultValue={customer.firstName} style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+              </div>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Last name</label>
+                <input type="text" defaultValue={customer.lastName} style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+              </div>
+            </div>
+            <div style={{marginBottom: '15px'}}>
+              <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Address</label>
+              <input type="text" placeholder="Address" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+            </div>
+            <div style={{marginBottom: '15px'}}>
+              <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Apartment, suite, etc (optional)</label>
+              <input type="text" placeholder="Apartment, suite, etc (optional)" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px', marginBottom: '20px'}}>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>City</label>
+                <input type="text" placeholder="City" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+              </div>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>State</label>
+                <select style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
+                  <option>Alabama</option>
+                </select>
+              </div>
+              <div>
+                <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>ZIP code</label>
+                <input type="text" placeholder="ZIP code" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+              </div>
+            </div>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <button style={{padding: '10px 20px', background: 'none', border: 'none', color: '#FF4444', cursor: 'pointer', fontSize: '1rem'}}>Delete</button>
+              <div style={{display: 'flex', gap: '10px'}}>
+                <button onClick={closeEditAddress} style={{padding: '10px 20px', background: 'none', border: 'none', color: '#4A9EFF', cursor: 'pointer', fontSize: '1rem'}}>Cancel</button>
+                <button style={{padding: '10px 20px', background: '#4A9EFF', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '1rem'}}>Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -628,8 +908,8 @@ function OrdersTable({orders, filters}) {
 
   return (
     <div className="acccount-orders" aria-live="polite">
-      <legend style={{fontSize: '1.5rem', fontWeight: '500', marginBottom: '1.5rem'}}>Orders</legend>
       <fieldset>
+        <h2 style={{fontSize: '1.5rem', fontWeight: '500', marginBottom: '1.5rem', margin: '0 0 1.5rem 0'}}>Orders</h2>
         {orders?.nodes.length ? (
           <PaginatedResourceSection connection={orders}>
             {({node: order}) => <OrderItem key={order.id} order={order} />}

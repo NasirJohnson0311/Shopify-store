@@ -126,7 +126,7 @@ function SearchAside() {
                   color: '#fff',
                   padding: '0.6em 1.2em',
                   fontSize: '1rem',
-                  width: '85%',
+                  width: '80%',
                   boxSizing: 'border-box',
                   outline: 'none'
                 }}
