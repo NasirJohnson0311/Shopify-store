@@ -29,7 +29,12 @@
       "Read(//var/folders/6l/mnlhy4vn0hjfc8t9t1w4j2z40000gn/T/TemporaryItems/NSIRD_screencaptureui_5vfK4W/**)",
       "WebFetch(domain:code.claude.com)",
       "Bash(lsof:*)",
-      "Bash(xargs kill:*)"
+      "Bash(xargs kill:*)",
+      "Bash(kill:*)",
+      "Bash(shopify auth status:*)",
+      "Bash(shopify whoami:*)",
+      "Bash(node_modules/@shopify/cli/bin/cloudflared tunnel:*)",
+      "mcp__ide__getDiagnostics"
     ],
     "deny": [],
     "ask": []

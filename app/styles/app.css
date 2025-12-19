@@ -1818,20 +1818,18 @@ button.reset:hover:not(:has(> *)) {
   color: #fff;
   font-size: 1rem;
   outline: none;
-  transition: all 0.3s ease;
   box-sizing: border-box;
   margin-bottom: 15px;
 }
 
 .account-profile input::placeholder,
 .account-addresses input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .account-profile input:focus,
 .account-addresses input:focus {
-  background: rgba(0, 0, 0, 0.5);
-  transform: translateY(-1px);
+  outline: none;
 }
 
 /* Label styling */
@@ -1854,15 +1852,12 @@ button.reset:hover:not(:has(> *)) {
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
   margin-right: 10px;
 }
 
 .account-profile button:hover,
 .account-addresses button:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+  cursor: pointer;
 }
 
 .account-profile button:disabled,
