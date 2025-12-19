@@ -501,7 +501,7 @@ export default function AccountProfile() {
             <h2 style={{fontSize: '1.5rem', fontWeight: '500', margin: '0 0 1.5rem 0'}}>Account details</h2>
 
             {/* Profile Section */}
-            <div style={{marginBottom: '2rem'}}>
+            <div style={{marginBottom: '3rem'}}>
               <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem'}}>
                 <h3 style={{fontSize: '1.1rem', fontWeight: '500', margin: 0}}>Profile</h3>
                 <button onClick={() => setIsEditProfileOpen(true)} style={{color: '#9CA3AF', display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>
@@ -510,11 +510,11 @@ export default function AccountProfile() {
                   </svg>
                 </button>
               </div>
-              <div style={{paddingLeft: '1rem'}}>
-                <p style={{marginBottom: '10px'}}>
+              <div style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '8px', padding: '1rem', width: '100%', boxSizing: 'border-box', margin: 0}}>
+                <p style={{margin: '0.25rem 0', fontSize: '0.95rem'}}>
                   {customer.firstName} {customer.lastName}
                 </p>
-                <p style={{marginBottom: '10px'}}>
+                <p style={{margin: '0.25rem 0', fontSize: '0.95rem'}}>
                   {customer.emailAddress?.emailAddress || 'No email'}
                 </p>
               </div>
@@ -526,10 +526,10 @@ export default function AccountProfile() {
                 <h3 style={{fontSize: '1.1rem', fontWeight: '500', margin: 0}}>Addresses</h3>
                 <button onClick={() => setIsAddAddressOpen(true)} style={{color: '#9CA3AF', textDecoration: 'none', fontSize: '1rem', background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>+ Add</button>
               </div>
-              <div style={{paddingLeft: '1rem', display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
+              <div style={{display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%'}}>
                 {/* Default Address */}
                 {defaultAddress && (
-                  <div style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '8px', padding: '1rem', position: 'relative'}}>
+                  <div style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '8px', padding: '1rem', position: 'relative', width: '100%', boxSizing: 'border-box', margin: 0}}>
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem'}}>
                       <span style={{fontSize: '0.85rem', color: '#4A9EFF', fontWeight: '500'}}>DEFAULT ADDRESS</span>
                       <button onClick={() => openEditAddress(defaultAddress)} style={{color: '#9CA3AF', display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>
@@ -560,7 +560,7 @@ export default function AccountProfile() {
 
                 {/* Additional Addresses */}
                 {addresses?.nodes && addresses.nodes.filter(addr => addr.id !== defaultAddress?.id).map((address) => (
-                  <div key={address.id} style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '8px', padding: '1rem', position: 'relative'}}>
+                  <div key={address.id} style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '8px', padding: '1rem', position: 'relative', width: '100%', boxSizing: 'border-box', margin: 0}}>
                     <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-start', marginBottom: '0.5rem'}}>
                       <button onClick={() => openEditAddress(address)} style={{color: '#9CA3AF', display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -614,29 +614,29 @@ export default function AccountProfile() {
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             borderRadius: '20px',
-            padding: '30px',
+            padding: '20px',
             color: '#fff',
             maxWidth: '500px',
             width: '90%',
             position: 'relative',
             animation: isEditProfileClosing ? 'slideOut 0.3s ease-out' : 'slideIn 0.3s ease-out'
           }} onClick={(e) => e.stopPropagation()} onSubmit={() => setTimeout(closeEditProfile, 100)}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
               <h2 style={{margin: 0, fontSize: '1.5rem'}}>Edit profile</h2>
               <button type="button" onClick={closeEditProfile} style={{background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', padding: 0}}>×</button>
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px'}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '10px'}}>
               <div>
-                <input type="text" name="firstName" placeholder="First name" defaultValue={customer.firstName} style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                <input type="text" name="firstName" placeholder="First name" defaultValue={customer.firstName} style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
               <div>
-                <input type="text" name="lastName" placeholder="Last name" defaultValue={customer.lastName} style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                <input type="text" name="lastName" placeholder="Last name" defaultValue={customer.lastName} style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
             </div>
-            <div style={{marginBottom: '10px'}}>
-              <input type="email" name="email" placeholder="Email" defaultValue={customer.emailAddress?.emailAddress} disabled style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white', opacity: 0.6}} />
+            <div style={{marginBottom: '8px'}}>
+              <input type="email" name="email" placeholder="Email" defaultValue={customer.emailAddress?.emailAddress} disabled style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white', opacity: 0.6}} />
             </div>
-            <p style={{fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '20px'}}>This email is used for sign-in and order updates.</p>
+            <p style={{fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '16px'}}>This email is used for sign-in and order updates.</p>
             <div style={{display: 'flex', justifyContent: 'flex-end', gap: '10px'}}>
               <button type="button" onClick={closeEditProfile} style={{padding: '10px 20px', background: 'none', border: 'none', color: '#4A9EFF', cursor: 'pointer', fontSize: '1rem'}}>Cancel</button>
               <button type="submit" style={{padding: '10px 20px', background: '#4A9EFF', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '1rem'}}>Save</button>
@@ -666,7 +666,7 @@ export default function AccountProfile() {
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             borderRadius: '20px',
-            padding: '30px',
+            padding: '20px',
             color: '#fff',
             maxWidth: '600px',
             width: '90%',
@@ -674,55 +674,55 @@ export default function AccountProfile() {
             animation: isAddAddressClosing ? 'slideOut 0.3s ease-out' : 'slideIn 0.3s ease-out'
           }} onClick={(e) => e.stopPropagation()} onSubmit={() => setTimeout(closeAddAddress, 100)}>
             <input type="hidden" name="addressId" value="new" />
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px'}}>
               <h2 style={{margin: 0, fontSize: '1.5rem'}}>Add address</h2>
-              <button type="button" onClick={closeAddAddress} style={{background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', padding: 0}}>×</button>
+              <button type="button" onClick={closeAddAddress} style={{background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', padding: 0, lineHeight: 1}}>×</button>
             </div>
-            <div style={{marginBottom: '15px'}}>
+            <div style={{marginBottom: '10px'}}>
               <label style={{display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', cursor: 'pointer'}}>
-                <input type="checkbox" name="defaultAddress" style={{cursor: 'pointer', flexShrink: 0, width: '16px', height: '16px'}} />
-                <span style={{flex: 1}}>This is my default address</span>
+                <input type="checkbox" name="defaultAddress" style={{cursor: 'pointer', flexShrink: 0, width: '18px', height: '18px', margin: 0}} />
+                <span style={{lineHeight: '18px'}}>This is my default address</span>
               </label>
             </div>
-            <div style={{marginBottom: '15px'}}>
-              <select name="territoryCode" value={selectedCountryAdd} onChange={(e) => setSelectedCountryAdd(e.target.value)} style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
+            <div style={{marginBottom: '10px'}}>
+              <select name="territoryCode" value={selectedCountryAdd} onChange={(e) => setSelectedCountryAdd(e.target.value)} style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
                 {COUNTRIES.map(country => (
                   <option key={country.code} value={country.code}>{country.name}</option>
                 ))}
               </select>
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px'}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '10px'}}>
               <div>
-                <input type="text" name="firstName" placeholder="First name" required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                <input type="text" name="firstName" placeholder="First name" required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
               <div>
-                <input type="text" name="lastName" placeholder="Last name" required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                <input type="text" name="lastName" placeholder="Last name" required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
             </div>
-            <div style={{marginBottom: '15px'}}>
-              <input type="text" name="address1" placeholder="Address" required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+            <div style={{marginBottom: '10px'}}>
+              <input type="text" name="address1" placeholder="Address" required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
             </div>
-            <div style={{marginBottom: '15px'}}>
-              <input type="text" name="address2" placeholder="Apartment, suite, etc (optional)" style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+            <div style={{marginBottom: '10px'}}>
+              <input type="text" name="address2" placeholder="Apartment, suite, etc (optional)" style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px', marginBottom: '20px'}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '16px'}}>
               <div>
-                <input type="text" name="city" placeholder="City" required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                <input type="text" name="city" placeholder="City" required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
               <div>
                 {selectedCountryAdd === 'US' ? (
-                  <select name="zoneCode" required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
+                  <select name="zoneCode" required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
                     <option value="">State</option>
                     {US_STATES.map(state => (
                       <option key={state.code} value={state.code}>{state.name}</option>
                     ))}
                   </select>
                 ) : (
-                  <input type="text" name="zoneCode" placeholder="State/Province" required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                  <input type="text" name="zoneCode" placeholder="State/Province" required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
                 )}
               </div>
               <div>
-                <input type="text" name="zip" placeholder="ZIP code" required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                <input type="text" name="zip" placeholder="ZIP code" required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
             </div>
             <div style={{display: 'flex', justifyContent: 'flex-end', gap: '10px'}}>
@@ -754,7 +754,7 @@ export default function AccountProfile() {
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             borderRadius: '20px',
-            padding: '30px',
+            padding: '20px',
             color: '#fff',
             maxWidth: '600px',
             width: '90%',
@@ -762,55 +762,55 @@ export default function AccountProfile() {
             animation: isEditAddressClosing ? 'slideOut 0.3s ease-out' : 'slideIn 0.3s ease-out'
           }} onClick={(e) => e.stopPropagation()} onSubmit={() => setTimeout(closeEditAddress, 100)}>
             <input type="hidden" name="addressId" value={selectedAddress.id} />
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px'}}>
               <h2 style={{margin: 0, fontSize: '1.5rem'}}>Edit address</h2>
-              <button type="button" onClick={closeEditAddress} style={{background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', padding: 0}}>×</button>
+              <button type="button" onClick={closeEditAddress} style={{background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', padding: 0, lineHeight: 1}}>×</button>
             </div>
-            <div style={{marginBottom: '15px'}}>
+            <div style={{marginBottom: '10px'}}>
               <label style={{display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', cursor: 'pointer'}}>
-                <input type="checkbox" name="defaultAddress" defaultChecked={selectedAddress.id === defaultAddress?.id} style={{cursor: 'pointer', flexShrink: 0, width: '16px', height: '16px'}} />
-                <span style={{flex: 1}}>This is my default address</span>
+                <input type="checkbox" name="defaultAddress" defaultChecked={selectedAddress.id === defaultAddress?.id} style={{cursor: 'pointer', flexShrink: 0, width: '18px', height: '18px', margin: 0}} />
+                <span style={{lineHeight: '18px'}}>This is my default address</span>
               </label>
             </div>
-            <div style={{marginBottom: '15px'}}>
-              <select name="territoryCode" value={selectedCountryEdit} onChange={(e) => setSelectedCountryEdit(e.target.value)} style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
+            <div style={{marginBottom: '10px'}}>
+              <select name="territoryCode" value={selectedCountryEdit} onChange={(e) => setSelectedCountryEdit(e.target.value)} style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
                 {COUNTRIES.map(country => (
                   <option key={country.code} value={country.code}>{country.name}</option>
                 ))}
               </select>
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px'}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '10px'}}>
               <div>
-                <input type="text" name="firstName" placeholder="First name" defaultValue={selectedAddress.firstName || customer.firstName} required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                <input type="text" name="firstName" placeholder="First name" defaultValue={selectedAddress.firstName || customer.firstName} required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
               <div>
-                <input type="text" name="lastName" placeholder="Last name" defaultValue={selectedAddress.lastName || customer.lastName} required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                <input type="text" name="lastName" placeholder="Last name" defaultValue={selectedAddress.lastName || customer.lastName} required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
             </div>
-            <div style={{marginBottom: '15px'}}>
-              <input type="text" name="address1" placeholder="Address" defaultValue={selectedAddress.address1 || ''} required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+            <div style={{marginBottom: '10px'}}>
+              <input type="text" name="address1" placeholder="Address" defaultValue={selectedAddress.address1 || ''} required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
             </div>
-            <div style={{marginBottom: '15px'}}>
-              <input type="text" name="address2" placeholder="Apartment, suite, etc (optional)" defaultValue={selectedAddress.address2 || ''} style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+            <div style={{marginBottom: '10px'}}>
+              <input type="text" name="address2" placeholder="Apartment, suite, etc (optional)" defaultValue={selectedAddress.address2 || ''} style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px', marginBottom: '20px'}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '16px'}}>
               <div>
-                <input type="text" name="city" placeholder="City" defaultValue={selectedAddress.city || ''} required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                <input type="text" name="city" placeholder="City" defaultValue={selectedAddress.city || ''} required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
               <div>
                 {selectedCountryEdit === 'US' ? (
-                  <select name="zoneCode" defaultValue={selectedAddress.zoneCode || ''} required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
+                  <select name="zoneCode" defaultValue={selectedAddress.zoneCode || ''} required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}}>
                     <option value="">State</option>
                     {US_STATES.map(state => (
                       <option key={state.code} value={state.code}>{state.name}</option>
                     ))}
                   </select>
                 ) : (
-                  <input type="text" name="zoneCode" placeholder="State/Province" defaultValue={selectedAddress.zoneCode || ''} required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                  <input type="text" name="zoneCode" placeholder="State/Province" defaultValue={selectedAddress.zoneCode || ''} required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
                 )}
               </div>
               <div>
-                <input type="text" name="zip" placeholder="ZIP code" defaultValue={selectedAddress.zip || ''} required style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
+                <input type="text" name="zip" placeholder="ZIP code" defaultValue={selectedAddress.zip || ''} required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
             </div>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
