@@ -1098,6 +1098,36 @@ button.reset:hover:not(:has(> *)) {
   outline: none;
 }
 
+/* Search results - smaller product cards */
+.search .recommended-products-grid {
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1.25rem;
+  padding: 0 40px 0 15px;
+}
+
+.search .recommended-products-grid .product-item__image-wrapper {
+  height: 340px;
+  max-height: 340px;
+}
+
+@media (min-width: 1200px) {
+  .search .recommended-products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .search .recommended-products-grid .product-item__image-wrapper {
+    height: 350px;
+    max-height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search .recommended-products-grid .product-item__image-wrapper {
+    height: 220px;
+    max-height: 220px;
+  }
+}
+
 /*
 * --------------------------------------------------
 * routes/__index

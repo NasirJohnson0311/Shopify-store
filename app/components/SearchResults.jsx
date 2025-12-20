@@ -105,12 +105,14 @@ function SearchResultsProducts({term, products}) {
             const image = product?.selectedOrFirstAvailableVariant?.image;
 
             return (
-              <div className="search-results-item" key={product.id}>
-                <Link prefetch="intent" to={productUrl}>
+              <div key={product.id}>
+                <Link className="product-item" prefetch="intent" to={productUrl}>
                   {image && (
-                    <Image data={image} alt={product.title} sizes="(min-width: 45em) 400px, 100vw" />
+                    <div className="product-item__image-wrapper">
+                      <Image data={image} alt={product.title} sizes="(min-width: 45em) 400px, 100vw" />
+                    </div>
                   )}
-                  <p>{product.title}</p>
+                  <h4>{product.title}</h4>
                   <small>{price && <Money data={price} />}</small>
                 </Link>
               </div>
@@ -124,7 +126,7 @@ function SearchResultsProducts({term, products}) {
                   {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
                 </PreviousLink>
               </div>
-              <div>
+              <div className="product-cards recommended-products-grid">
                 {ItemsMarkup}
                 <br />
               </div>

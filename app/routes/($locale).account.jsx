@@ -58,11 +58,12 @@ function AccountMenu({customer}) {
     };
   }
 
-  const userName = customer?.firstName || customer?.displayName || 'there';
+  const userName = customer?.firstName || customer?.displayName;
+  const welcomeMessage = userName ? `Welcome back, ${userName}` : 'Welcome';
 
   return (
     <nav role="navigation" style={{color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem'}}>
-      <span style={{fontSize: '2.5rem', fontWeight: '500'}}>Welcome back, {userName}</span>
+      <span style={{fontSize: '2.5rem', fontWeight: '500'}}>{welcomeMessage}</span>
       <Logout />
     </nav>
   );

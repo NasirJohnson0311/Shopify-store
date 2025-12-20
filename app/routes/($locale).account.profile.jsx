@@ -297,13 +297,18 @@ export async function action({request, context}) {
 
     try {
       const customer = {};
-      const validInputKeys = ['firstName', 'lastName'];
+      const validInputKeys = ['firstName', 'lastName', 'emailAddress'];
       for (const [key, value] of form.entries()) {
         if (!validInputKeys.includes(key)) {
           continue;
         }
         if (typeof value === 'string' && value.length) {
-          customer[key] = value;
+          // Email needs to be nested under emailAddress
+          if (key === 'emailAddress') {
+            customer[key] = { emailAddress: value };
+          } else {
+            customer[key] = value;
+          }
         }
       }
 
@@ -655,10 +660,9 @@ export default function AccountProfile() {
                 <input type="text" name="lastName" placeholder="Last name" defaultValue={customer.lastName} style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
             </div>
-            <div style={{marginBottom: '8px'}}>
-              <input type="email" name="email" placeholder="Email" defaultValue={customer.emailAddress?.emailAddress} disabled style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white', opacity: 0.6}} />
+            <div style={{marginBottom: '10px'}}>
+              <input type="email" name="emailAddress" placeholder="Email" defaultValue={customer.emailAddress?.emailAddress} required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
             </div>
-            <p style={{fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '16px'}}>This email is used for sign-in and order updates.</p>
             <div style={{display: 'flex', justifyContent: 'flex-end', gap: '10px'}}>
               <button type="button" onClick={closeEditProfile} style={{padding: '10px 20px', background: 'none', border: 'none', color: '#4A9EFF', cursor: 'pointer', fontSize: '1rem'}}>Cancel</button>
               <button type="submit" style={{padding: '10px 20px', background: '#4A9EFF', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '1rem'}}>Save</button>
@@ -727,7 +731,7 @@ export default function AccountProfile() {
             <div style={{marginBottom: '10px'}}>
               <input type="text" name="address2" placeholder="Apartment, suite, etc (optional)" style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '16px'}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '10px'}}>
               <div>
                 <input type="text" name="city" placeholder="City" required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
@@ -816,7 +820,7 @@ export default function AccountProfile() {
             <div style={{marginBottom: '10px'}}>
               <input type="text" name="address2" placeholder="Apartment, suite, etc (optional)" defaultValue={selectedAddress.address2 || ''} style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '16px'}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '10px'}}>
               <div>
                 <input type="text" name="city" placeholder="City" defaultValue={selectedAddress.city || ''} required style={{width: '100%', padding: '14px 15px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.1)', color: 'white'}} />
               </div>
