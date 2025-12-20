@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {CUSTOMER_UPDATE_MUTATION} from '~/graphql/customer-account/CustomerUpdateMutation';
 import {
   UPDATE_ADDRESS_MUTATION,
@@ -14,6 +14,7 @@ import {
   useOutletContext,
   Link,
   useLoaderData,
+  useRevalidator,
 } from 'react-router';
 import {
   Money,
@@ -433,6 +434,7 @@ export default function AccountProfile() {
   const account = useOutletContext();
   const loaderData = useLoaderData();
   const {state} = useNavigation();
+  const revalidator = useRevalidator();
   /** @type {ActionReturnData} */
   const action = useActionData();
   const customer = action?.customer ?? account?.customer;
@@ -453,6 +455,26 @@ export default function AccountProfile() {
   // Form data for modals
   const [selectedCountryAdd, setSelectedCountryAdd] = useState('US');
   const [selectedCountryEdit, setSelectedCountryEdit] = useState('US');
+
+  // Handle successful operations and close modals
+  useEffect(() => {
+    if (state === 'idle' && action) {
+      // Close modals after successful operations
+      if (action.createdAddress) {
+        closeAddAddress();
+        revalidator.revalidate();
+      } else if (action.updatedAddress) {
+        closeEditAddress();
+        revalidator.revalidate();
+      } else if (action.deletedAddress) {
+        closeEditAddress();
+        revalidator.revalidate();
+      } else if (action.customer) {
+        closeEditProfile();
+        revalidator.revalidate();
+      }
+    }
+  }, [state, action]);
 
   // Close handlers with animation
   const closeEditProfile = () => {
@@ -620,7 +642,7 @@ export default function AccountProfile() {
             width: '90%',
             position: 'relative',
             animation: isEditProfileClosing ? 'slideOut 0.3s ease-out' : 'slideIn 0.3s ease-out'
-          }} onClick={(e) => e.stopPropagation()} onSubmit={() => setTimeout(closeEditProfile, 100)}>
+          }} onClick={(e) => e.stopPropagation()}>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
               <h2 style={{margin: 0, fontSize: '1.5rem'}}>Edit profile</h2>
               <button type="button" onClick={closeEditProfile} style={{background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', padding: 0}}>×</button>
@@ -672,7 +694,7 @@ export default function AccountProfile() {
             width: '90%',
             position: 'relative',
             animation: isAddAddressClosing ? 'slideOut 0.3s ease-out' : 'slideIn 0.3s ease-out'
-          }} onClick={(e) => e.stopPropagation()} onSubmit={() => setTimeout(closeAddAddress, 100)}>
+          }} onClick={(e) => e.stopPropagation()}>
             <input type="hidden" name="addressId" value="new" />
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px'}}>
               <h2 style={{margin: 0, fontSize: '1.5rem'}}>Add address</h2>
@@ -749,7 +771,7 @@ export default function AccountProfile() {
           zIndex: 1000,
           animation: isEditAddressClosing ? 'fadeOut 0.3s ease-out' : 'fadeIn 0.3s ease-out'
         }} onClick={closeEditAddress}>
-          <Form method="PUT" style={{
+          <div style={{
             background: 'rgba(255, 255, 255, 0.05)',
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -760,12 +782,13 @@ export default function AccountProfile() {
             width: '90%',
             position: 'relative',
             animation: isEditAddressClosing ? 'slideOut 0.3s ease-out' : 'slideIn 0.3s ease-out'
-          }} onClick={(e) => e.stopPropagation()} onSubmit={() => setTimeout(closeEditAddress, 100)}>
-            <input type="hidden" name="addressId" value={selectedAddress.id} />
+          }} onClick={(e) => e.stopPropagation()}>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px'}}>
               <h2 style={{margin: 0, fontSize: '1.5rem'}}>Edit address</h2>
               <button type="button" onClick={closeEditAddress} style={{background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', padding: 0, lineHeight: 1}}>×</button>
             </div>
+            <Form method="PUT">
+            <input type="hidden" name="addressId" value={selectedAddress.id} />
             <div style={{marginBottom: '10px'}}>
               <label style={{display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', cursor: 'pointer'}}>
                 <input type="checkbox" name="defaultAddress" defaultChecked={selectedAddress.id === defaultAddress?.id} style={{cursor: 'pointer', flexShrink: 0, width: '18px', height: '18px', margin: 0}} />
@@ -823,7 +846,8 @@ export default function AccountProfile() {
                 <button type="submit" style={{padding: '10px 20px', background: '#4A9EFF', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '1rem'}}>Save</button>
               </div>
             </div>
-          </Form>
+            </Form>
+          </div>
         </div>
       )}
     </div>
