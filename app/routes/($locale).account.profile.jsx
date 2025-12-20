@@ -510,7 +510,7 @@ export default function AccountProfile() {
                   </svg>
                 </button>
               </div>
-              <div style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '8px', padding: '1rem', width: '100%', boxSizing: 'border-box', margin: 0}}>
+              <div style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '20px', padding: '1rem', width: '100%', boxSizing: 'border-box', margin: 0}}>
                 <p style={{margin: '0.25rem 0', fontSize: '0.95rem'}}>
                   {customer.firstName} {customer.lastName}
                 </p>
@@ -529,7 +529,7 @@ export default function AccountProfile() {
               <div style={{display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%'}}>
                 {/* Default Address */}
                 {defaultAddress && (
-                  <div style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '8px', padding: '1rem', position: 'relative', width: '100%', boxSizing: 'border-box', margin: 0}}>
+                  <div style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '20px', padding: '1rem', position: 'relative', width: '100%', boxSizing: 'border-box', margin: 0}}>
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem'}}>
                       <span style={{fontSize: '0.85rem', color: '#4A9EFF', fontWeight: '500'}}>DEFAULT ADDRESS</span>
                       <button onClick={() => openEditAddress(defaultAddress)} style={{color: '#9CA3AF', display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>
@@ -560,7 +560,7 @@ export default function AccountProfile() {
 
                 {/* Additional Addresses */}
                 {addresses?.nodes && addresses.nodes.filter(addr => addr.id !== defaultAddress?.id).map((address) => (
-                  <div key={address.id} style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '8px', padding: '1rem', position: 'relative', width: '100%', boxSizing: 'border-box', margin: 0}}>
+                  <div key={address.id} style={{border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '20px', padding: '1rem', position: 'relative', width: '100%', boxSizing: 'border-box', margin: 0}}>
                     <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-start', marginBottom: '0.5rem'}}>
                       <button onClick={() => openEditAddress(address)} style={{color: '#9CA3AF', display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
