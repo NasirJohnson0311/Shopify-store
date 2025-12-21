@@ -1,10 +1,12 @@
 import {useLoaderData} from 'react-router';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
+import {useEffect, useRef, useState} from 'react';
 import {SearchForm} from '~/components/SearchForm';
 import {SearchFormPredictive} from '~/components/SearchFormPredictive';
 import {SearchResults} from '~/components/SearchResults';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
 import {getEmptyPredictiveSearchResult} from '~/lib/search';
+import {useAside} from '~/components/Aside';
 
 /**
  * @type {Route.MetaFunction}
@@ -37,6 +39,18 @@ export async function loader({request, context}) {
 export default function SearchPage() {
   /** @type {LoaderReturnData} */
   const {type, term, result, error} = useLoaderData();
+  const {type: asideType, close: closeAside} = useAside();
+  const miniSearchInputRef = useRef(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  // Blur the mini search bar when the navbar search aside opens
+  useEffect(() => {
+    if (asideType === 'search' && miniSearchInputRef.current) {
+      miniSearchInputRef.current.blur();
+      setShowDropdown(false);
+    }
+  }, [asideType]);
+
   if (type === 'predictive') return null;
 
   return (
@@ -44,47 +58,71 @@ export default function SearchPage() {
       <h1>Search Results</h1>
       <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '50px', position: 'relative'}}>
         <SearchFormPredictive style={{width: '100%', maxWidth: '1400px', display: 'flex', justifyContent: 'center', padding: '0 20px', boxSizing: 'border-box', position: 'relative'}}>
-          {({inputRef, fetcher, fetchResults, goToSearch}) => (
-            <>
-              <input
-                defaultValue={term}
-                name="q"
-                placeholder="Search"
-                ref={inputRef}
-                type="search"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  borderRadius: '12px',
-                  color: '#fff',
-                  padding: '0.6em 1.2em',
-                  fontSize: '1rem',
-                  width: '80%',
-                  maxWidth: '800px',
-                  boxSizing: 'border-box',
-                  outline: 'none'
-                }}
-                onChange={fetchResults}
-                onFocus={fetchResults}
-              />
-              {fetcher?.state === 'loading' ? (
-                <div className="search-results-dropdown visible">
-                  <p>Searching...</p>
-                </div>
-              ) : (
-                <SearchResultsPredictive goToSearch={goToSearch}>
-                  {({items, total}) => (
-                    <div className={`search-results-dropdown ${total > 0 ? 'visible' : 'hidden'}`}>
-                      <SearchResultsPredictive.Products products={items.products} closeSearch={goToSearch} term={term} />
-                      <SearchResultsPredictive.Pages pages={items.pages} closeSearch={goToSearch} term={term} />
-                      <SearchResultsPredictive.Articles articles={items.articles} closeSearch={goToSearch} term={term} />
-                    </div>
-                  )}
-                </SearchResultsPredictive>
-              )}
-            </>
-          )}
+          {({inputRef, fetcher, fetchResults, goToSearch}) => {
+            // Set the miniSearchInputRef to the inputRef from the form
+            if (inputRef.current && !miniSearchInputRef.current) {
+              miniSearchInputRef.current = inputRef.current;
+            }
+
+            return (
+              <>
+                <input
+                  defaultValue={term}
+                  name="q"
+                  placeholder="Search"
+                  ref={inputRef}
+                  type="search"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '12px',
+                    color: '#fff',
+                    padding: '0.6em 1.2em',
+                    fontSize: '1rem',
+                    width: '80%',
+                    maxWidth: '800px',
+                    boxSizing: 'border-box',
+                    outline: 'none'
+                  }}
+                  onChange={(e) => {
+                    fetchResults(e);
+                    setShowDropdown(true);
+                  }}
+                  onFocus={(e) => {
+                    // Close the navbar search aside when the mini search bar is focused
+                    if (asideType === 'search') {
+                      closeAside();
+                    }
+                    // Show dropdown and fetch results if there's a value
+                    if (e.target.value) {
+                      fetchResults(e);
+                      setShowDropdown(true);
+                    }
+                  }}
+                  onBlur={() => {
+                    // Delay closing to allow clicking on dropdown items
+                    setTimeout(() => setShowDropdown(false), 200);
+                  }}
+                />
+                {fetcher?.state === 'loading' && showDropdown ? (
+                  <div className="search-results-dropdown visible">
+                    <p>Searching...</p>
+                  </div>
+                ) : (
+                  <SearchResultsPredictive goToSearch={goToSearch}>
+                    {({items, total}) => (
+                      <div className={`search-results-dropdown ${total > 0 && showDropdown ? 'visible' : 'hidden'}`}>
+                        <SearchResultsPredictive.Products products={items.products} closeSearch={goToSearch} term={term} />
+                        <SearchResultsPredictive.Pages pages={items.pages} closeSearch={goToSearch} term={term} />
+                        <SearchResultsPredictive.Articles articles={items.articles} closeSearch={goToSearch} term={term} />
+                      </div>
+                    )}
+                  </SearchResultsPredictive>
+                )}
+              </>
+            );
+          }}
         </SearchFormPredictive>
       </div>
       {error && <p style={{color: 'red', marginBottom: '20px'}}>{error}</p>}

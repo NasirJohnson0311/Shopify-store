@@ -68,56 +68,41 @@ function SearchAside() {
   const location = useLocation();
   const {close: closeAside, type: asideType} = useAside();
   const prevPathnameRef = useRef(location.pathname);
-  const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
 
   // Close aside when pathname changes (user navigated to a new page)
   useEffect(() => {
     if (prevPathnameRef.current !== location.pathname && asideType === 'search') {
       closeAside();
-      setSearchTerm('');
       setShowDropdown(false);
-      setHasSearched(false);
     }
     prevPathnameRef.current = location.pathname;
   }, [location.pathname, asideType, closeAside]);
-
-  useEffect(() => {
-    if (searchTerm.trim()) {
-      setShowDropdown(true);
-      setHasSearched(true);
-    } else {
-      const timer = setTimeout(() => {
-        setShowDropdown(false);
-        setHasSearched(false);
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [searchTerm]);
 
   return (
     <>
       <Aside type="search" heading="SEARCH">
         <div className="predictive-search">
           <SearchFormPredictive>
-            {({fetchResults, inputRef}) => (
+            {({inputRef, fetchResults}) => (
               <input
                 name="q"
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  fetchResults(e);
-                }}
-                onFocus={fetchResults}
-                onBlur={(e) => {
-                  if (!e.target.value.trim()) {
-                    setSearchTerm('');
-                  }
-                }}
                 placeholder="Search"
                 ref={inputRef}
                 type="search"
-                value={searchTerm}
+                onChange={(e) => {
+                  fetchResults(e);
+                  setShowDropdown(true);
+                }}
+                onFocus={(e) => {
+                  if (e.target.value) {
+                    fetchResults(e);
+                    setShowDropdown(true);
+                  }
+                }}
+                onBlur={() => {
+                  setTimeout(() => setShowDropdown(false), 200);
+                }}
                 style={{
                   background: 'rgba(255, 255, 255, 0.05)',
                   backdropFilter: 'blur(20px)',
@@ -149,7 +134,7 @@ function SearchAside() {
 
               // Show loading state
               if (state === 'loading') {
-                return null;
+                return <p>Searching...</p>;
               }
 
               // Show empty state if no results
