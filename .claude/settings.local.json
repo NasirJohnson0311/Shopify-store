@@ -34,7 +34,9 @@
       "Bash(shopify auth status:*)",
       "Bash(shopify whoami:*)",
       "Bash(node_modules/@shopify/cli/bin/cloudflared tunnel:*)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(rm:*)",
+      "Bash(npx vite:*)"
     ],
     "deny": [],
     "ask": []
