@@ -42,14 +42,14 @@ export default function SearchPage() {
   return (
     <div className="search">
       <h1>Search Results</h1>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '30px', position: 'relative'}}>
+      <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '50px', position: 'relative'}}>
         <SearchFormPredictive style={{width: '100%', maxWidth: '1400px', display: 'flex', justifyContent: 'center', padding: '0 20px', boxSizing: 'border-box', position: 'relative'}}>
           {({inputRef, fetcher, fetchResults, goToSearch}) => (
             <>
               <input
                 defaultValue={term}
                 name="q"
-                placeholder="Search…"
+                placeholder="Search"
                 ref={inputRef}
                 type="search"
                 style={{
