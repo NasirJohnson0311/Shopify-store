@@ -25,6 +25,13 @@ export function CartMain({layout, cart: originalCart}) {
     <div className={className}>
       {!linesCount && <CartEmpty layout={layout} />}
       <div className="cart-details">
+        {layout === 'page' && linesCount && (
+          <div className="cart-table-header">
+            <div className="cart-header-product">PRODUCT</div>
+            <div className="cart-header-quantity">QUANTITY</div>
+            <div className="cart-header-total">TOTAL</div>
+          </div>
+        )}
         <div aria-labelledby="cart-lines">
           <ul>
             {(cart?.lines?.nodes ?? []).map((line) => (

@@ -36,7 +36,8 @@
       "Bash(node_modules/@shopify/cli/bin/cloudflared tunnel:*)",
       "mcp__ide__getDiagnostics",
       "Bash(rm:*)",
-      "Bash(npx vite:*)"
+      "Bash(npx vite:*)",
+      "Bash(/Users/nasirjohnson/shopify-store/art-storefront/app/styles/app.css)"
     ],
     "deny": [],
     "ask": []

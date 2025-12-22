@@ -22,7 +22,54 @@ export function CartLineItem({layout, line}) {
                        product.productType === 'Skateboard Deck' ||
                        product.productType?.toLowerCase().includes('skateboard') ||
                        product.title?.toLowerCase().includes('deck');
-  const cartLineClass = isSkateboard ? 'cart-line cart-line-skateboard' : 'cart-line';
+  const cartLineClass = layout === 'page'
+    ? `cart-line-page ${isSkateboard ? 'cart-line-skateboard' : ''}`
+    : isSkateboard ? 'cart-line cart-line-skateboard' : 'cart-line';
+
+  if (layout === 'page') {
+    return (
+      <li key={id} className={cartLineClass}>
+        <div className="cart-line-product">
+          {image && (
+            <div className="cart-line-image-wrapper">
+              <Image
+                alt={title}
+                data={image}
+                loading="lazy"
+                sizes="100px"
+              />
+            </div>
+          )}
+          <div className="cart-line-details">
+            <Link
+              prefetch="intent"
+              to={lineItemUrl}
+            >
+              <strong>{product.title}</strong>
+            </Link>
+            <ProductPrice price={merchandise?.price} />
+            <ul>
+              {selectedOptions
+                .filter((option) => !(option.name === 'Title' && option.value === 'Default Title'))
+                .map((option) => (
+                  <li key={option.name}>
+                    <small>
+                      {option.name}: {option.value}
+                    </small>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </div>
+        <div className="cart-line-quantity-page">
+          <CartLineQuantity line={line} layout={layout} />
+        </div>
+        <div className="cart-line-total">
+          <ProductPrice price={line?.cost?.totalAmount} />
+        </div>
+      </li>
+    );
+  }
 
   return (
     <li key={id} className={cartLineClass}>
@@ -64,7 +111,7 @@ export function CartLineItem({layout, line}) {
                 </li>
               ))}
           </ul>
-          <CartLineQuantity line={line} />
+          <CartLineQuantity line={line} layout={layout} />
         </div>
         <div className="cart-line-price">
           <ProductPrice price={line?.cost?.totalAmount} />
@@ -78,9 +125,9 @@ export function CartLineItem({layout, line}) {
  * Provides the controls to update the quantity of a line item in the cart.
  * These controls are disabled when the line item is new, and the server
  * hasn't yet responded that it was successfully added to the cart.
- * @param {{line: CartLine}}
+ * @param {{line: CartLine; layout?: CartLayout}}
  */
-function CartLineQuantity({line}) {
+function CartLineQuantity({line, layout}) {
   if (!line || typeof line?.quantity === 'undefined') return null;
   const {id: lineId, quantity, isOptimistic} = line;
   const prevQuantity = Number(Math.max(0, quantity - 1).toFixed(0));
