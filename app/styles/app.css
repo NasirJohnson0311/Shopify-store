@@ -105,12 +105,13 @@ button:focus-visible {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 80px;
   margin: 0 auto 30px;
   max-width: 1400px;
   background: transparent;
   border: none;
-  gap: 600px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .filter-section,
@@ -317,7 +318,7 @@ button:focus-visible {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
-    padding: 0 15px;
+    padding: 0 10px;
   }
 
   .filter-section,
@@ -1292,6 +1293,7 @@ button.reset:hover:not(:has(> *)) {
   align-items: flex-start;
   margin-top: 40px;
   width: 100%;
+  overflow-x: hidden;
 }
 
 .search h1 {
@@ -1342,15 +1344,17 @@ button.reset:hover:not(:has(> *)) {
 /* Search results - smaller product cards */
 .search .recommended-products-grid {
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 1.5rem;
+  grid-gap: 0.75rem;
   padding: 0 80px;
   width: 100%;
-  max-width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .search .recommended-products-grid .product-item__image-wrapper {
-  height: 340px;
-  max-height: 340px;
+  height: 320px;
+  max-height: 320px;
 }
 
 @media (min-width: 1200px) {
@@ -1359,15 +1363,15 @@ button.reset:hover:not(:has(> *)) {
   }
 
   .search .recommended-products-grid .product-item__image-wrapper {
-    height: 350px;
-    max-height: 350px;
+    height: 330px;
+    max-height: 330px;
   }
 }
 
 @media (max-width: 768px) {
   .search .recommended-products-grid .product-item__image-wrapper {
-    height: 220px;
-    max-height: 220px;
+    height: 215px;
+    max-height: 215px;
   }
 }
 
