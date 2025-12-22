@@ -106,7 +106,7 @@ button:focus-visible {
   justify-content: space-between;
   align-items: center;
   padding: 0 80px;
-  margin: 0 auto 30px;
+  margin: 0 auto 20px;
   max-width: 1400px;
   background: transparent;
   border: none;
@@ -1291,7 +1291,7 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 40px;
+  margin-top: 20px;
   width: 100%;
   overflow-x: hidden;
 }
@@ -1302,7 +1302,7 @@ button.reset:hover:not(:has(> *)) {
   font-size: 28px;
   font-weight: 400;
   letter-spacing: 2px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   width: 100%;
 }
 
@@ -1330,7 +1330,7 @@ button.reset:hover:not(:has(> *)) {
   color: white;
   font-size: 1rem;
   height: 45px;
-  margin: 1rem auto;
+  margin: 0.5rem auto;
 }
 
 .search input[type="search"]::placeholder {

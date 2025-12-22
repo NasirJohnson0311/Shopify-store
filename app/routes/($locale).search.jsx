@@ -128,7 +128,7 @@ export default function SearchPage() {
   return (
     <div className="search">
       <h1>Search Results</h1>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '50px', position: 'relative'}}>
+      <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px', position: 'relative'}}>
         <SearchFormPredictive style={{width: '100%', maxWidth: '1400px', display: 'flex', justifyContent: 'center', padding: '0 20px', boxSizing: 'border-box', position: 'relative'}}>
           {({inputRef, fetcher, fetchResults, goToSearch}) => {
             // Set the miniSearchInputRef to the inputRef from the form
