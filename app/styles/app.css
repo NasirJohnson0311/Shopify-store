@@ -2228,7 +2228,7 @@ button.reset:hover:not(:has(> *)) {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   color: #fff;
-  padding: 1rem 3rem;
+  padding: 1rem 4rem;
   text-align: center;
   text-decoration: none;
   font-size: 1rem;
@@ -2238,7 +2238,7 @@ button.reset:hover:not(:has(> *)) {
   align-items: center;
   justify-content: center;
   width: auto;
-  min-width: 250px;
+  min-width: 300px;
   white-space: nowrap;
   text-transform: none;
 }
