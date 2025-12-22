@@ -98,10 +98,247 @@ button:focus-visible {
 
 .product-form form {
   width: 100%;
-  max-width: none !important;
+}
+
+/* Filter and Sort Styles */
+.filter-sort-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  margin: 0 auto 30px;
+  max-width: 1400px;
+  background: transparent;
+  border: none;
+  gap: 600px;
+}
+
+.filter-section,
+.sort-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.filter-label,
+.sort-label {
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.filter-dropdown {
+  position: relative;
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
   padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  font-weight: 400;
+}
+
+.filter-button:hover {
+  color: #fff;
+  background: transparent;
+  border: none;
+}
+
+.dropdown-arrow {
+  font-size: 0.65rem;
+  opacity: 0.6;
+  margin-left: 2px;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  background: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  min-width: 220px;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.85rem;
+}
+
+.dropdown-header span {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.reset-button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.reset-button:hover {
+  color: #fff;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.checkbox-label:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.checkbox-label input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.checkbox-label span {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+}
+
+.price-dropdown {
+  min-width: 280px;
+}
+
+.price-inputs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.price-input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.price-input-group label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.price-input-group input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.price-input-group input:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.apply-button {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #fff;
+  padding: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.apply-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.sort-dropdown {
+  min-width: 200px;
+  padding: 4px;
+}
+
+.sort-option {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.sort-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sort-option.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.results-count {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  margin-left: 10px;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .filter-sort-container {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+    padding: 0 15px;
+  }
+
+  .filter-section,
+  .sort-section {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .filter-dropdown {
+    position: relative;
+  }
+
+  .dropdown-content {
+    left: 0;
+    right: auto;
+  }
+
+  .results-count {
+    margin-left: auto;
+  }
 }
 
 /*

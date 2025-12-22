@@ -1,4 +1,4 @@
-import {useLoaderData} from 'react-router';
+import {useLoaderData, useSearchParams} from 'react-router';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
 import {useEffect, useRef, useState} from 'react';
 import {SearchForm} from '~/components/SearchForm';
@@ -7,6 +7,8 @@ import {SearchResults} from '~/components/SearchResults';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
 import {getEmptyPredictiveSearchResult} from '~/lib/search';
 import {useAside} from '~/components/Aside';
+import {FilterSort} from '~/components/FilterSort';
+import {useMemo} from 'react';
 
 /**
  * @type {Route.MetaFunction}
@@ -42,6 +44,7 @@ export default function SearchPage() {
   const {type: asideType, close: closeAside} = useAside();
   const miniSearchInputRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [searchParams] = useSearchParams();
 
   // Blur the mini search bar when the navbar search aside opens
   useEffect(() => {
@@ -50,6 +53,75 @@ export default function SearchPage() {
       setShowDropdown(false);
     }
   }, [asideType]);
+
+  // Apply client-side filters to products
+  const filteredResult = useMemo(() => {
+    if (!result?.items?.products) return result;
+
+    const availability = searchParams.get('availability')?.split(',').filter(Boolean) || [];
+    const minPrice = parseFloat(searchParams.get('minPrice') || '0');
+    const maxPrice = parseFloat(searchParams.get('maxPrice') || 'Infinity');
+    const sortBy = searchParams.get('sort') || 'relevance';
+
+    let filteredProducts = [...result.items.products.nodes];
+
+    // Apply availability filter
+    if (availability.length > 0) {
+      filteredProducts = filteredProducts.filter(product => {
+        const isAvailable = product.availableForSale || product.selectedOrFirstAvailableVariant?.availableForSale;
+        if (availability.includes('in_stock') && isAvailable) return true;
+        if (availability.includes('out_of_stock') && !isAvailable) return true;
+        return false;
+      });
+    }
+
+    // Apply price filter
+    if (minPrice > 0 || maxPrice < Infinity) {
+      filteredProducts = filteredProducts.filter(product => {
+        const price = parseFloat(product.selectedOrFirstAvailableVariant?.price?.amount || '0');
+        return price >= minPrice && price <= maxPrice;
+      });
+    }
+
+    // Apply sorting (client-side for price sorting)
+    if (sortBy === 'price_asc') {
+      filteredProducts.sort((a, b) => {
+        const priceA = parseFloat(a.selectedOrFirstAvailableVariant?.price?.amount || '0');
+        const priceB = parseFloat(b.selectedOrFirstAvailableVariant?.price?.amount || '0');
+        return priceA - priceB;
+      });
+    } else if (sortBy === 'price_desc') {
+      filteredProducts.sort((a, b) => {
+        const priceA = parseFloat(a.selectedOrFirstAvailableVariant?.price?.amount || '0');
+        const priceB = parseFloat(b.selectedOrFirstAvailableVariant?.price?.amount || '0');
+        return priceB - priceA;
+      });
+    }
+
+    return {
+      ...result,
+      items: {
+        ...result.items,
+        products: {
+          ...result.items.products,
+          nodes: filteredProducts,
+        },
+      },
+      total: filteredProducts.length + (result.items.pages?.nodes?.length || 0) + (result.items.articles?.nodes?.length || 0),
+    };
+  }, [result, searchParams]);
+
+  // Calculate stock counts for filter UI
+  const stockCounts = useMemo(() => {
+    if (!result?.items?.products?.nodes) return { inStock: 0, outOfStock: 0 };
+
+    const inStock = result.items.products.nodes.filter(
+      p => p.availableForSale || p.selectedOrFirstAvailableVariant?.availableForSale
+    ).length;
+    const outOfStock = result.items.products.nodes.length - inStock;
+
+    return { inStock, outOfStock };
+  }, [result]);
 
   if (type === 'predictive') return null;
 
@@ -129,15 +201,22 @@ export default function SearchPage() {
       {!term || !result?.total ? (
         <SearchResults.Empty />
       ) : (
-        <SearchResults result={result} term={term}>
-          {({articles, pages, products, term}) => (
-            <div>
-              <SearchResults.Products products={products} term={term} />
-              <SearchResults.Pages pages={pages} term={term} />
-              <SearchResults.Articles articles={articles} term={term} />
-            </div>
-          )}
-        </SearchResults>
+        <>
+          <FilterSort
+            totalProducts={filteredResult?.items?.products?.nodes?.length || 0}
+            inStockCount={stockCounts.inStock}
+            outOfStockCount={stockCounts.outOfStock}
+          />
+          <SearchResults result={filteredResult} term={term}>
+            {({articles, pages, products, term}) => (
+              <div>
+                <SearchResults.Products products={products} term={term} />
+                <SearchResults.Pages pages={pages} term={term} />
+                <SearchResults.Articles articles={articles} term={term} />
+              </div>
+            )}
+          </SearchResults>
+        </>
       )}
       <Analytics.SearchView data={{searchTerm: term, searchResults: result}} />
     </div>
@@ -157,12 +236,14 @@ const SEARCH_PRODUCT_FRAGMENT = `#graphql
     title
     trackingParameters
     vendor
+    availableForSale
     selectedOrFirstAvailableVariant(
       selectedOptions: []
       ignoreUnknownOptions: true
       caseInsensitiveMatch: true
     ) {
       id
+      availableForSale
       image {
         url
         altText
@@ -259,7 +340,7 @@ export const SEARCH_QUERY = `#graphql
       query: $term,
       sortKey: RELEVANCE,
       types: [PRODUCT],
-      unavailableProducts: HIDE,
+      unavailableProducts: SHOW,
     ) {
       nodes {
         ...on Product {
