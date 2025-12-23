@@ -69,6 +69,7 @@ function SearchAside() {
   const {close: closeAside, type: asideType} = useAside();
   const prevPathnameRef = useRef(location.pathname);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
   // Close aside when pathname changes (user navigated to a new page)
   useEffect(() => {
@@ -85,37 +86,74 @@ function SearchAside() {
         <div className="predictive-search">
           <SearchFormPredictive>
             {({inputRef, fetchResults}) => (
-              <input
-                name="q"
-                placeholder="Search"
-                ref={inputRef}
-                type="search"
-                onChange={(e) => {
-                  fetchResults(e);
-                  setShowDropdown(true);
-                }}
-                onFocus={(e) => {
-                  if (e.target.value) {
+              <div style={{position: 'relative', width: '80%', margin: '0 auto'}}>
+                <input
+                  name="q"
+                  placeholder="Search"
+                  ref={inputRef}
+                  type="search"
+                  value={searchValue}
+                  onChange={(e) => {
+                    setSearchValue(e.target.value);
                     fetchResults(e);
                     setShowDropdown(true);
-                  }
-                }}
-                onBlur={() => {
-                  setTimeout(() => setShowDropdown(false), 200);
-                }}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  borderRadius: '12px',
-                  color: '#fff',
-                  padding: '0.6em 1.2em',
-                  fontSize: '1rem',
-                  width: '80%',
-                  boxSizing: 'border-box',
-                  outline: 'none'
-                }}
-              />
+                  }}
+                  onFocus={(e) => {
+                    if (e.target.value) {
+                      fetchResults(e);
+                      setShowDropdown(true);
+                    }
+                  }}
+                  onBlur={() => {
+                    setTimeout(() => setShowDropdown(false), 200);
+                  }}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '12px',
+                    color: '#fff',
+                    padding: '0.6em 2.5em 0.6em 1.2em',
+                    fontSize: '1rem',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    outline: 'none'
+                  }}
+                />
+                {searchValue && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchValue('');
+                      if (inputRef.current) {
+                        inputRef.current.value = '';
+                        inputRef.current.focus();
+                      }
+                    }}
+                    style={{
+                      position: 'absolute',
+                      right: '12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'transparent',
+                      border: 'none',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      cursor: 'pointer',
+                      padding: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '18px',
+                      lineHeight: '1',
+                      transition: 'color 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
             )}
           </SearchFormPredictive>
         </div>

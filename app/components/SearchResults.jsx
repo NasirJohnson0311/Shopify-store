@@ -1,6 +1,7 @@
 import {Link} from 'react-router';
 import {Image, Money, Pagination} from '@shopify/hydrogen';
 import {urlWithTrackingParams} from '~/lib/search';
+import {motion} from 'framer-motion';
 
 /**
  * @param {Omit<SearchResultsProps, 'error' | 'type'>}
@@ -94,7 +95,7 @@ function SearchResultsProducts({term, products}) {
     <div className="search-result">
       <Pagination connection={products}>
         {({nodes, isLoading, NextLink, PreviousLink}) => {
-          const ItemsMarkup = nodes.map((product) => {
+          const ItemsMarkup = nodes.map((product, index) => {
             const productUrl = urlWithTrackingParams({
               baseUrl: `/products/${product.handle}`,
               trackingParams: product.trackingParameters,
@@ -105,7 +106,16 @@ function SearchResultsProducts({term, products}) {
             const image = product?.selectedOrFirstAvailableVariant?.image;
 
             return (
-              <div key={product.id}>
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.6,
+                  ease: 'easeOut',
+                  delay: index * 0.1
+                }}
+              >
                 <Link className="product-item" prefetch="intent" to={productUrl}>
                   {image && (
                     <div className="product-item__image-wrapper">
@@ -115,7 +125,7 @@ function SearchResultsProducts({term, products}) {
                   <h4>{product.title}</h4>
                   <small>{price && <Money data={price} />}</small>
                 </Link>
-              </div>
+              </motion.div>
             );
           });
 

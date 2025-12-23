@@ -104,7 +104,11 @@ export function FilterSort({totalProducts, inStockCount, outOfStockCount}) {
             onClick={() => setShowAvailability(!showAvailability)}
           >
             Availability
-            <span className="dropdown-arrow">{showAvailability ? '▲' : '▼'}</span>
+            <span className="dropdown-arrow">
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L11 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
           </button>
 
           {showAvailability && (
@@ -145,7 +149,11 @@ export function FilterSort({totalProducts, inStockCount, outOfStockCount}) {
             onClick={() => setShowPrice(!showPrice)}
           >
             Price
-            <span className="dropdown-arrow">{showPrice ? '▲' : '▼'}</span>
+            <span className="dropdown-arrow">
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L11 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
           </button>
 
           {showPrice && (
@@ -195,7 +203,11 @@ export function FilterSort({totalProducts, inStockCount, outOfStockCount}) {
             {sortBy === 'price_asc' ? 'Price, low to high' :
              sortBy === 'price_desc' ? 'Price, high to low' :
              'Relevance'}
-            <span className="dropdown-arrow">{showSort ? '▲' : '▼'}</span>
+            <span className="dropdown-arrow">
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L11 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
           </button>
 
           {showSort && (

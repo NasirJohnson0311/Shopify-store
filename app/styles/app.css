@@ -106,7 +106,7 @@ button:focus-visible {
   justify-content: space-between;
   align-items: center;
   padding: 0 80px;
-  margin: 0 auto 20px;
+  margin: 24px auto 20px;
   max-width: 1400px;
   background: transparent;
   border: none;
@@ -158,18 +158,31 @@ button:focus-visible {
   margin-left: 2px;
 }
 
+/* Dropdown fade-in animation */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .dropdown-content {
   position: absolute;
   top: calc(100% + 5px);
   left: 0;
   background: rgba(20, 20, 20, 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  padding: 12px;
+  padding: 16px;
   min-width: 220px;
   z-index: 1000;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  animation: dropdownFadeIn 0.2s ease-out;
 }
 
 .dropdown-header {
@@ -179,50 +192,84 @@ button:focus-visible {
   margin-bottom: 12px;
   padding-bottom: 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.85rem;
+  font-size: 12px;
 }
 
 .dropdown-header span {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 0.7;
+  letter-spacing: 0.5px;
 }
 
 .reset-button {
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.6);
   padding: 4px 8px;
-  font-size: 0.85rem;
+  font-size: 12px;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: color 0.2s ease;
 }
 
 .reset-button:hover {
   color: #fff;
+  text-decoration: underline;
 }
 
 .checkbox-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px;
+  gap: 12px;
+  padding: 10px 8px;
   cursor: pointer;
   border-radius: 4px;
-  transition: background 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .checkbox-label:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .checkbox-label input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  background: transparent;
   cursor: pointer;
-  width: 16px;
-  height: 16px;
+  transition: all 0.2s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.checkbox-label input[type="checkbox"]:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.checkbox-label input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: black;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
 }
 
 .checkbox-label span {
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.9rem;
+  font-size: 14px;
+  letter-spacing: 0.3px;
 }
 
 .price-dropdown {
@@ -239,44 +286,61 @@ button:focus-visible {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .price-input-group label {
-  font-size: 0.85rem;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+  display: block;
 }
 
 .price-input-group input {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: #fff;
-  padding: 8px 12px;
-  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: white;
+  padding: 10px 12px;
+  font-size: 14px;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.price-input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .price-input-group input:focus {
-  border-color: rgba(255, 255, 255, 0.3);
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .apply-button {
   width: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-  color: #fff;
-  padding: 8px;
-  font-size: 0.9rem;
+  padding: 12px;
+  margin-top: 16px;
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .apply-button:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .sort-dropdown {
@@ -451,7 +515,8 @@ aside[data-type="search"] .predictive-search form input:focus {
 }
 
 aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-button {
-  cursor: pointer;
+  display: none;
+  appearance: none;
 }
 
 /* Search results dropdown that appears outside the aside */
@@ -1291,7 +1356,7 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100%;
   overflow-x: hidden;
 }
@@ -1331,6 +1396,12 @@ button.reset:hover:not(:has(> *)) {
   font-size: 1rem;
   height: 45px;
   margin: 0.5rem auto;
+}
+
+/* Hide native search cancel button */
+.search input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+  appearance: none;
 }
 
 .search input[type="search"]::placeholder {
