@@ -98,6 +98,7 @@ button:focus-visible {
 
 .product-form form {
   width: 100%;
+  max-width: none;
 }
 
 /* Filter and Sort Styles */
