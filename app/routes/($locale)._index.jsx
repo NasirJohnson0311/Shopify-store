@@ -114,6 +114,35 @@ function sortProductsByPriority(products) {
 }
 
 /**
+ * Skeleton loader for product cards
+ */
+function ProductSkeleton() {
+  return (
+    <div className="product-item" style={{opacity: 0.5}}>
+      <div className="product-item__image-wrapper" style={{
+        background: 'rgba(255, 255, 255, 0.05)',
+        animation: 'pulse 1.5s ease-in-out infinite'
+      }} />
+      <div style={{
+        height: '20px',
+        background: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: '4px',
+        marginTop: '0.75rem',
+        animation: 'pulse 1.5s ease-in-out infinite'
+      }} />
+      <div style={{
+        height: '16px',
+        background: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: '4px',
+        marginTop: '0.25rem',
+        width: '60%',
+        animation: 'pulse 1.5s ease-in-out infinite'
+      }} />
+    </div>
+  );
+}
+
+/**
  * @param {{
  *   products: Promise<RecommendedProductsQuery | null>;
  * }}
@@ -121,7 +150,14 @@ function sortProductsByPriority(products) {
 function RecommendedProducts({products}) {
   return (
     <div className="recommended-products">
-      <Suspense fallback={<div></div>}>
+      <Suspense fallback={
+        <div className="product-cards recommended-products-grid">
+          <ProductSkeleton />
+          <ProductSkeleton />
+          <ProductSkeleton />
+          <ProductSkeleton />
+        </div>
+      }>
         <Await resolve={products}>
           {(response) => {
             const sortedProducts = sortProductsByPriority(response?.products?.nodes);
