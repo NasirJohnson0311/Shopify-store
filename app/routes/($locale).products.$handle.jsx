@@ -13,6 +13,7 @@ import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import {ProductItem} from '~/components/ProductItem';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import {useFadeInOnScroll} from '~/hooks/useFadeInOnScroll';
 
 /**
  * @type {Route.MetaFunction}
@@ -116,9 +117,15 @@ export default function Product() {
 
   const {title, descriptionHtml} = product;
 
+  // Fade-in animation hooks
+  const [productRef, isProductVisible] = useFadeInOnScroll();
+
   return (
     <>
-      <div className="product">
+      <div
+        ref={productRef}
+        className={`product fade-in-on-scroll ${isProductVisible ? 'visible' : ''}`}
+      >
         <ProductImage image={selectedVariant?.image} />
         <div className="product-main">
           <h1>{title}</h1>
@@ -170,8 +177,13 @@ export default function Product() {
 }
 
 function RecommendedProducts({products, currentProductHandle}) {
+  const [recommendedRef, isRecommendedVisible] = useFadeInOnScroll();
+
   return (
-    <div className="recommended-products-section">
+    <div
+      ref={recommendedRef}
+      className={`recommended-products-section fade-in-on-scroll ${isRecommendedVisible ? 'visible' : ''}`}
+    >
       <h2>You may also like</h2>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
