@@ -1039,14 +1039,14 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .cart-line-skateboard .cart-line-image-wrapper {
-  height: 80px !important;
-  max-height: 80px !important;
-  min-height: 80px !important;
+  height: 140px !important;
+  max-height: 140px !important;
+  min-height: 140px !important;
 }
 
 .cart-line-skateboard .cart-line-image-wrapper img {
-  height: 80px !important;
-  max-height: 80px !important;
+  height: 140px !important;
+  max-height: 140px !important;
   width: auto !important;
   max-width: 100% !important;
 }
@@ -1299,14 +1299,14 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .predictive-search-skateboard .predictive-search-image-wrapper {
-  height: 80px !important;
-  max-height: 80px !important;
-  min-height: 80px !important;
+  height: 140px !important;
+  max-height: 140px !important;
+  min-height: 140px !important;
 }
 
 .predictive-search-skateboard .predictive-search-image-wrapper img {
-  height: 80px !important;
-  max-height: 80px !important;
+  height: 140px !important;
+  max-height: 140px !important;
   width: auto !important;
   max-width: 100% !important;
 }

@@ -13,7 +13,7 @@ import {useAside} from './Aside';
  * }}
  */
 export function CartLineItem({layout, line}) {
-  const {id, merchandise} = line;
+  const {id, merchandise, isOptimistic} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const {close} = useAside();
@@ -21,7 +21,9 @@ export function CartLineItem({layout, line}) {
   const isSkateboard = product.productType === 'Skateboard Decks' ||
                        product.productType === 'Skateboard Deck' ||
                        product.productType?.toLowerCase().includes('skateboard') ||
-                       product.title?.toLowerCase().includes('deck');
+                       product.title?.toLowerCase().includes('deck') ||
+                       (isOptimistic && !product.productType);
+
   const cartLineClass = layout === 'page'
     ? `cart-line-page ${isSkateboard ? 'cart-line-skateboard' : ''}`
     : isSkateboard ? 'cart-line cart-line-skateboard' : 'cart-line';

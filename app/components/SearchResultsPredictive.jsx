@@ -172,6 +172,7 @@ function SearchResultsPredictiveProducts({products, selectedIndex = -1}) {
                                product.productType === 'Skateboard Deck' ||
                                product.productType?.toLowerCase().includes('skateboard') ||
                                product.title?.toLowerCase().includes('deck');
+
           const itemClass = isSkateboard ? 'predictive-search-result-item predictive-search-skateboard' : 'predictive-search-result-item';
 
           return (
