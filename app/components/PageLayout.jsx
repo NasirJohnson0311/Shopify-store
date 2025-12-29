@@ -72,7 +72,9 @@ function SearchAside() {
   const [searchValue, setSearchValue] = useState('');
   const [activeDescendant, setActiveDescendant] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
+  const inputRef = useRef(null);
 
   // Close aside when pathname changes (user navigated to a new page)
   useEffect(() => {
@@ -80,9 +82,28 @@ function SearchAside() {
       closeAside();
       setSearchValue('');
       setSelectedIndex(-1);
+      setShowDropdown(false);
     }
     prevPathnameRef.current = location.pathname;
   }, [location.pathname, asideType, closeAside]);
+
+  // Delay dropdown appearance when aside opens to sync with fade-in animation
+  useEffect(() => {
+    if (asideType === 'search' && searchValue) {
+      // Small delay to sync with aside fade-in
+      const timer = setTimeout(() => {
+        setShowDropdown(true);
+        // Trigger search if there's already text when aside opens
+        if (inputRef.current) {
+          const event = new Event('input', { bubbles: true });
+          inputRef.current.dispatchEvent(event);
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    } else {
+      setShowDropdown(false);
+    }
+  }, [asideType, searchValue]);
 
   // Keyboard navigation handler
   const handleKeyDown = (e, total) => {
@@ -133,60 +154,67 @@ function SearchAside() {
       <Aside type="search" heading="SEARCH">
         <div className="predictive-search">
           <SearchFormPredictive>
-            {({inputRef, fetchResults}) => (
-              <div style={{position: 'relative', width: '80%', margin: '0 auto'}}>
-                <input
-                  id="predictive-search-input"
-                  name="q"
-                  placeholder="Search"
-                  ref={inputRef}
-                  type="search"
-                  value={searchValue}
-                  role="combobox"
-                  aria-expanded={searchValue.length > 0}
-                  aria-controls={resultsId}
-                  aria-owns={resultsId}
-                  aria-autocomplete="list"
-                  aria-activedescendant={activeDescendant}
-                  autoComplete="off"
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  spellCheck="false"
-                  onChange={(e) => {
-                    setSearchValue(e.target.value);
-                    fetchResults(e);
-                    setSelectedIndex(-1);
-                  }}
-                  onKeyDown={(e) => {
-                    // Get total from dropdown
-                    const total = dropdownRef.current?.querySelectorAll('[role="option"]').length || 0;
-                    handleKeyDown(e, total);
-                  }}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '12px',
-                    color: '#fff',
-                    padding: '0.6em 2.5em 0.6em 1.2em',
-                    fontSize: '1rem',
-                    width: '100%',
-                    boxSizing: 'border-box',
-                    outline: 'none'
-                  }}
-                />
-                {searchValue && (
-                  <button
-                    type="button"
-                    aria-label="Clear search"
-                    onClick={() => {
-                      setSearchValue('');
+            {({inputRef: formInputRef, fetchResults}) => {
+              // Store ref for use in useEffect
+              if (formInputRef.current) {
+                inputRef.current = formInputRef.current;
+              }
+
+              return (
+                <div style={{position: 'relative', width: '80%', margin: '0 auto'}}>
+                  <input
+                    id="predictive-search-input"
+                    name="q"
+                    placeholder="Search"
+                    ref={formInputRef}
+                    type="search"
+                    value={searchValue}
+                    role="combobox"
+                    aria-expanded={searchValue.length > 0}
+                    aria-controls={resultsId}
+                    aria-owns={resultsId}
+                    aria-autocomplete="list"
+                    aria-activedescendant={activeDescendant}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
+                    onChange={(e) => {
+                      setSearchValue(e.target.value);
+                      fetchResults(e);
                       setSelectedIndex(-1);
-                      if (inputRef.current) {
-                        inputRef.current.value = '';
-                        inputRef.current.focus();
-                      }
                     }}
+                    onKeyDown={(e) => {
+                      // Get total from dropdown
+                      const total = dropdownRef.current?.querySelectorAll('[role="option"]').length || 0;
+                      handleKeyDown(e, total);
+                    }}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '12px',
+                      color: '#fff',
+                      padding: '0.6em 2.5em 0.6em 1.2em',
+                      fontSize: '1rem',
+                      width: '100%',
+                      boxSizing: 'border-box',
+                      outline: 'none'
+                    }}
+                  />
+                  {searchValue && (
+                    <button
+                      type="button"
+                      aria-label="Clear search"
+                      onClick={() => {
+                        setSearchValue('');
+                        setSelectedIndex(-1);
+                        setShowDropdown(false);
+                        if (formInputRef.current) {
+                          formInputRef.current.value = '';
+                          formInputRef.current.focus();
+                        }
+                      }}
                     style={{
                       position: 'absolute',
                       right: '12px',
@@ -209,14 +237,15 @@ function SearchAside() {
                   >
                     ×
                   </button>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              );
+            }}
           </SearchFormPredictive>
         </div>
       </Aside>
 
-      {asideType === 'search' && searchValue && (
+      {asideType === 'search' && searchValue && showDropdown && (
         <div
           ref={dropdownRef}
           id={resultsId}
@@ -262,20 +291,21 @@ function SearchAside() {
                     selectedIndex={selectedIndex}
                   />
 
-                  {/* Always show "View results" button when there's a search term */}
-                  {term.current && (
+                  {/* Always show "View results" button when there's text in search box */}
+                  {searchValue && (
                     <Link
-                      to={`${SEARCH_ENDPOINT}?q=${term.current}`}
+                      to={`${SEARCH_ENDPOINT}?q=${searchValue}`}
                       onClick={() => {
                         setSearchValue('');
                         setSelectedIndex(-1);
+                        setShowDropdown(false);
                       }}
                     >
                       <p>
                         <span>
                           {total > 0
-                            ? `View all results for "${term.current}"`
-                            : `Search for "${term.current}"`}
+                            ? `View all results for "${searchValue}"`
+                            : `Search for "${searchValue}"`}
                         </span>
                         <span>→</span>
                       </p>
