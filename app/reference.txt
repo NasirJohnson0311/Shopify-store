@@ -1,0 +1,129 @@
+what about this?
+
+<div class="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="Search">
+      <div class="modal-overlay"></div>
+      <div class="search-modal__content search-modal__content-bottom" tabindex="-1"><predictive-search class="search-modal__form" data-loading-text="Loading..." results="true" open="true"><form action="/search" method="get" role="search" class="search search-modal__form">
+              <div class="field">
+                <input class="search__input field__input" id="Search-In-Modal" type="search" name="q" value="" placeholder="Search" role="combobox" aria-expanded="true" aria-owns="predictive-search-results" aria-controls="predictive-search-results" aria-haspopup="listbox" aria-autocomplete="list" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" aria-activedescendant="">
+                <label class="field__label" for="Search-In-Modal">Search</label>
+                <input type="hidden" name="options[prefix]" value="last">
+                <button type="reset" class="reset__button field__button" aria-label="Clear search term">
+                  <svg class="icon icon-close" aria-hidden="true" focusable="false">
+                    <use xlink:href="#icon-reset">
+                  </use></svg>
+                </button>
+                <button class="search__button field__button" aria-label="Search">
+                  <svg class="icon icon-search" aria-hidden="true" focusable="false">
+                    <use href="#icon-search">
+                  </use></svg>
+                </button>
+              </div><div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search="" style="max-height: 1139.8px;">
+
+  <div id="predictive-search-results" role="listbox"><div id="predictive-search-results-groups-wrapper" class="predictive-search__results-groups-wrapper"><div class="predictive-search__result-group"><div>
+          <h2 id="predictive-search-queries" class="predictive-search__heading text-body caption-with-letter-spacing">Suggestions</h2>
+          <ul id="predictive-search-results-queries-list" class="predictive-search__results-list list-unstyled" role="group" aria-labelledby="predictive-search-queries"><li id="predictive-search-option-query-1" class="predictive-search__list-item" role="option" aria-selected="false">
+                <a href="/search?q=shirts&amp;_pos=1&amp;_psq=s&amp;_ss=e&amp;_v=1.0" class="predictive-search__item link link--text" tabindex="-1">
+                  <div class="predictive-search__item-content predictive-search__item-content--centered">
+                    <p class="predictive-search__item-heading predictive-search__item-query-result h5" aria-label="shirts"><mark>s</mark><span>hirts</span></p>
+                  </div>
+                </a>
+              </li><li id="predictive-search-option-query-2" class="predictive-search__list-item" role="option" aria-selected="false">
+                <a href="/search?q=tee+shirts&amp;_pos=2&amp;_psq=s&amp;_ss=e&amp;_v=1.0" class="predictive-search__item link link--text" tabindex="-1">
+                  <div class="predictive-search__item-content predictive-search__item-content--centered">
+                    <p class="predictive-search__item-heading predictive-search__item-query-result h5" aria-label="tee shirts"><span>tee </span><mark>s</mark><span>hirts</span></p>
+                  </div>
+                </a>
+              </li><li id="predictive-search-option-query-3" class="predictive-search__list-item" role="option" aria-selected="false">
+                <a href="/search?q=sweatpants&amp;_pos=3&amp;_psq=s&amp;_ss=e&amp;_v=1.0" class="predictive-search__item link link--text" tabindex="-1">
+                  <div class="predictive-search__item-content predictive-search__item-content--centered">
+                    <p class="predictive-search__item-heading predictive-search__item-query-result h5" aria-label="sweatpants"><mark>s</mark><span>weatpants</span></p>
+                  </div>
+                </a>
+              </li><li id="predictive-search-option-collection-1" class="predictive-search__list-item" role="option" aria-selected="false">
+                <a href="/collections/shorts-1?_pos=1&amp;_psq=s&amp;_ss=e&amp;_v=1.0" class="predictive-search__item link link--text" tabindex="-1">
+                  <div class="predictive-search__item-content predictive-search__item-content--centered">
+                    <p class="predictive-search__item-heading h5">Shorts</p>
+                  </div>
+                </a>
+              </li><li id="predictive-search-option-collection-2" class="predictive-search__list-item" role="option" aria-selected="false">
+                <a href="/collections/sweatpants?_pos=2&amp;_psq=s&amp;_ss=e&amp;_v=1.0" class="predictive-search__item link link--text" tabindex="-1">
+                  <div class="predictive-search__item-content predictive-search__item-content--centered">
+                    <p class="predictive-search__item-heading h5">SWEATPANTS</p>
+                  </div>
+                </a>
+              </li></ul>
+        </div><div class="predictive-search__pages-wrapper">
+          <h2 id="predictive-search-pages-desktop" class="predictive-search__heading text-body caption-with-letter-spacing">Pages</h2>
+          <ul id="predictive-search-results-pages-list-desktop" class="predictive-search__results-list list-unstyled" role="group" aria-labelledby="predictive-search-pages-desktop"><li id="predictive-search-option-page-desktop-1" class="predictive-search__list-item" role="option" aria-selected="false">
+                <a href="/pages/size-guide?_pos=1&amp;_psq=s&amp;_ss=e&amp;_v=1.0" class="predictive-search__item link link--text" tabindex="-1">
+                  <div class="predictive-search__item-content predictive-search__item-content--centered">
+                    <p class="predictive-search__item-heading h5">STACK DENIM SIZE GUIDE</p>
+                  </div>
+                </a>
+              </li><li id="predictive-search-option-page-desktop-2" class="predictive-search__list-item" role="option" aria-selected="false">
+                <a href="/pages/stores?_pos=2&amp;_psq=s&amp;_ss=e&amp;_v=1.0" class="predictive-search__item link link--text" tabindex="-1">
+                  <div class="predictive-search__item-content predictive-search__item-content--centered">
+                    <p class="predictive-search__item-heading h5">STORES</p>
+                  </div>
+                </a>
+              </li></ul>
+        </div></div><div class="predictive-search__result-group"><div>
+              <h2 id="predictive-search-products" class="predictive-search__heading text-body caption-with-letter-spacing">Products</h2>
+              <ul id="predictive-search-results-products-list" class="predictive-search__results-list list-unstyled" role="group" aria-labelledby="predictive-search-products"><li id="predictive-search-option-product-1" class="predictive-search__list-item" role="option" aria-selected="false">
+                    <a href="/products/sacrifice-tee?_pos=1&amp;_psq=s&amp;_ss=e&amp;_v=1.0&amp;variant=53561005441396" class="predictive-search__item predictive-search__item--link-with-thumbnail link link--text" tabindex="-1"><img class="predictive-search__image" src="//www.valeforever.com/cdn/shop/files/2510_VALLEY-DREAMS_CRUCIFIX-CARRY_SS-TEE_TAN_001.jpg?v=1761246177&amp;width=150" alt="" width="50" height="62.5"><div class="predictive-search__item-content predictive-search__item-content--centered"><p class="predictive-search__item-heading h5">SACRIFICE TEE
+                        </p></div>
+                    </a>
+                  </li><li id="predictive-search-option-product-2" class="predictive-search__list-item" role="option" aria-selected="false">
+                    <a href="/products/sun-cluster-zip-up?_pos=2&amp;_psq=s&amp;_ss=e&amp;_v=1.0&amp;variant=52927730450804" class="predictive-search__item predictive-search__item--link-with-thumbnail link link--text" tabindex="-1"><img class="predictive-search__image" src="//www.valeforever.com/cdn/shop/files/2508_VALLEY-CREST_GALAXY-JEWELED_LS-HOODIE_YLLW_001.jpg?v=1754408078&amp;width=150" alt="" width="50" height="62.5"><div class="predictive-search__item-content predictive-search__item-content--centered"><p class="predictive-search__item-heading h5">SUN CLUSTER ZIP UP
+                        </p></div>
+                    </a>
+                  <div class="nm-portal"><button type="button" class="restock-alerts-notify-button LANDING_PAGES-notify-button notifyButtonStyle btn btn--add-to-cart btn--secondary-accent btn button Button button-primary Button-primary button--primary Button--primary" style="justify-content: center; display: flex !important; align-items: center !important;">NOTIFY ME WHEN AVAILABLE</button></div><div class="nm-portal"><button type="button" class="restock-alerts-notify-button LANDING_PAGES-notify-button notifyButtonStyle btn btn--add-to-cart btn--secondary-accent btn button Button button-primary Button-primary button--primary Button--primary" style="justify-content: center; display: flex !important; align-items: center !important;">NOTIFY ME WHEN AVAILABLE</button></div></li><li id="predictive-search-option-product-3" class="predictive-search__list-item" role="option" aria-selected="false">
+                    <a href="/products/skittle-sweats-black?_pos=3&amp;_psq=s&amp;_ss=e&amp;_v=1.0&amp;variant=53125274042740" class="predictive-search__item predictive-search__item--link-with-thumbnail link link--text" tabindex="-1"><img class="predictive-search__image" src="//www.valeforever.com/cdn/shop/files/2508_VALLEY-DREAMS_VALLEY-WORDMARK_SWEATPANT_JEWELED-BLK_001.jpg?v=1756914365&amp;width=150" alt="" width="50" height="62.5"><div class="predictive-search__item-content predictive-search__item-content--centered"><p class="predictive-search__item-heading h5">SKITTLE SWEATS [BLACK]
+                        </p></div>
+                    </a>
+                  </li></ul>
+            </div><div class="predictive-search__pages-wrapper">
+              <h2 id="predictive-search-pages-mobile" class="predictive-search__heading text-body caption-with-letter-spacing">Pages</h2>
+              <ul id="predictive-search-results-pages-list-mobile" class="predictive-search__results-list list-unstyled" role="group" aria-labelledby="predictive-search-pages-mobile"><li id="predictive-search-option-page-mobile-1" class="predictive-search__list-item" role="option" aria-selected="false">
+                    <a href="/pages/size-guide?_pos=1&amp;_psq=s&amp;_ss=e&amp;_v=1.0" class="predictive-search__item link link--text" tabindex="-1">
+                      <div class="predictive-search__item-content predictive-search__item-content--centered">
+                        <p class="predictive-search__item-heading h5">STACK DENIM SIZE GUIDE</p>
+                      </div>
+                    </a>
+                  </li><li id="predictive-search-option-page-mobile-2" class="predictive-search__list-item" role="option" aria-selected="false">
+                    <a href="/pages/stores?_pos=2&amp;_psq=s&amp;_ss=e&amp;_v=1.0" class="predictive-search__item link link--text" tabindex="-1">
+                      <div class="predictive-search__item-content predictive-search__item-content--centered">
+                        <p class="predictive-search__item-heading h5">STORES</p>
+                      </div>
+                    </a>
+                  </li></ul>
+            </div></div></div><div class="predictive-search__loading-state" aria-hidden="true">
+      <svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+      </svg>
+    </div>
+
+    <div id="predictive-search-option-search-keywords" class="predictive-search__search-for-button">
+      <button class="predictive-search__item predictive-search__item--term link link--text h5 animate-arrow" tabindex="-1" role="option" aria-selected="false">
+        <span data-predictive-search-search-for-text="">Search for “s”</span>
+        <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor">
+</path></svg>
+
+      </button>
+    </div>
+  </div>
+
+  <span class="hidden" data-predictive-search-live-region-count-value="">
+    10 results: 5 suggestions, 2 pages, 3 products
+  </span></div>
+
+                <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true">
+    10 results: 5 suggestions, 2 pages, 3 products
+  </span></form></predictive-search><button type="button" class="search-modal__close-button modal__close-button link link--text focus-inset" aria-label="Close">
+          <svg class="icon icon-close" aria-hidden="true" focusable="false">
+            <use href="#icon-close">
+          </use></svg>
+        </button>
+      </div>
+    </div>

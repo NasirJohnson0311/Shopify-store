@@ -13,7 +13,7 @@ import {useAside} from './Aside';
  */
 export function SearchResultsPredictive({children}) {
   const aside = useAside();
-  const {term, inputRef, fetcher, total, items} = usePredictiveSearch();
+  const {term, inputRef, fetcher, total, items, isInitialSearch} = usePredictiveSearch();
 
   /*
    * Utility that resets the search input
@@ -40,6 +40,7 @@ export function SearchResultsPredictive({children}) {
     state: fetcher.state,
     term,
     total,
+    isInitialSearch,
   });
 }
 
@@ -87,16 +88,22 @@ function SearchResultsPredictiveArticles({articles}) {
 /**
  * @param {PartialPredictiveSearchResult<'collections'>}
  */
-function SearchResultsPredictiveCollections({collections}) {
+function SearchResultsPredictiveCollections({collections, selectedIndex = -1}) {
   if (!collections.length) return null;
 
   return (
     <div className="predictive-search-result" key="collections">
-      <h5>Collections</h5>
-      <ul>
-        {collections.map((collection) => (
-          <li className="predictive-search-result-item" key={collection.id}>
-            <Link to={`/collections/${collection.handle}`}>
+      <h5 id="predictive-search-collections">Collections</h5>
+      <ul role="group" aria-labelledby="predictive-search-collections">
+        {collections.map((collection, index) => (
+          <li
+            className="predictive-search-result-item"
+            key={collection.id}
+            id={`predictive-search-option-collection-${index}`}
+            role="option"
+            aria-selected={false}
+          >
+            <Link to={`/collections/${collection.handle}`} role="option" tabIndex={-1}>
               {collection.image && (
                 <div className="predictive-search-image-wrapper">
                   <Image
@@ -121,16 +128,22 @@ function SearchResultsPredictiveCollections({collections}) {
 /**
  * @param {PartialPredictiveSearchResult<'pages'>}
  */
-function SearchResultsPredictivePages({pages}) {
+function SearchResultsPredictivePages({pages, selectedIndex = -1}) {
   if (!pages.length) return null;
 
   return (
     <div className="predictive-search-result" key="pages">
-      <h5>Pages</h5>
-      <ul>
-        {pages.map((page) => (
-          <li className="predictive-search-result-item" key={page.id}>
-            <Link to={`/pages/${page.handle}`}>
+      <h5 id="predictive-search-pages">Pages</h5>
+      <ul role="group" aria-labelledby="predictive-search-pages">
+        {pages.map((page, index) => (
+          <li
+            className="predictive-search-result-item"
+            key={page.id}
+            id={`predictive-search-option-page-${index}`}
+            role="option"
+            aria-selected={false}
+          >
+            <Link to={`/pages/${page.handle}`} role="option" tabIndex={-1}>
               <div>
                 <span>{page.title}</span>
               </div>
@@ -145,14 +158,14 @@ function SearchResultsPredictivePages({pages}) {
 /**
  * @param {PartialPredictiveSearchResult<'products'>}
  */
-function SearchResultsPredictiveProducts({products}) {
+function SearchResultsPredictiveProducts({products, selectedIndex = -1}) {
   if (!products.length) return null;
 
   return (
     <div className="predictive-search-result" key="products">
-      <h5>Products</h5>
-      <ul>
-        {products.map((product) => {
+      <h5 id="predictive-search-products">Products</h5>
+      <ul role="group" aria-labelledby="predictive-search-products">
+        {products.map((product, index) => {
           const price = product?.selectedOrFirstAvailableVariant?.price;
           const image = product?.selectedOrFirstAvailableVariant?.image;
           const isSkateboard = product.productType === 'Skateboard Decks' ||
@@ -162,8 +175,14 @@ function SearchResultsPredictiveProducts({products}) {
           const itemClass = isSkateboard ? 'predictive-search-result-item predictive-search-skateboard' : 'predictive-search-result-item';
 
           return (
-            <li className={itemClass} key={product.id}>
-              <Link to={`/products/${product.handle}`}>
+            <li
+              className={itemClass}
+              key={product.id}
+              id={`predictive-search-option-product-${index}`}
+              role="option"
+              aria-selected={false}
+            >
+              <Link to={`/products/${product.handle}`} role="option" tabIndex={-1}>
                 {image && (
                   <div className="predictive-search-image-wrapper">
                     <Image
@@ -224,9 +243,10 @@ function SearchResultsPredictiveEmpty({term}) {
 
 /**
  * Hook that returns the predictive search results and fetcher and input ref.
+ * Implements optimistic UI by caching previous results while loading new ones.
  * @example
  * '''ts
- * const { items, total, inputRef, term, fetcher } = usePredictiveSearch();
+ * const { items, total, inputRef, term, fetcher, isInitialSearch } = usePredictiveSearch();
  * '''
  * @return {UsePredictiveSearchReturn}
  */
@@ -235,11 +255,20 @@ function usePredictiveSearch() {
   const term = useRef('');
   const inputRef = useRef(null);
 
+  // Cache previous results for optimistic UI
+  const cachedResults = useRef(getEmptyPredictiveSearchResult());
+  const hasSearchedBefore = useRef(false);
+
   const currentTerm = String(fetcher.formData?.get('q') || '');
   if (fetcher?.state === 'loading') {
     term.current = currentTerm;
   }
-  
+
+  // Update cache when new results arrive
+  if (fetcher?.data?.result && fetcher.state === 'idle') {
+    cachedResults.current = fetcher.data.result;
+    hasSearchedBefore.current = true;
+  }
 
   // capture the search input element as a ref
   useEffect(() => {
@@ -248,10 +277,16 @@ function usePredictiveSearch() {
     }
   }, []);
 
+  // Use cached results while loading new ones (optimistic UI)
+  // Only show empty results if this is the very first search
   const {items, total} =
-    fetcher?.data?.result ?? getEmptyPredictiveSearchResult();
+    fetcher.state === 'loading' && hasSearchedBefore.current
+      ? cachedResults.current
+      : fetcher?.data?.result ?? cachedResults.current;
 
-  return {items, total, inputRef, term, fetcher};
+  const isInitialSearch = fetcher.state === 'loading' && !hasSearchedBefore.current;
+
+  return {items, total, inputRef, term, fetcher, isInitialSearch};
 }
 
 /** @typedef {PredictiveSearchReturn['result']['items']} PredictiveSearchItems */
@@ -262,6 +297,7 @@ function usePredictiveSearch() {
  *   inputRef: React.MutableRefObject<HTMLInputElement | null>;
  *   items: PredictiveSearchItems;
  *   fetcher: Fetcher<PredictiveSearchReturn>;
+ *   isInitialSearch: boolean;
  * }} UsePredictiveSearchReturn
  */
 /**
@@ -271,6 +307,7 @@ function usePredictiveSearch() {
  * > & {
  *   state: Fetcher['state'];
  *   closeSearch: () => void;
+ *   isInitialSearch: boolean;
  * }} SearchResultsPredictiveArgs
  */
 /**

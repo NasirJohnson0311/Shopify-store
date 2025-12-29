@@ -536,8 +536,14 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
   z-index: 201;
   max-height: 60vh;
   overflow-y: auto;
-  transition: opacity 200ms ease-in-out;
   color: white;
+  /* Optimized for perceived speed - instant appearance */
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  /* GPU acceleration hints */
+  will-change: contents;
+  backface-visibility: hidden;
 }
 
 /* Search results dropdown on search results page */
@@ -563,16 +569,57 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
   color: white;
 }
 
+/* Remove hidden/visible classes - dropdown visibility now controlled by conditional rendering */
 .search-results-dropdown.hidden {
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
+  display: none;
 }
 
 .search-results-dropdown.visible {
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
+  display: block;
+}
+
+/* Visually hidden for screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Subtle loading indicator - thin animated bar at top of dropdown */
+.search-loading-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.search-loading-bar {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  animation: loading-slide 1s ease-in-out infinite;
+  transform-origin: left;
+}
+
+@keyframes loading-slide {
+  0% {
+    transform: translateX(-100%) scaleX(0.3);
+  }
+  50% {
+    transform: translateX(0%) scaleX(0.8);
+  }
+  100% {
+    transform: translateX(100%) scaleX(0.3);
+  }
 }
 
 @media (max-width: 900px) {
@@ -1215,10 +1262,12 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
   padding: 0.75rem 0 0.75rem 1rem;
   text-decoration: none;
-  transition: background-color 0.2s ease;
+  /* Faster transition for snappier feel */
+  transition: background-color 0.1s ease;
 }
 
-.predictive-search-result-item a:hover {
+.predictive-search-result-item a:hover,
+.predictive-search-result-item[aria-selected="true"] a {
   background-color: #2a2a2a;
   text-decoration: none;
 }

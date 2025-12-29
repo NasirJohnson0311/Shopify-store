@@ -65,20 +65,68 @@ function CartAside({cart}) {
 
 function SearchAside() {
   const queriesDatalistId = useId();
+  const resultsId = useId();
   const location = useLocation();
   const {close: closeAside, type: asideType} = useAside();
   const prevPathnameRef = useRef(location.pathname);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [activeDescendant, setActiveDescendant] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const dropdownRef = useRef(null);
 
   // Close aside when pathname changes (user navigated to a new page)
   useEffect(() => {
     if (prevPathnameRef.current !== location.pathname && asideType === 'search') {
       closeAside();
-      setShowDropdown(false);
+      setSearchValue('');
+      setSelectedIndex(-1);
     }
     prevPathnameRef.current = location.pathname;
   }, [location.pathname, asideType, closeAside]);
+
+  // Keyboard navigation handler
+  const handleKeyDown = (e, total) => {
+    if (!total || total === 0) return;
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setSelectedIndex((prev) => (prev < total - 1 ? prev + 1 : prev));
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
+        break;
+      case 'Escape':
+        e.preventDefault();
+        setSearchValue('');
+        setSelectedIndex(-1);
+        closeAside();
+        break;
+      case 'Enter':
+        if (selectedIndex >= 0 && dropdownRef.current) {
+          e.preventDefault();
+          // Find all result links
+          const links = dropdownRef.current.querySelectorAll('a[role="option"]');
+          if (links[selectedIndex]) {
+            links[selectedIndex].click();
+          }
+        }
+        break;
+    }
+  };
+
+  // Update aria-activedescendant when selection changes
+  useEffect(() => {
+    if (selectedIndex >= 0 && dropdownRef.current) {
+      const options = dropdownRef.current.querySelectorAll('[role="option"]');
+      if (options[selectedIndex]) {
+        setActiveDescendant(options[selectedIndex].id || '');
+      }
+    } else {
+      setActiveDescendant('');
+    }
+  }, [selectedIndex]);
 
   return (
     <>
@@ -88,24 +136,31 @@ function SearchAside() {
             {({inputRef, fetchResults}) => (
               <div style={{position: 'relative', width: '80%', margin: '0 auto'}}>
                 <input
+                  id="predictive-search-input"
                   name="q"
                   placeholder="Search"
                   ref={inputRef}
                   type="search"
                   value={searchValue}
+                  role="combobox"
+                  aria-expanded={searchValue.length > 0}
+                  aria-controls={resultsId}
+                  aria-owns={resultsId}
+                  aria-autocomplete="list"
+                  aria-activedescendant={activeDescendant}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                   onChange={(e) => {
                     setSearchValue(e.target.value);
                     fetchResults(e);
-                    setShowDropdown(true);
+                    setSelectedIndex(-1);
                   }}
-                  onFocus={(e) => {
-                    if (e.target.value) {
-                      fetchResults(e);
-                      setShowDropdown(true);
-                    }
-                  }}
-                  onBlur={() => {
-                    setTimeout(() => setShowDropdown(false), 200);
+                  onKeyDown={(e) => {
+                    // Get total from dropdown
+                    const total = dropdownRef.current?.querySelectorAll('[role="option"]').length || 0;
+                    handleKeyDown(e, total);
                   }}
                   style={{
                     background: 'rgba(255, 255, 255, 0.05)',
@@ -123,8 +178,10 @@ function SearchAside() {
                 {searchValue && (
                   <button
                     type="button"
+                    aria-label="Clear search"
                     onClick={() => {
                       setSearchValue('');
+                      setSelectedIndex(-1);
                       if (inputRef.current) {
                         inputRef.current.value = '';
                         inputRef.current.focus();
@@ -159,44 +216,55 @@ function SearchAside() {
         </div>
       </Aside>
 
-      {asideType === 'search' && (
-        <div className={`search-results-dropdown ${showDropdown ? 'visible' : 'hidden'}`}>
+      {asideType === 'search' && searchValue && (
+        <div
+          ref={dropdownRef}
+          id={resultsId}
+          className="search-results-dropdown visible"
+          role="listbox"
+        >
           <SearchResultsPredictive>
-            {({items, total, term, state}) => {
+            {({items, total, term, state, isInitialSearch}) => {
               const {articles, collections, pages, products, queries} = items;
 
-              // Don't render anything if no search term yet
-              if (!term.current) {
-                return null;
+              // Only show "Searching..." on the very first search (no previous results)
+              if (isInitialSearch) {
+                return <p style={{padding: '1rem', margin: 0}}>Searching...</p>;
               }
 
-              // Show loading state
-              if (state === 'loading') {
-                return <p>Searching...</p>;
-              }
-
-              // Show empty state if no results
-              if (!total) {
+              // Show empty state if no results (and not loading)
+              if (!total && state === 'idle') {
                 return <SearchResultsPredictive.Empty term={term} />;
               }
 
               return (
                 <>
+                  {/* Subtle loading indicator at the top - doesn't disrupt results */}
+                  {state === 'loading' && (
+                    <div className="search-loading-indicator">
+                      <div className="search-loading-bar"></div>
+                    </div>
+                  )}
+
                   <SearchResultsPredictive.Queries
                     queries={queries}
                     queriesDatalistId={queriesDatalistId}
                   />
                   <SearchResultsPredictive.Products
                     products={products}
+                    selectedIndex={selectedIndex}
                   />
                   <SearchResultsPredictive.Collections
                     collections={collections}
+                    selectedIndex={selectedIndex}
                   />
                   <SearchResultsPredictive.Pages
                     pages={pages}
+                    selectedIndex={selectedIndex}
                   />
                   <SearchResultsPredictive.Articles
                     articles={articles}
+                    selectedIndex={selectedIndex}
                   />
                   {term.current && total ? (
                     <Link to={`${SEARCH_ENDPOINT}?q=${term.current}`}>
@@ -206,6 +274,14 @@ function SearchAside() {
                       </p>
                     </Link>
                   ) : null}
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    className="visually-hidden"
+                  >
+                    {state === 'loading' ? 'Updating results' : `${total} results found`}
+                  </div>
                 </>
               );
             }}

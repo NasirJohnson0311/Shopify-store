@@ -141,11 +141,19 @@ export default function SearchPage() {
               <>
                 <div style={{position: 'relative', width: '80%', maxWidth: '800px'}}>
                   <input
+                    id="search-results-page-input"
                     value={searchValue}
                     name="q"
                     placeholder="Search"
                     ref={inputRef}
                     type="search"
+                    role="combobox"
+                    aria-expanded={showDropdown && searchValue.length > 0}
+                    aria-autocomplete="list"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
                     style={{
                       background: 'rgba(255, 255, 255, 0.05)',
                       backdropFilter: 'blur(20px)',
@@ -182,8 +190,10 @@ export default function SearchPage() {
                   {searchValue && (
                     <button
                       type="button"
+                      aria-label="Clear search"
                       onClick={() => {
                         setSearchValue('');
+                        setShowDropdown(false);
                         if (inputRef.current) {
                           inputRef.current.value = '';
                           inputRef.current.focus();
@@ -213,19 +223,39 @@ export default function SearchPage() {
                     </button>
                   )}
                 </div>
-                {fetcher?.state === 'loading' && showDropdown ? (
-                  <div className="search-results-dropdown visible">
-                    <p>Searching...</p>
-                  </div>
-                ) : (
+                {/* Optimistic UI - show previous results while loading new ones */}
+                {showDropdown && searchValue && (
                   <SearchResultsPredictive goToSearch={goToSearch}>
-                    {({items, total}) => (
-                      <div className={`search-results-dropdown ${total > 0 && showDropdown ? 'visible' : 'hidden'}`}>
-                        <SearchResultsPredictive.Products products={items.products} closeSearch={goToSearch} term={term} />
-                        <SearchResultsPredictive.Pages pages={items.pages} closeSearch={goToSearch} term={term} />
-                        <SearchResultsPredictive.Articles articles={items.articles} closeSearch={goToSearch} term={term} />
-                      </div>
-                    )}
+                    {({items, total, state, isInitialSearch}) => {
+                      // Only show "Searching..." on the very first search
+                      if (isInitialSearch) {
+                        return (
+                          <div className="search-results-dropdown visible">
+                            <p style={{padding: '1rem', margin: 0}}>Searching...</p>
+                          </div>
+                        );
+                      }
+
+                      // Don't show dropdown if no results and not loading
+                      if (total === 0 && state === 'idle') {
+                        return null;
+                      }
+
+                      return (
+                        <div className="search-results-dropdown visible">
+                          {/* Subtle loading indicator at the top - doesn't disrupt results */}
+                          {state === 'loading' && (
+                            <div className="search-loading-indicator">
+                              <div className="search-loading-bar"></div>
+                            </div>
+                          )}
+
+                          <SearchResultsPredictive.Products products={items.products} closeSearch={goToSearch} term={term} />
+                          <SearchResultsPredictive.Pages pages={items.pages} closeSearch={goToSearch} term={term} />
+                          <SearchResultsPredictive.Articles articles={items.articles} closeSearch={goToSearch} term={term} />
+                        </div>
+                      );
+                    }}
                   </SearchResultsPredictive>
                 )}
               </>
