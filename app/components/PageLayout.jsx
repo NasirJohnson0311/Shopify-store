@@ -232,11 +232,6 @@ function SearchAside() {
                 return <p style={{padding: '1rem', margin: 0}}>Searching...</p>;
               }
 
-              // Show empty state if no results (and not loading)
-              if (!total && state === 'idle') {
-                return <SearchResultsPredictive.Empty term={term} />;
-              }
-
               return (
                 <>
                   {/* Subtle loading indicator at the top - doesn't disrupt results */}
@@ -266,14 +261,27 @@ function SearchAside() {
                     articles={articles}
                     selectedIndex={selectedIndex}
                   />
-                  {term.current && total ? (
-                    <Link to={`${SEARCH_ENDPOINT}?q=${term.current}`}>
+
+                  {/* Always show "View results" button when there's a search term */}
+                  {term.current && (
+                    <Link
+                      to={`${SEARCH_ENDPOINT}?q=${term.current}`}
+                      onClick={() => {
+                        setSearchValue('');
+                        setSelectedIndex(-1);
+                      }}
+                    >
                       <p>
-                        <span>View all results for <q>{term.current}</q></span>
+                        <span>
+                          {total > 0
+                            ? `View all results for "${term.current}"`
+                            : `Search for "${term.current}"`}
+                        </span>
                         <span>→</span>
                       </p>
                     </Link>
-                  ) : null}
+                  )}
+
                   <div
                     role="status"
                     aria-live="polite"

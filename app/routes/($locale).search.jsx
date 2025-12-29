@@ -1,8 +1,8 @@
-import {useLoaderData, useSearchParams} from 'react-router';
+import {useLoaderData, useSearchParams, Link} from 'react-router';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
 import {useEffect, useRef, useState} from 'react';
 import {SearchForm} from '~/components/SearchForm';
-import {SearchFormPredictive} from '~/components/SearchFormPredictive';
+import {SearchFormPredictive, SEARCH_ENDPOINT} from '~/components/SearchFormPredictive';
 import {SearchResults} from '~/components/SearchResults';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
 import {getEmptyPredictiveSearchResult} from '~/lib/search';
@@ -127,7 +127,7 @@ export default function SearchPage() {
   if (type === 'predictive') return null;
 
   return (
-    <div className="search">
+    <div className="search" style={{minHeight: 'calc(100vh - var(--header-height, 80px))'}}>
       <h1>Search Results</h1>
       <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px', position: 'relative'}}>
         <SearchFormPredictive style={{width: '100%', maxWidth: '1400px', display: 'flex', justifyContent: 'center', padding: '0 20px', boxSizing: 'border-box', position: 'relative'}}>
@@ -226,7 +226,7 @@ export default function SearchPage() {
                 {/* Optimistic UI - show previous results while loading new ones */}
                 {showDropdown && searchValue && (
                   <SearchResultsPredictive goToSearch={goToSearch}>
-                    {({items, total, state, isInitialSearch}) => {
+                    {({items, total, state, isInitialSearch, term}) => {
                       // Only show "Searching..." on the very first search
                       if (isInitialSearch) {
                         return (
@@ -234,11 +234,6 @@ export default function SearchPage() {
                             <p style={{padding: '1rem', margin: 0}}>Searching...</p>
                           </div>
                         );
-                      }
-
-                      // Don't show dropdown if no results and not loading
-                      if (total === 0 && state === 'idle') {
-                        return null;
                       }
 
                       return (
@@ -253,6 +248,25 @@ export default function SearchPage() {
                           <SearchResultsPredictive.Products products={items.products} closeSearch={goToSearch} term={term} />
                           <SearchResultsPredictive.Pages pages={items.pages} closeSearch={goToSearch} term={term} />
                           <SearchResultsPredictive.Articles articles={items.articles} closeSearch={goToSearch} term={term} />
+
+                          {/* Always show "View results" button when there's a search term */}
+                          {searchValue && (
+                            <Link
+                              to={`${SEARCH_ENDPOINT}?q=${searchValue}`}
+                              onClick={() => {
+                                setShowDropdown(false);
+                              }}
+                            >
+                              <p>
+                                <span>
+                                  {total > 0
+                                    ? `View all results for "${searchValue}"`
+                                    : `Search for "${searchValue}"`}
+                                </span>
+                                <span>→</span>
+                              </p>
+                            </Link>
+                          )}
                         </div>
                       );
                     }}

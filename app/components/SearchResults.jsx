@@ -155,7 +155,20 @@ function SearchResultsProducts({term, products}) {
 }
 
 function SearchResultsEmpty() {
-  return <p>No results, try a different search.</p>;
+  return (
+    <p
+      style={{
+        width: '100%',
+        textAlign: 'center',
+        fontSize: '1.25rem',
+        color: 'rgba(255, 255, 255, 0.9)',
+        margin: '0',
+        paddingTop: '4rem',
+      }}
+    >
+      No results, try a different search.
+    </p>
+  );
 }
 
 /** @typedef {RegularSearchReturn['result']['items']} SearchItems */
