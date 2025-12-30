@@ -1,6 +1,9 @@
-import {useLoaderData, data} from 'react-router';
+import {useLoaderData, data, Await} from 'react-router';
+import {Suspense} from 'react';
 import {CartForm} from '@shopify/hydrogen';
 import {CartMain} from '~/components/CartMain';
+import {ProductItem} from '~/components/ProductItem';
+import {useFadeInOnScroll} from '~/hooks/useFadeInOnScroll';
 
 /**
  * @type {Route.MetaFunction}
@@ -107,24 +110,113 @@ export async function action({request, context}) {
  * @param {Route.LoaderArgs}
  */
 export async function loader({context}) {
-  const {cart} = context;
-  return await cart.get();
+  const {cart, storefront} = context;
+
+  const recommendedProducts = storefront
+    .query(RECOMMENDED_PRODUCTS_QUERY)
+    .catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+  return {
+    cart: await cart.get(),
+    recommendedProducts,
+  };
 }
 
 export default function Cart() {
   /** @type {LoaderReturnData} */
-  const cart = useLoaderData();
+  const {cart, recommendedProducts} = useLoaderData();
 
   return (
-    <div className="cart-page">
-      <div className="cart-header">
-        <h1>Your cart</h1>
-        <a href="/" className="continue-shopping">Continue shopping</a>
+    <>
+      <div className="cart-page">
+        <div className="cart-header">
+          <h1>Your cart</h1>
+          <a href="/" className="continue-shopping">Continue shopping</a>
+        </div>
+        <CartMain layout="page" cart={cart} />
       </div>
-      <CartMain layout="page" cart={cart} />
-    </div>
+      <RecommendedProducts products={recommendedProducts} cart={cart} />
+    </>
   );
 }
+
+function RecommendedProducts({products, cart}) {
+  const [recommendedRef, isRecommendedVisible] = useFadeInOnScroll();
+
+  return (
+    <Suspense fallback={null}>
+      <Await resolve={products}>
+        {(response) => {
+          if (!response?.products?.nodes) {
+            return null;
+          }
+
+          // Get product handles from cart items
+          const cartProductHandles = new Set(
+            cart?.lines?.nodes?.map(line => line.merchandise?.product?.handle).filter(Boolean) || []
+          );
+
+          // Filter out products already in cart
+          const filteredProducts = response.products.nodes
+            .filter((product) => !cartProductHandles.has(product.handle))
+            .slice(0, 4);
+
+          // Hide entire section if no recommendations after filtering
+          if (filteredProducts.length === 0) {
+            return null;
+          }
+
+          return (
+            <div
+              ref={recommendedRef}
+              className={`recommended-products-section fade-in-on-scroll ${isRecommendedVisible ? 'visible' : ''}`}
+            >
+              <h2>You may also like</h2>
+              <div className="recommended-products-grid">
+                {filteredProducts.map((product, index) => (
+                  <ProductItem key={product.id} product={product} index={index} />
+                ))}
+              </div>
+            </div>
+          );
+        }}
+      </Await>
+    </Suspense>
+  );
+}
+
+const RECOMMENDED_PRODUCTS_QUERY = `#graphql
+  fragment RecommendedProduct on Product {
+    id
+    title
+    handle
+    productType
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    featuredImage {
+      id
+      url
+      altText
+      width
+      height
+    }
+  }
+  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    products(first: 8, sortKey: UPDATED_AT, reverse: true) {
+      nodes {
+        ...RecommendedProduct
+      }
+    }
+  }
+`;
 
 /** @typedef {import('react-router').HeadersFunction} HeadersFunction */
 /** @typedef {import('./+types/cart').Route} Route */
