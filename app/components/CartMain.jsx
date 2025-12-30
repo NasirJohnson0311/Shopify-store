@@ -39,7 +39,8 @@ export function CartMain({layout, cart: originalCart}) {
             ))}
           </ul>
         </div>
-        {cartHasItems && <CartSummary cart={cart} layout={layout} />}
+        {/* Only show summary in aside layout - page layout handles it separately */}
+        {cartHasItems && layout === 'aside' && <CartSummary cart={cart} layout={layout} />}
       </div>
     </div>
   );

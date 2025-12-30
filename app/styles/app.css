@@ -2108,13 +2108,29 @@ body:has(.cart-page) canvas {
 }
 
 .cart-page {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem 80px 4rem 80px;
   color: white;
   overflow: visible;
   min-height: auto;
   height: auto;
+}
+
+.cart-page-layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 3rem;
+  align-items: start;
+}
+
+.cart-items-column {
+  min-width: 0;
+}
+
+.cart-summary-column {
+  position: sticky;
+  top: 2rem;
 }
 
 .cart-header {
@@ -2169,6 +2185,15 @@ body:has(.cart-page) canvas {
 @media (max-width: 768px) {
   .cart-page {
     padding: 2rem 20px;
+  }
+
+  .cart-page-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .cart-summary-column {
+    position: static;
   }
   
   .cart-header h1 {

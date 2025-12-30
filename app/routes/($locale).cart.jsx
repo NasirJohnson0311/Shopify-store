@@ -1,7 +1,8 @@
 import {useLoaderData, data, Await} from 'react-router';
 import {Suspense} from 'react';
-import {CartForm} from '@shopify/hydrogen';
+import {CartForm, useOptimisticCart} from '@shopify/hydrogen';
 import {CartMain} from '~/components/CartMain';
+import {CartSummary} from '~/components/CartSummary';
 import {ProductItem} from '~/components/ProductItem';
 import {useFadeInOnScroll} from '~/hooks/useFadeInOnScroll';
 
@@ -127,7 +128,9 @@ export async function loader({context}) {
 
 export default function Cart() {
   /** @type {LoaderReturnData} */
-  const {cart, recommendedProducts} = useLoaderData();
+  const {cart: originalCart, recommendedProducts} = useLoaderData();
+  const cart = useOptimisticCart(originalCart);
+  const cartHasItems = cart?.totalQuantity ? cart.totalQuantity > 0 : false;
 
   return (
     <>
@@ -136,7 +139,16 @@ export default function Cart() {
           <h1>Your cart</h1>
           <a href="/" className="continue-shopping">Continue shopping</a>
         </div>
-        <CartMain layout="page" cart={cart} />
+        <div className="cart-page-layout">
+          <div className="cart-items-column">
+            <CartMain layout="page" cart={cart} />
+          </div>
+          {cartHasItems && (
+            <div className="cart-summary-column">
+              <CartSummary cart={cart} layout="page" />
+            </div>
+          )}
+        </div>
       </div>
       <RecommendedProducts products={recommendedProducts} cart={cart} />
     </>
