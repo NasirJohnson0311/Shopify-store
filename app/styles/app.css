@@ -2096,6 +2096,12 @@ button.reset:hover:not(:has(> *)) {
 * Cart Page Styles
 * --------------------------------------------------
 */
+
+/* Reduce particle opacity on cart page */
+body:has(.cart-page) canvas {
+  opacity: 0.6;
+}
+
 .cart-page {
   max-width: 1200px;
   margin: 0 auto;
