@@ -22,21 +22,26 @@ export function CartSummary({cart, layout}) {
         </dd>
       </dl>
       <p className="cart-tax-shipping-notice">Taxes and shipping calculated at checkout</p>
-      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} layout={layout} />
     </div>
   );
 }
 
 /**
- * @param {{checkoutUrl?: string}}
+ * @param {{checkoutUrl?: string; layout: 'page' | 'aside'}}
  */
-function CartCheckoutActions({checkoutUrl}) {
+function CartCheckoutActions({checkoutUrl, layout}) {
   if (!checkoutUrl) return null;
+
+  // In the aside, show "Review Cart" button that goes to /cart
+  // On the cart page, show "Continue to Checkout" button that goes to checkout
+  const buttonText = layout === 'aside' ? 'Review Cart' : 'Continue to Checkout';
+  const buttonUrl = layout === 'aside' ? '/cart' : checkoutUrl;
 
   return (
     <div className="checkout-button-wrapper">
-      <a href={checkoutUrl} target="_self" className="checkout-button">
-        Continue to Checkout
+      <a href={buttonUrl} target="_self" className="checkout-button">
+        {buttonText}
       </a>
     </div>
   );
