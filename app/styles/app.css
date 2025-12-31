@@ -2121,7 +2121,7 @@ body:has(.cart-page) canvas {
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 3rem;
-  align-items: end;
+  align-items: start;
 }
 
 .cart-items-column {
@@ -2129,7 +2129,10 @@ body:has(.cart-page) canvas {
 }
 
 .cart-summary-column {
-  align-self: end;
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  margin-top: 5.7rem;
 }
 
 .cart-header {
