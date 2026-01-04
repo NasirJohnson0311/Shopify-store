@@ -1,5 +1,5 @@
 import {Await, Link, useLocation} from 'react-router';
-import {Suspense, useId, useState, useEffect, useRef} from 'react';
+import {Suspense, useId, useState, useEffect, useRef, useCallback} from 'react';
 import {Aside, useAside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
@@ -75,16 +75,51 @@ function SearchAside() {
   const [activeDescendant, setActiveDescendant] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const dropdownRef = useRef(null);
+  const [dropdownMaxHeight, setDropdownMaxHeight] = useState('60vh');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const searchInputRef = useRef(null);
+  const fetchResultsRef = useRef(null);
 
-  // Close aside when pathname changes (user navigated to a new page)
+  // Synchronized dropdown state: opens when aside is open AND there's a search value
   useEffect(() => {
-    if (prevPathnameRef.current !== location.pathname && asideType === 'search') {
-      closeAside();
+    const shouldBeOpen = asideType === 'search' && searchValue.trim().length > 0;
+    setIsDropdownOpen(shouldBeOpen);
+  }, [asideType, searchValue]);
+
+  // Refetch results when aside reopens with existing search value
+  useEffect(() => {
+    if (asideType === 'search' && searchValue.trim().length > 0 && fetchResultsRef.current) {
+      // Create synthetic event to trigger fetchResults
+      const syntheticEvent = {
+        target: { value: searchValue }
+      };
+      fetchResultsRef.current(syntheticEvent);
+    }
+  }, [asideType]); // Only trigger when asideType changes (aside opens/closes)
+
+  // Clear search state when navigating to a new page
+  useEffect(() => {
+    if (prevPathnameRef.current !== location.pathname) {
+      // Always clear search on navigation, regardless of aside state
       setSearchValue('');
       setSelectedIndex(-1);
+      setIsDropdownOpen(false);
+      // Close aside if it's currently the search aside
+      if (asideType === 'search') {
+        closeAside();
+      }
     }
     prevPathnameRef.current = location.pathname;
   }, [location.pathname, asideType, closeAside]);
+
+  // Unified close function - closes both aside and dropdown
+  // NOTE: We don't clear searchValue here - it should persist across open/close cycles
+  // searchValue is only cleared when: user clicks × button, navigates, or goes to search results
+  const handleClose = useCallback(() => {
+    setSelectedIndex(-1);
+    setIsDropdownOpen(false);
+    closeAside();
+  }, [closeAside]);
 
   // Keyboard navigation handler
   const handleKeyDown = (e, total) => {
@@ -101,9 +136,7 @@ function SearchAside() {
         break;
       case 'Escape':
         e.preventDefault();
-        setSearchValue('');
-        setSelectedIndex(-1);
-        closeAside();
+        handleClose();
         break;
       case 'Enter':
         if (selectedIndex >= 0 && dropdownRef.current) {
@@ -130,12 +163,56 @@ function SearchAside() {
     }
   }, [selectedIndex]);
 
+  // Dynamic max-height calculation for responsive search dropdown
+  useEffect(() => {
+    function calculateMaxHeight() {
+      const headerHeight = 64; // var(--header-height)
+      const searchAsideHeight = 100; // Height of search input area + padding
+      const bottomPadding = 20;
+      const isMobile = window.innerWidth <= 768;
+
+      // Different calculations for mobile vs desktop
+      if (isMobile) {
+        // Mobile: More conservative, account for mobile browser UI
+        const availableHeight = window.innerHeight - headerHeight - searchAsideHeight - bottomPadding;
+        setDropdownMaxHeight(`${Math.max(300, availableHeight)}px`);
+      } else {
+        // Desktop: Use more of the viewport
+        const availableHeight = window.innerHeight - headerHeight - searchAsideHeight - bottomPadding;
+        setDropdownMaxHeight(`${Math.max(400, availableHeight)}px`);
+      }
+    }
+
+    // Calculate on mount
+    calculateMaxHeight();
+
+    // Recalculate on window resize with debouncing
+    let resizeTimer;
+    function handleResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(calculateMaxHeight, 100);
+    }
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', calculateMaxHeight);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', calculateMaxHeight);
+      clearTimeout(resizeTimer);
+    };
+  }, []);
+
   return (
     <>
       <Aside type="search" heading="SEARCH">
         <div className="predictive-search">
           <SearchFormPredictive>
-            {({inputRef, fetchResults}) => (
+            {({inputRef, fetchResults}) => {
+              // Store fetchResults in ref for programmatic fetching
+              fetchResultsRef.current = fetchResults;
+
+              return (
               <div style={{position: 'relative', width: '80%', margin: '0 auto'}}>
                 <input
                   id="predictive-search-input"
@@ -145,7 +222,7 @@ function SearchAside() {
                   type="search"
                   value={searchValue}
                   role="combobox"
-                  aria-expanded={searchValue.length > 0}
+                  aria-expanded={isDropdownOpen}
                   aria-controls={resultsId}
                   aria-owns={resultsId}
                   aria-autocomplete="list"
@@ -213,19 +290,21 @@ function SearchAside() {
                   </button>
                 )}
               </div>
-            )}
+              );
+            }}
           </SearchFormPredictive>
         </div>
       </Aside>
 
-      {asideType === 'search' && searchValue && (
-        <div
-          ref={dropdownRef}
-          id={resultsId}
-          className="search-results-dropdown visible"
-          role="listbox"
-        >
-          <SearchResultsPredictive>
+      <div
+        ref={dropdownRef}
+        id={resultsId}
+        className={isDropdownOpen ? 'search-results-dropdown visible' : 'search-results-dropdown hidden'}
+        role="listbox"
+        aria-hidden={!isDropdownOpen}
+        style={{maxHeight: dropdownMaxHeight}}
+      >
+        <SearchResultsPredictive>
             {({items, total, term, state, isInitialSearch}) => {
               const {articles, collections, pages, products, queries} = items;
 
@@ -236,13 +315,6 @@ function SearchAside() {
 
               return (
                 <>
-                  {/* Subtle loading indicator at the top - doesn't disrupt results */}
-                  {state === 'loading' && (
-                    <div className="search-loading-indicator">
-                      <div className="search-loading-bar"></div>
-                    </div>
-                  )}
-
                   <SearchResultsPredictive.Queries
                     queries={queries}
                     queriesDatalistId={queriesDatalistId}
@@ -272,6 +344,7 @@ function SearchAside() {
                         setSearchValue('');
                         setSelectedIndex(-1);
                       }}
+                      className={total > 0 ? 'search-link-with-results' : 'search-link-no-results'}
                     >
                       <p>
                         <span>
@@ -297,7 +370,6 @@ function SearchAside() {
             }}
           </SearchResultsPredictive>
         </div>
-      )}
     </>
   );
 }

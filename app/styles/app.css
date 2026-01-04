@@ -538,7 +538,7 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
   position: fixed;
   top: calc(var(--header-height) + 25px);
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(0);
   width: 80%;
   max-width: 800px;
   min-width: 300px;
@@ -547,16 +547,56 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
   box-sizing: border-box;
   border: 1px solid #333;
   z-index: 201;
+  /* max-height now set dynamically via JavaScript for better responsiveness */
   max-height: 60vh;
   overflow-y: auto;
+  overflow-x: hidden;
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
   color: white;
-  /* Optimized for perceived speed - instant appearance */
+  /* Smooth entrance/exit animation */
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0.2s;
   /* GPU acceleration hints */
-  will-change: contents;
+  will-change: opacity, transform;
   backface-visibility: hidden;
+  /* Custom scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  /* Entrance animation */
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Webkit scrollbar styling */
+.search-results-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.search-results-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.search-results-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.search-results-dropdown::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* Search results dropdown on search results page */
@@ -635,10 +675,16 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
   }
 }
 
+/* Mobile responsive adjustments */
 @media (max-width: 900px) {
   aside[data-type="search"] .predictive-search form input,
   .search-results-dropdown {
     width: 90%;
+  }
+
+  .search-results-dropdown {
+    /* Reduce top spacing on tablets */
+    top: calc(var(--header-height) + 15px);
   }
 }
 
@@ -646,6 +692,31 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
   aside[data-type="search"] .predictive-search form input,
   .search-results-dropdown {
     width: 95%;
+  }
+
+  .search-results-dropdown {
+    /* Account for mobile browser UI on small screens */
+    top: calc(var(--header-height) + 10px);
+    padding: 0.25rem;
+    /* Ensure it doesn't overflow mobile viewport */
+    max-width: calc(100vw - 20px);
+  }
+
+  /* Smaller image wrappers on mobile */
+  .predictive-search-image-wrapper {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  .predictive-search-skateboard .predictive-search-image-wrapper {
+    height: 100px !important;
+    max-height: 100px !important;
+    min-height: 100px !important;
+  }
+
+  .predictive-search-skateboard .predictive-search-image-wrapper img {
+    height: 100px !important;
+    max-height: 100px !important;
   }
 }
 
@@ -1335,10 +1406,19 @@ button.reset:hover:not(:has(> *)) {
   display: block;
   padding: 0.75rem 1rem;
   margin-top: 0.5rem;
-  border-top: 1px solid #333;
   color: white;
   text-decoration: none;
   transition: background-color 0.2s ease;
+}
+
+/* Show border only when there are search results */
+.search-results-dropdown .search-link-with-results {
+  border-top: 1px solid #333;
+}
+
+/* No border when there are no results */
+.search-results-dropdown .search-link-no-results {
+  border-top: none;
 }
 
 .search-results-dropdown a[href*="search"]:hover {
