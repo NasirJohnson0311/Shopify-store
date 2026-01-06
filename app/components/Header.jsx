@@ -83,10 +83,10 @@ function HeaderCtas({isLoggedIn, cart}) {
   return (
     <nav className="header-ctas" role="navigation">
       <ul style={{listStyle: 'none', padding: 0, margin: 0, display: 'flex', alignItems: 'center'}}>
-        <li>
+        <li className="search-icon">
           <SearchToggle />
         </li>
-        <li>
+        <li className="account-icon">
           <button
             onClick={() => window.location.href = '/account'}
             className="reset"
@@ -97,7 +97,7 @@ function HeaderCtas({isLoggedIn, cart}) {
             </svg>
           </button>
         </li>
-        <li>
+        <li className="cart-icon">
           <CartToggle cart={cart} />
         </li>
       </ul>

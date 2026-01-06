@@ -911,6 +911,46 @@ button.reset:hover:not(:has(> *)) {
     padding: 0px 20px;
     margin-bottom: 15px;
     margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
+  /* Brand logo in center - absolute positioning */
+  .header > a:first-child {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Header CTAs container - flex with space-between */
+  .header-ctas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .header-ctas ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  /* Reorder icons for mobile: account left, search/cart right */
+  .header-ctas .account-icon {
+    order: 1;
+    margin-right: auto;
+  }
+
+  .header-ctas .search-icon {
+    order: 2;
+  }
+
+  .header-ctas .cart-icon {
+    order: 3;
   }
 
   .header strong {
