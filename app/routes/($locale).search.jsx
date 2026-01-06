@@ -238,13 +238,6 @@ export default function SearchPage() {
 
                       return (
                         <div className="search-results-dropdown visible">
-                          {/* Subtle loading indicator at the top - doesn't disrupt results */}
-                          {state === 'loading' && (
-                            <div className="search-loading-indicator">
-                              <div className="search-loading-bar"></div>
-                            </div>
-                          )}
-
                           <SearchResultsPredictive.Products products={items.products} closeSearch={goToSearch} term={term} />
                           <SearchResultsPredictive.Pages pages={items.pages} closeSearch={goToSearch} term={term} />
                           <SearchResultsPredictive.Articles articles={items.articles} closeSearch={goToSearch} term={term} />
@@ -256,6 +249,7 @@ export default function SearchPage() {
                               onClick={() => {
                                 setShowDropdown(false);
                               }}
+                              className="mini-search-view-all"
                             >
                               <p>
                                 <span>
