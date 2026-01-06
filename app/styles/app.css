@@ -1071,6 +1071,62 @@ button.reset:hover:not(:has(> *)) {
     margin-bottom: 8px !important;
   }
 
+  /* Reduce padding around email signup section */
+  .footer-container > div:nth-child(2) {
+    margin-bottom: 4px !important;
+    gap: 8px !important;
+  }
+
+  /* Footer menu container - row layout with wrapping */
+  .footer-container > div:last-child {
+    padding-top: 8px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  /* Copyright - order 1, stay inline */
+  .footer-container > div:last-child > div:first-child {
+    order: 1;
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* Social icons - order 2, stay inline with copyright */
+  .footer-container > div:last-child > div:last-child {
+    order: 2;
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    width: auto !important;
+    justify-content: center !important;
+  }
+
+  /* Policy links - order 3, force to new line */
+  .footer-container > div:last-child > nav {
+    order: 3;
+    flex: 1 1 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  /* Reduce social media icon size */
+  .footer-container > div:last-child > div:last-child svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  /* Reduce "Join our email list" heading size on mobile */
+  .footer-container > div:nth-child(2) > div:first-child h4 {
+    font-size: 1.1rem !important;
+  }
+
   /* Center email signup section on mobile */
   .footer-container > div:nth-child(2) {
     flex-direction: column !important;
@@ -1099,10 +1155,15 @@ button.reset:hover:not(:has(> *)) {
     margin-left: 0 !important;
   }
 
-  /* Center social media icons on mobile */
-  .footer-container > div:last-child > div:last-child {
-    width: 100% !important;
-    justify-content: center !important;
+  /* Make copyright text smaller on mobile */
+  .footer-container > div:last-child > div:first-child,
+  .footer-container > div:last-child > div:first-child p {
+    font-size: 0.65rem !important;
+  }
+
+  /* Reduce top padding on policy links section */
+  .footer-menu {
+    padding-top: 0.25rem !important;
   }
 }
 
