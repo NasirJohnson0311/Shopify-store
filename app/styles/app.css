@@ -322,6 +322,7 @@ button:focus-visible {
 
 .price-input-group input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .price-input-group input::placeholder {
