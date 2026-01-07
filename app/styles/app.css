@@ -2219,10 +2219,14 @@ button.reset:hover:not(:has(> *)) {
 
   /* Adjust aside width for mobile */
   aside {
-    width: 100vw;
-    right: -100vw;
+    width: 90vw;
+    right: -90vw;
   }
 
+  /* Override transform for mobile to match 90vw width */
+  .overlay.expanded aside {
+    transform: translateX(-90vw);
+  }
 
   /* Product item adjustments */
   .product-item h4 {
