@@ -2237,13 +2237,6 @@ button.reset:hover:not(:has(> *)) {
     font-size: 0.75rem;
   }
 
-  /* Cart adjustments */
-  .cart-line {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-
   /* Recommended products section */
   .recommended-products-section {
     padding: 0 20px;
