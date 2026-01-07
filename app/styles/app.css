@@ -2504,17 +2504,95 @@ body:has(.cart-page) canvas {
 }
 
 @media (max-width: 768px) {
+  /* Grid layout - image in column 1, content in column 2, total in column 3 */
   .cart-line-page {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    grid-template-rows: auto;
+    gap: 0.75rem 1rem;
+    padding: 1.5rem 0;
+    align-items: start;
   }
-  
+
+  /* Product section - contains image AND details, spans columns 1-2 */
+  .cart-line-product {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  /* Smaller image on mobile */
+  .cart-line-page .cart-line-image-wrapper {
+    width: 80px;
+    min-width: 80px;
+    flex-shrink: 0;
+    grid-column: 1;
+  }
+
+  /* Product details - stack title, price, options vertically */
+  .cart-line-details {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .cart-line-details strong {
+    font-size: 0.875rem;
+    line-height: 1.3;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .cart-line-details .product-price {
+    font-size: 0.875rem;
+  }
+
+  .cart-line-details ul {
+    margin: 0;
+  }
+
+  .cart-line-details li small {
+    font-size: 0.75rem;
+  }
+
+  /* Quantity controls - column 2, directly below product details */
   .cart-line-quantity-page {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
     justify-content: flex-start;
+    margin-top: 0.35rem;
   }
-  
+
+  .cart-line-quantity-page .cart-line-quantity {
+    gap: 0.75rem;
+  }
+
+  /* Make quantity controls more compact */
+  .cart-line-quantity-page .quantity-control-wrapper {
+    width: 90px;
+    height: 44px;
+  }
+
+  .cart-line-quantity-page .quantity-btn {
+    font-size: 1rem;
+    padding: 4px 8px;
+  }
+
+  /* Total price - column 3, top right */
   .cart-line-total {
-    text-align: left;
+    grid-column: 3;
+    grid-row: 1;
+    text-align: right;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    align-self: start;
   }
 }
 
