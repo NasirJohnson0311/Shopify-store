@@ -213,7 +213,7 @@ function SearchAside() {
               fetchResultsRef.current = fetchResults;
 
               return (
-              <div style={{position: 'relative', width: '80%', margin: '0 auto'}}>
+              <div className="search-input-wrapper" style={{position: 'relative'}}>
                 <input
                   id="predictive-search-input"
                   name="q"
