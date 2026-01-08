@@ -2871,3 +2871,100 @@ body:has(.cart-page) canvas {
   animation-delay: 0.8s;
 }
 
+/* ========================================
+   MOBILE CART ASIDE FIXES
+   Target ONLY cart aside, not cart page or desktop
+   ======================================== */
+
+@media (max-width: 768px) {
+  /* Cart labels - make smaller */
+  aside[data-type="cart"] .cart-labels {
+    font-size: 0.7rem;
+  }
+
+  aside[data-type="cart"] .cart-label-product,
+  aside[data-type="cart"] .cart-label-total {
+    font-size: 0.7rem;
+  }
+
+  /* Reduce spacing in cart line items */
+  aside[data-type="cart"] .cart-line {
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+
+  /* Reduce content gap */
+  aside[data-type="cart"] .cart-line-content {
+    gap: 0.5rem;
+  }
+
+  /* Make product names smaller and wrap properly */
+  aside[data-type="cart"] .cart-line-info p {
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+
+  aside[data-type="cart"] .cart-line-info strong {
+    font-size: 0.8rem;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Reduce price text size */
+  aside[data-type="cart"] .cart-line-info .product-price,
+  aside[data-type="cart"] .cart-line-price .product-price {
+    font-size: 0.75rem;
+  }
+
+  /* Reduce total price on right */
+  aside[data-type="cart"] .cart-line-price {
+    font-size: 0.8rem;
+  }
+
+  /* Smaller quantity controls */
+  aside[data-type="cart"] .quantity-control-wrapper {
+    width: 80px;
+    height: 44px;
+  }
+
+  aside[data-type="cart"] .quantity-btn {
+    font-size: 0.9rem;
+    padding: 4px 6px;
+  }
+
+  aside[data-type="cart"] .quantity-number {
+    font-size: 0.85rem;
+  }
+
+  /* Smaller trash icon */
+  aside[data-type="cart"] .cart-line-quantity > form:last-child button {
+    font-size: 0.85rem;
+  }
+
+  aside[data-type="cart"] .cart-line-quantity > form:last-child button svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Reduce gap between quantity controls and delete button */
+  aside[data-type="cart"] .cart-line-quantity {
+    gap: 12px;
+  }
+
+  /* Ensure no horizontal overflow */
+  aside[data-type="cart"] main {
+    overflow-x: hidden;
+  }
+
+  aside[data-type="cart"] .cart-main {
+    overflow-x: hidden;
+  }
+
+  /* Additional overflow prevention */
+  aside[data-type="cart"] .cart-line-content,
+  aside[data-type="cart"] .cart-line-info {
+    overflow: hidden;
+  }
+}
+
