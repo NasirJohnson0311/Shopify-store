@@ -130,7 +130,7 @@ export default function SearchPage() {
     <div className="search" style={{minHeight: 'calc(100vh - var(--header-height, 80px))'}}>
       <h1>Search Results</h1>
       <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px', position: 'relative'}}>
-        <SearchFormPredictive style={{width: '100%', maxWidth: '1400px', display: 'flex', justifyContent: 'center', padding: '0 20px', boxSizing: 'border-box', position: 'relative'}}>
+        <SearchFormPredictive className="search-form-predictive" style={{width: '100%', maxWidth: '1400px', display: 'flex', justifyContent: 'center', padding: '0 20px', boxSizing: 'border-box', position: 'relative'}}>
           {({inputRef, fetcher, fetchResults, goToSearch}) => {
             // Set the miniSearchInputRef to the inputRef from the form
             if (inputRef.current && !miniSearchInputRef.current) {
@@ -139,7 +139,7 @@ export default function SearchPage() {
 
             return (
               <>
-                <div style={{position: 'relative', width: '80%', maxWidth: '800px'}}>
+                <div className="search-input-wrapper" style={{position: 'relative', width: '80%', maxWidth: '800px'}}>
                   <input
                     id="search-results-page-input"
                     value={searchValue}

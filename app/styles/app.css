@@ -1766,6 +1766,19 @@ button.reset:hover:not(:has(> *)) {
     font-size: 20px;
     letter-spacing: 1px;
   }
+
+  /* Align search bar with product container on mobile only */
+  .search .search-form-predictive {
+    padding: 0 16px !important;
+    justify-content: flex-start !important;
+  }
+
+  .search .search-input-wrapper {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }
 
 .search input[type="search"] {
