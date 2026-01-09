@@ -7,10 +7,12 @@ export function FilterSort({totalProducts, inStockCount, outOfStockCount}) {
   const [showAvailability, setShowAvailability] = useState(false);
   const [showPrice, setShowPrice] = useState(false);
   const [showSort, setShowSort] = useState(false);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const availabilityRef = useRef(null);
   const priceRef = useRef(null);
   const sortRef = useRef(null);
+  const mobileFiltersRef = useRef(null);
 
   // Get current filter values from URL
   const availability = searchParams.get('availability')?.split(',').filter(Boolean) || [];
@@ -30,6 +32,9 @@ export function FilterSort({totalProducts, inStockCount, outOfStockCount}) {
       }
       if (sortRef.current && !sortRef.current.contains(event.target)) {
         setShowSort(false);
+      }
+      if (mobileFiltersRef.current && !mobileFiltersRef.current.contains(event.target)) {
+        setShowMobileFilters(false);
       }
     }
 
@@ -94,6 +99,123 @@ export function FilterSort({totalProducts, inStockCount, outOfStockCount}) {
 
   return (
     <div className="filter-sort-container">
+      {/* Mobile Filter and Sort Button */}
+      <div className="mobile-filter-sort" ref={mobileFiltersRef}>
+        <button
+          className="mobile-filter-button"
+          onClick={() => setShowMobileFilters(!showMobileFilters)}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px'}}>
+            <path d="M2 4H18M5 10H15M8 16H12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          Filter and sort
+        </button>
+        <span className="mobile-results-count">{totalProducts} results</span>
+
+        {showMobileFilters && (
+          <div className="mobile-filters-dropdown">
+            {/* Availability */}
+            <div className="mobile-filter-section">
+              <div className="mobile-filter-header">
+                <span>Availability</span>
+                {selectedAvailabilityCount > 0 && (
+                  <button className="reset-button" onClick={resetAvailability}>
+                    Reset
+                  </button>
+                )}
+              </div>
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={availability.includes('in_stock')}
+                  onChange={() => handleAvailabilityChange('in_stock')}
+                />
+                <span>In stock ({inStockCount})</span>
+              </label>
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={availability.includes('out_of_stock')}
+                  onChange={() => handleAvailabilityChange('out_of_stock')}
+                />
+                <span>Out of stock ({outOfStockCount})</span>
+              </label>
+            </div>
+
+            {/* Price */}
+            <div className="mobile-filter-section">
+              <div className="mobile-filter-header">
+                <span>Price</span>
+              </div>
+              <form onSubmit={handlePriceFilter}>
+                <div className="price-inputs">
+                  <div className="price-input-group">
+                    <label>From</label>
+                    <input
+                      type="number"
+                      name="minPrice"
+                      placeholder="$ 0"
+                      defaultValue={minPrice}
+                      min="0"
+                      step="0.01"
+                    />
+                  </div>
+                  <div className="price-input-group">
+                    <label>To</label>
+                    <input
+                      type="number"
+                      name="maxPrice"
+                      placeholder="$ 0"
+                      defaultValue={maxPrice}
+                      min="0"
+                      step="0.01"
+                    />
+                  </div>
+                </div>
+                <button type="submit" className="apply-button">
+                  Apply
+                </button>
+              </form>
+            </div>
+
+            {/* Sort */}
+            <div className="mobile-filter-section">
+              <div className="mobile-filter-header">
+                <span>Sort by</span>
+              </div>
+              <button
+                className={`sort-option ${sortBy === 'relevance' ? 'active' : ''}`}
+                onClick={() => {
+                  handleSortChange('relevance');
+                  setShowMobileFilters(false);
+                }}
+              >
+                Relevance
+              </button>
+              <button
+                className={`sort-option ${sortBy === 'price_asc' ? 'active' : ''}`}
+                onClick={() => {
+                  handleSortChange('price_asc');
+                  setShowMobileFilters(false);
+                }}
+              >
+                Price, low to high
+              </button>
+              <button
+                className={`sort-option ${sortBy === 'price_desc' ? 'active' : ''}`}
+                onClick={() => {
+                  handleSortChange('price_desc');
+                  setShowMobileFilters(false);
+                }}
+              >
+                Price, high to low
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Desktop Filter and Sort */}
       <div className="filter-section">
         <span className="filter-label">Filter:</span>
 
