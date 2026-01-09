@@ -79,6 +79,8 @@ function SearchAside() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef(null);
   const fetchResultsRef = useRef(null);
+  const asideRef = useRef(null);
+  const [dropdownTopPosition, setDropdownTopPosition] = useState('calc(var(--header-height) + 25px)');
 
   // Synchronized dropdown state: opens when aside is open AND there's a search value
   useEffect(() => {
@@ -163,51 +165,82 @@ function SearchAside() {
     }
   }, [selectedIndex]);
 
-  // Dynamic max-height calculation for responsive search dropdown
+  // Dynamic dropdown positioning - position from aside bottom on mobile
   useEffect(() => {
-    function calculateMaxHeight() {
-      const headerHeight = 64; // var(--header-height)
-      const searchAsideHeight = 100; // Height of search input area + padding
-      const bottomPadding = 20;
+    function calculateDropdownPosition() {
       const isMobile = window.innerWidth <= 768;
 
-      // Different calculations for mobile vs desktop
-      if (isMobile) {
-        // Mobile: More conservative, account for mobile browser UI
-        const availableHeight = window.innerHeight - headerHeight - searchAsideHeight - bottomPadding;
-        setDropdownMaxHeight(`${Math.max(300, availableHeight)}px`);
-      } else {
-        // Desktop: Use more of the viewport
+      if (isMobile && asideType === 'search') {
+        // Wait for aside animation to complete (200ms transition)
+        // Then calculate the aside's bottom position
+        setTimeout(() => {
+          // Query for the actual aside element (not the wrapper)
+          const asideElement = document.querySelector('aside[data-type="search"]');
+
+          if (asideElement) {
+            const asideRect = asideElement.getBoundingClientRect();
+            const asideBottom = asideRect.bottom;
+
+            // Fallback if aside isn't rendered yet
+            if (asideBottom <= 0) {
+              // Estimate: header (64px) + search input area (~80-100px)
+              setDropdownTopPosition('140px');
+              const remainingHeight = window.innerHeight - 140;
+              setDropdownMaxHeight(`${Math.max(200, remainingHeight)}px`);
+            } else {
+              // Position dropdown right below the aside
+              setDropdownTopPosition(`${asideBottom}px`);
+
+              // Calculate remaining viewport height for dropdown
+              const remainingHeight = window.innerHeight - asideBottom;
+              setDropdownMaxHeight(`${Math.max(200, remainingHeight)}px`);
+            }
+          } else {
+            // Fallback if aside element not found
+            setDropdownTopPosition('140px');
+            const remainingHeight = window.innerHeight - 140;
+            setDropdownMaxHeight(`${Math.max(200, remainingHeight)}px`);
+          }
+        }, 250); // Wait slightly longer than aside animation (200ms)
+      } else if (!isMobile) {
+        // Desktop: use original positioning from header
+        setDropdownTopPosition('calc(var(--header-height) + 25px)');
+        const headerHeight = 64;
+        const searchAsideHeight = 100;
+        const bottomPadding = 20;
         const availableHeight = window.innerHeight - headerHeight - searchAsideHeight - bottomPadding;
         setDropdownMaxHeight(`${Math.max(400, availableHeight)}px`);
       }
     }
 
-    // Calculate on mount
-    calculateMaxHeight();
+    // Calculate when aside opens/closes
+    if (asideType === 'search') {
+      calculateDropdownPosition();
+    }
 
     // Recalculate on window resize with debouncing
     let resizeTimer;
     function handleResize() {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(calculateMaxHeight, 100);
+      resizeTimer = setTimeout(calculateDropdownPosition, 100);
     }
 
     window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', calculateMaxHeight);
+    window.addEventListener('orientationchange', calculateDropdownPosition);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', calculateMaxHeight);
+      window.removeEventListener('orientationchange', calculateDropdownPosition);
       clearTimeout(resizeTimer);
     };
-  }, []);
+  }, [asideType, isDropdownOpen]);
 
   return (
     <>
-      <Aside type="search" heading="SEARCH">
-        <div className="predictive-search">
-          <SearchFormPredictive>
+      <div ref={asideRef}>
+        <Aside type="search" heading="SEARCH">
+          <div className="predictive-search">
+            <SearchFormPredictive>
             {({inputRef, fetchResults}) => {
               // Store fetchResults in ref for programmatic fetching
               fetchResultsRef.current = fetchResults;
@@ -295,6 +328,7 @@ function SearchAside() {
           </SearchFormPredictive>
         </div>
       </Aside>
+      </div>
 
       <div
         ref={dropdownRef}
@@ -302,7 +336,10 @@ function SearchAside() {
         className={isDropdownOpen ? 'search-results-dropdown visible' : 'search-results-dropdown hidden'}
         role="listbox"
         aria-hidden={!isDropdownOpen}
-        style={{maxHeight: dropdownMaxHeight}}
+        style={{
+          maxHeight: dropdownMaxHeight,
+          top: dropdownTopPosition
+        }}
       >
         <SearchResultsPredictive>
             {({items, total, term, state, isInitialSearch}) => {

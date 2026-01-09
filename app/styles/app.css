@@ -538,7 +538,7 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
 /* Search results dropdown that appears outside the aside */
 .search-results-dropdown {
   position: fixed;
-  top: calc(var(--header-height) + 25px);
+  /* top is set dynamically via inline style in JavaScript */
   left: 50%;
   transform: translateX(-50%) translateY(0);
   width: 80%;
@@ -575,11 +575,25 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(-10px);
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
+  }
+}
+
+/* Desktop version with centering */
+@media (min-width: 769px) {
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   }
 }
 
@@ -649,29 +663,35 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
 
 /* Mobile responsive adjustments */
 @media (max-width: 900px) {
-  aside[data-type="search"] .predictive-search form input,
-  .search-results-dropdown {
+  aside[data-type="search"] .predictive-search form input {
     width: 90%;
   }
 
   .search-results-dropdown {
-    /* Reduce top spacing on tablets */
-    top: calc(var(--header-height) + 15px);
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile: Full-width dropdown positioned from aside bottom */
+  .search-results-dropdown {
+    width: 100vw;
+    max-width: 100vw;
+    left: 0;
+    transform: none;  /* Remove centering transform */
+    padding: 0.5rem;
+    border-left: none;
+    border-right: none;
   }
 }
 
 @media (max-width: 600px) {
-  aside[data-type="search"] .predictive-search form input,
-  .search-results-dropdown {
+  aside[data-type="search"] .predictive-search form input {
     width: 95%;
   }
 
   .search-results-dropdown {
-    /* Account for mobile browser UI on small screens */
-    top: calc(var(--header-height) + 10px);
     padding: 0.25rem;
-    /* Ensure it doesn't overflow mobile viewport */
-    max-width: calc(100vw - 20px);
   }
 
   /* Smaller image wrappers on mobile */
