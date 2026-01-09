@@ -1517,6 +1517,12 @@ button.reset:hover:not(:has(> *)) {
   font-size: 0.875rem;
 }
 
+@media (max-width: 768px) {
+  .predictive-search-result h5 {
+    padding-left: 1rem;
+  }
+}
+
 .predictive-search-result-item {
   margin-bottom: 0.25rem;
 }
