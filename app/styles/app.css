@@ -2950,9 +2950,9 @@ body:has(.cart-page) canvas {
     min-height: 100px;
   }
 
-  /* Position quantity controls about halfway down */
+  /* Position quantity controls at same height as cart page */
   aside[data-type="cart"] .cart-line-info .cart-line-quantity {
-    margin-top: 3.5rem;
+    margin-top: 0.5rem;
   }
 
   /* Make product names smaller and wrap properly */
