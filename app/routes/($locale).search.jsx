@@ -138,91 +138,89 @@ export default function SearchPage() {
             }
 
             return (
-              <>
-                <div className="search-input-wrapper" style={{position: 'relative', width: '80%', maxWidth: '800px'}}>
-                  <input
-                    id="search-results-page-input"
-                    value={searchValue}
-                    name="q"
-                    placeholder="Search"
-                    ref={inputRef}
-                    type="search"
-                    role="combobox"
-                    aria-expanded={showDropdown && searchValue.length > 0}
-                    aria-autocomplete="list"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck="false"
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      backdropFilter: 'blur(20px)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      borderRadius: '12px',
-                      color: '#fff',
-                      padding: '0.6em 2.5em 0.6em 1.2em',
-                      fontSize: '1rem',
-                      width: '100%',
-                      boxSizing: 'border-box',
-                      outline: 'none'
-                    }}
-                    onChange={(e) => {
-                      setSearchValue(e.target.value);
+              <div className="search-input-wrapper" style={{position: 'relative', width: '80%', maxWidth: '800px'}}>
+                <input
+                  id="search-results-page-input"
+                  value={searchValue}
+                  name="q"
+                  placeholder="Search"
+                  ref={inputRef}
+                  type="search"
+                  role="combobox"
+                  aria-expanded={showDropdown && searchValue.length > 0}
+                  aria-autocomplete="list"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '12px',
+                    color: '#fff',
+                    padding: '0.6em 2.5em 0.6em 1.2em',
+                    fontSize: '1rem',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    outline: 'none'
+                  }}
+                  onChange={(e) => {
+                    setSearchValue(e.target.value);
+                    fetchResults(e);
+                    setShowDropdown(true);
+                  }}
+                  onFocus={(e) => {
+                    // Close the navbar search aside when the mini search bar is focused
+                    if (asideType === 'search') {
+                      closeAside();
+                    }
+                    // Show dropdown and fetch results if there's a value
+                    if (e.target.value) {
                       fetchResults(e);
                       setShowDropdown(true);
-                    }}
-                    onFocus={(e) => {
-                      // Close the navbar search aside when the mini search bar is focused
-                      if (asideType === 'search') {
-                        closeAside();
+                    }
+                  }}
+                  onBlur={() => {
+                    // Delay closing to allow clicking on dropdown items
+                    setTimeout(() => setShowDropdown(false), 200);
+                  }}
+                />
+                {searchValue && (
+                  <button
+                    type="button"
+                    aria-label="Clear search"
+                    onClick={() => {
+                      setSearchValue('');
+                      setShowDropdown(false);
+                      if (inputRef.current) {
+                        inputRef.current.value = '';
+                        inputRef.current.focus();
                       }
-                      // Show dropdown and fetch results if there's a value
-                      if (e.target.value) {
-                        fetchResults(e);
-                        setShowDropdown(true);
-                      }
                     }}
-                    onBlur={() => {
-                      // Delay closing to allow clicking on dropdown items
-                      setTimeout(() => setShowDropdown(false), 200);
+                    style={{
+                      position: 'absolute',
+                      right: '12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'transparent',
+                      border: 'none',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      cursor: 'pointer',
+                      padding: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '18px',
+                      lineHeight: '1',
+                      transition: 'color 0.2s ease'
                     }}
-                  />
-                  {searchValue && (
-                    <button
-                      type="button"
-                      aria-label="Clear search"
-                      onClick={() => {
-                        setSearchValue('');
-                        setShowDropdown(false);
-                        if (inputRef.current) {
-                          inputRef.current.value = '';
-                          inputRef.current.focus();
-                        }
-                      }}
-                      style={{
-                        position: 'absolute',
-                        right: '12px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        background: 'transparent',
-                        border: 'none',
-                        color: 'rgba(255, 255, 255, 0.6)',
-                        cursor: 'pointer',
-                        padding: '4px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '18px',
-                        lineHeight: '1',
-                        transition: 'color 0.2s ease'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
-                    >
-                      ×
-                    </button>
-                  )}
-                </div>
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
+                  >
+                    ×
+                  </button>
+                )}
                 {/* Optimistic UI - show previous results while loading new ones */}
                 {showDropdown && searchValue && (
                   <SearchResultsPredictive goToSearch={goToSearch}>
@@ -266,7 +264,7 @@ export default function SearchPage() {
                     }}
                   </SearchResultsPredictive>
                 )}
-              </>
+              </div>
             );
           }}
         </SearchFormPredictive>

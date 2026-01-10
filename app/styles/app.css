@@ -674,12 +674,15 @@ aside[data-type="search"] .predictive-search form input::-webkit-search-cancel-b
 /* Search results dropdown on search results page */
 .search .search-results-dropdown {
   position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  max-width: 800px;
-
+  top: calc(100% + 8px);
+  left: 0;
+  transform: none;
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+  border: none;
+  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.3);
 }
 
 .search-results-dropdown div {
