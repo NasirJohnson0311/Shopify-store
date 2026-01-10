@@ -983,6 +983,65 @@ aside li {
   transform: translateY(0);
 }
 
+/* Mobile menu aside comes from left */
+aside[data-type="mobile"] {
+  right: auto;
+  left: calc(-1 * var(--aside-width));
+  transform: translateX(0);
+}
+
+/* reveal mobile aside from left */
+.overlay.expanded aside[data-type="mobile"] {
+  transform: translateX(var(--aside-width));
+}
+
+/* Mobile menu account section at bottom (similar to cart summary) */
+.mobile-menu-account-section {
+  background: #000000;
+  border-top: none;
+  bottom: 0;
+  padding: 0;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  box-sizing: border-box;
+  color: white;
+}
+
+.mobile-menu-account-section .account-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-account-section .account-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: none;
+  border-radius: 0 !important;
+  color: #fff;
+  text-decoration: none !important;
+  padding: 0;
+  width: 100%;
+  height: 85px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.mobile-menu-account-section .account-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  text-decoration: none !important;
+}
+
 button.reset {
   border: 0;
   background: inherit;
@@ -1058,8 +1117,8 @@ button.reset:hover:not(:has(> *)) {
     gap: 0;
   }
 
-  /* Reorder icons for mobile: account left, search/cart right */
-  .header-ctas .account-icon {
+  /* Reorder icons for mobile: hamburger left, search/cart right */
+  .header-ctas .hamburger-icon {
     order: 1;
     margin-right: auto;
   }
@@ -1070,6 +1129,15 @@ button.reset:hover:not(:has(> *)) {
 
   .header-ctas .cart-icon {
     order: 3;
+  }
+
+  /* Hide account icon on mobile, show hamburger */
+  .header-ctas .desktop-only {
+    display: none !important;
+  }
+
+  .header-ctas .mobile-only {
+    display: inline-flex !important;
   }
 
   .header strong {
@@ -1108,6 +1176,7 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
   flex-direction: column;
   grid-gap: 1rem;
+  padding-bottom: 100px; /* Add padding to prevent menu items from being hidden behind account section */
 }
 
 .header-menu-desktop {
@@ -1155,6 +1224,15 @@ button.reset:hover:not(:has(> *)) {
 
 .header-ctas svg {
   display: block;
+}
+
+/* Hide hamburger on desktop, show account icon */
+.header-ctas .mobile-only {
+  display: none;
+}
+
+.header-ctas .desktop-only {
+  display: inline-flex;
 }
 
 /*
@@ -2389,6 +2467,18 @@ button.reset:hover:not(:has(> *)) {
   /* Override transform for mobile to match 90vw width */
   .overlay.expanded aside {
     transform: translateX(-90vw);
+  }
+
+  /* Mobile menu aside positioning for mobile viewport */
+  aside[data-type="mobile"] {
+    width: 90vw;
+    left: -90vw;
+    right: auto;
+  }
+
+  /* Mobile menu slides from left on mobile */
+  .overlay.expanded aside[data-type="mobile"] {
+    transform: translateX(90vw);
   }
 
   /* Product item adjustments */

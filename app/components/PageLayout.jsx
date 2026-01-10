@@ -27,7 +27,7 @@ export function PageLayout({
       <ZoomedParticleAnimation />
       <CartAside cart={cart} />
       <SearchAside />
-      <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
+      <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} isLoggedIn={isLoggedIn} />
       <div className="page-layout-wrapper">
         {header && (
           <Header
@@ -415,9 +415,10 @@ function SearchAside() {
  * @param {{
  *   header: PageLayoutProps['header'];
  *   publicStoreDomain: PageLayoutProps['publicStoreDomain'];
+ *   isLoggedIn: PageLayoutProps['isLoggedIn'];
  * }}
  */
-function MobileMenuAside({header, publicStoreDomain}) {
+function MobileMenuAside({header, publicStoreDomain, isLoggedIn}) {
   return (
     header.menu &&
     header.shop.primaryDomain?.url && (
@@ -428,8 +429,52 @@ function MobileMenuAside({header, publicStoreDomain}) {
           primaryDomainUrl={header.shop.primaryDomain.url}
           publicStoreDomain={publicStoreDomain}
         />
+        <MobileMenuAccountSection isLoggedIn={isLoggedIn} />
       </Aside>
     )
+  );
+}
+
+/**
+ * Account section at the bottom of mobile menu aside
+ * @param {{isLoggedIn: PageLayoutProps['isLoggedIn']}}
+ */
+function MobileMenuAccountSection({isLoggedIn}) {
+  return (
+    <Suspense fallback={<AccountSectionFallback />}>
+      <Await resolve={isLoggedIn}>
+        {(isLoggedIn) => (
+          <div className="mobile-menu-account-section">
+            <div className="account-button-wrapper">
+              <a href="/account" className="account-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16" style={{marginRight: '8px'}}>
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                </svg>
+                {isLoggedIn ? 'Account' : 'Log in'}
+              </a>
+            </div>
+          </div>
+        )}
+      </Await>
+    </Suspense>
+  );
+}
+
+/**
+ * Fallback component while checking login status
+ */
+function AccountSectionFallback() {
+  return (
+    <div className="mobile-menu-account-section">
+      <div className="account-button-wrapper">
+        <div className="account-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16" style={{marginRight: '8px'}}>
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+          </svg>
+          Account
+        </div>
+      </div>
+    </div>
   );
 }
 

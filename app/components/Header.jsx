@@ -86,7 +86,7 @@ function HeaderCtas({isLoggedIn, cart}) {
         <li className="search-icon">
           <SearchToggle />
         </li>
-        <li className="account-icon">
+        <li className="account-icon desktop-only">
           <button
             onClick={() => window.location.href = '/account'}
             className="reset"
@@ -97,6 +97,9 @@ function HeaderCtas({isLoggedIn, cart}) {
             </svg>
           </button>
         </li>
+        <li className="hamburger-icon mobile-only">
+          <MobileMenuToggle />
+        </li>
         <li className="cart-icon">
           <CartToggle cart={cart} />
         </li>
@@ -105,14 +108,17 @@ function HeaderCtas({isLoggedIn, cart}) {
   );
 }
 
-function HeaderMenuMobileToggle() {
+function MobileMenuToggle() {
   const {open} = useAside();
   return (
     <button
-      className="header-menu-mobile-toggle reset"
+      className="reset"
       onClick={() => open('mobile')}
+      style={{display: 'inline-flex', alignItems: 'center', padding: 0, border: 'none', background: 'transparent', cursor: 'pointer'}}
     >
-      <h3>☰</h3>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" fill="currentColor" viewBox="0 0 16 16">
+        <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+      </svg>
     </button>
   );
 }
