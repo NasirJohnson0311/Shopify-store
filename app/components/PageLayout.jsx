@@ -429,9 +429,29 @@ function MobileMenuAside({header, publicStoreDomain, isLoggedIn}) {
           primaryDomainUrl={header.shop.primaryDomain.url}
           publicStoreDomain={publicStoreDomain}
         />
+        <MobileMenuFooterLinks />
         <MobileMenuAccountSection isLoggedIn={isLoggedIn} />
       </Aside>
     )
+  );
+}
+
+/**
+ * Footer links section in mobile menu
+ */
+function MobileMenuFooterLinks() {
+  const {close} = useAside();
+
+  return (
+    <nav className="mobile-menu-footer-links">
+      <Link to="/contact-us" onClick={close}>Contact us</Link>
+      <Link to="/policies/privacy-policy" onClick={close}>Privacy Policy</Link>
+      <Link to="/policies/refund-policy" onClick={close}>Refund Policy</Link>
+      <Link to="/policies/shipping-policy" onClick={close}>Shipping Policy</Link>
+      <Link to="/faq" onClick={close}>FAQ</Link>
+      <Link to="/terms-of-service" onClick={close}>Terms of Service</Link>
+      <Link to="/returns" onClick={close}>Returns</Link>
+    </nav>
   );
 }
 

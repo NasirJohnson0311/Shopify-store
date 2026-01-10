@@ -920,6 +920,10 @@ aside main {
   margin: 1rem;
 }
 
+aside[data-type="mobile"] main {
+  padding-bottom: 100px; /* Space for account section at bottom */
+}
+
 aside p {
   margin: 0 0 0.25rem;
 }
@@ -996,6 +1000,35 @@ aside[data-type="mobile"] {
 /* reveal mobile aside from left */
 .overlay.expanded aside[data-type="mobile"] {
   transform: translateX(var(--aside-width));
+}
+
+/* Mobile menu footer links section */
+.mobile-menu-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 16px 0;
+  margin-top: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  left: 0;
+}
+
+.mobile-menu-footer-links a {
+  display: block;
+  text-align: center;
+  padding: 12px 20px;
+  color: rgba(255, 255, 255, 0.87);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mobile-menu-footer-links a:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
 }
 
 /* Mobile menu account section at bottom (similar to cart summary) */
@@ -1144,7 +1177,7 @@ button.reset:hover:not(:has(> *)) {
   }
 
   .header strong {
-    font-size: 20px;
+    font-size: 26px;
     letter-spacing: 1px;
   }
 }
@@ -2534,7 +2567,7 @@ button.reset:hover:not(:has(> *)) {
   }
 
   .header strong {
-    font-size: 18px;
+    font-size: 22px;
   }
 
   /* Product images full width on tiny screens */
