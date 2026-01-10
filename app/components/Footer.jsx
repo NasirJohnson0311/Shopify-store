@@ -156,31 +156,83 @@ function FooterMenu({menu, header, primaryDomainUrl, publicStoreDomain}) {
           margin: 0,
           display: 'flex',
           gap: '16px',
-          flexWrap: 'wrap'
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          rowGap: '8px'
         }}>
           {menu?.items?.map((item) => {
             if (!item.url) return null;
-            const url =
-              item.url.includes('myshopify.com') ||
+
+            // Replace "Search" with "Contact us" and change URL
+            let displayTitle = item.title;
+            let displayUrl = item.url.includes('myshopify.com') ||
               item.url.includes(publicStoreDomain) ||
               item.url.includes(primaryDomainUrl)
                 ? new URL(item.url).pathname
                 : item.url;
+
+            if (item.title.toLowerCase() === 'search') {
+              displayTitle = 'Contact us';
+              displayUrl = '/contact-us';
+            }
+
+            // Replace "Your privacy choices" with "Privacy Policy"
+            if (item.title.toLowerCase() === 'your privacy choices') {
+              displayTitle = 'Privacy Policy';
+            }
+
             return (
               <li key={item.id}>
                 <NavLink
-                  to={url}
+                  to={displayUrl}
                   style={{
                     fontSize: '0.75rem',
                     color: 'rgba(255, 255, 255, 0.6)',
                     textDecoration: 'none'
                   }}
                 >
-                  {item.title}
+                  {displayTitle}
                 </NavLink>
               </li>
             );
           })}
+          {/* Additional custom footer links */}
+          <li>
+            <NavLink
+              to="/faq"
+              style={{
+                fontSize: '0.75rem',
+                color: 'rgba(255, 255, 255, 0.6)',
+                textDecoration: 'none'
+              }}
+            >
+              FAQ
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/terms-of-service"
+              style={{
+                fontSize: '0.75rem',
+                color: 'rgba(255, 255, 255, 0.6)',
+                textDecoration: 'none'
+              }}
+            >
+              Terms of Service
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/returns"
+              style={{
+                fontSize: '0.75rem',
+                color: 'rgba(255, 255, 255, 0.6)',
+                textDecoration: 'none'
+              }}
+            >
+              Returns
+            </NavLink>
+          </li>
         </ul>
       </nav>
 
