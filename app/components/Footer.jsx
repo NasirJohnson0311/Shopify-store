@@ -176,9 +176,10 @@ function FooterMenu({menu, header, primaryDomainUrl, publicStoreDomain}) {
               displayUrl = '/contact-us';
             }
 
-            // Replace "Your privacy choices" with "Privacy Policy"
+            // Replace "Your privacy choices" with "Privacy Policy" and redirect to correct page
             if (item.title.toLowerCase() === 'your privacy choices') {
               displayTitle = 'Privacy Policy';
+              displayUrl = '/policies/privacy-policy';
             }
 
             return (

@@ -2576,6 +2576,112 @@ button.reset:hover:not(:has(> *)) {
   }
 }
 
+/* Policy Pages */
+.policy {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  color: rgba(255, 255, 255, 0.87);
+  line-height: 1.6;
+}
+
+.policy h1 {
+  font-size: 2em;
+  margin-bottom: 1em;
+  color: white;
+}
+
+.policy h2 {
+  font-size: 1.5em;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+  color: white;
+}
+
+.policy h3 {
+  font-size: 1.25em;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.policy p {
+  margin-bottom: 1em;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.policy ul, .policy ol {
+  margin: 1em 0;
+  padding-left: 1.5em;
+}
+
+.policy li {
+  margin-bottom: 0.5em;
+}
+
+.policy a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: underline;
+}
+
+.policy a:hover {
+  color: white;
+}
+
+/* Mobile responsive for policy pages */
+@media (max-width: 768px) {
+  .policy {
+    padding: 16px;
+  }
+
+  .policy h1 {
+    font-size: 1.75em;
+    line-height: 1.3;
+  }
+
+  .policy h2 {
+    font-size: 1.35em;
+    line-height: 1.3;
+  }
+
+  .policy h3 {
+    font-size: 1.15em;
+    line-height: 1.3;
+  }
+
+  .policy p, .policy li {
+    font-size: 0.95em;
+  }
+
+  .policy ul, .policy ol {
+    padding-left: 1.25em;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .policy {
+    padding: 12px;
+  }
+
+  .policy h1 {
+    font-size: 1.5em;
+  }
+
+  .policy h2 {
+    font-size: 1.25em;
+  }
+
+  .policy h3 {
+    font-size: 1.1em;
+  }
+
+  .policy p, .policy li {
+    font-size: 0.9em;
+  }
+}
+
 /* Modal Animations */
 @keyframes fadeIn {
   from {
