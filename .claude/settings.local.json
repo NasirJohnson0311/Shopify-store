@@ -37,7 +37,8 @@
       "mcp__ide__getDiagnostics",
       "Bash(rm:*)",
       "Bash(npx vite:*)",
-      "Bash(/Users/nasirjohnson/shopify-store/art-storefront/app/styles/app.css)"
+      "Bash(/Users/nasirjohnson/shopify-store/art-storefront/app/styles/app.css)",
+      "WebFetch(domain:use.typekit.net)"
     ],
     "deny": [],
     "ask": []

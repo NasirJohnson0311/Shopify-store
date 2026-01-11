@@ -13,49 +13,113 @@ const ZoomedParticleAnimation = () => {
 
     let animationFrameId;
     let time = 0;
+    let particles = [];
+    let currentViewportState = null;
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
 
+    const initializeParticles = () => {
+      const isSmallContainer = canvas.width < 440;
+
+      // Same zoom level for both mobile and desktop
+      const zoomLevel = 2.5;
+
+      // Same offsets for both mobile and desktop
+      const zoomOffsetX = canvas.width / 18;
+      const zoomOffsetY = canvas.height / 18 - 60;
+
+      // Same particle count for both
+      const numParticles = 50;
+      const centerX = canvas.width / (2 * zoomLevel) + zoomOffsetX;
+      const centerY = canvas.height / (2 * zoomLevel) + zoomOffsetY;
+
+      particles = [];
+
+      // SAME circular pattern for BOTH mobile and desktop
+      for (let i = 0; i < numParticles; i++) {
+        const angle = (i / numParticles) * Math.PI * 2;
+        const baseRadius = 180;
+        const radiusVariation = 80;
+        const radius = Math.random() * radiusVariation + baseRadius;
+
+        const clusterChance = Math.random();
+        const clusterOffset = clusterChance < 0.2 ? 40 : (clusterChance > 0.8 ? -40 : 0);
+
+        const speedMultiplier = isSmallContainer ? 0.05 : 1.0;
+
+        particles.push({
+          x: centerX + Math.cos(angle) * (radius + clusterOffset),
+          y: centerY + Math.sin(angle) * (radius + clusterOffset),
+          speedX: (Math.random() - 0.5) * 0.05 * speedMultiplier,
+          speedY: (Math.random() - 0.5) * 0.05 * speedMultiplier,
+          size: Math.random() * 1.5 + 0.8,
+          connections: [],
+          noiseOffset: Math.random() * 1000,
+          idealSpace: 60 + Math.random() * 20,
+          allowClustering: clusterChance < 0.35
+        });
+      }
+
+      // Store current viewport state to detect changes
+      currentViewportState = {
+        isSmallContainer,
+        zoomLevel,
+        zoomOffsetX,
+        zoomOffsetY,
+        centerX,
+        centerY,
+        numParticles,
+        maxConnectionDistance: isSmallContainer ? 120 / zoomLevel : 180 / zoomLevel,
+        fadeZoneWidth: 60 / zoomLevel
+      };
+
+      return currentViewportState;
+    };
+
+    const handleResize = () => {
+      const previousWidth = canvas.width;
+      resizeCanvas();
+
+      // Only reinitialize particles when crossing mobile/desktop threshold
+      const isSmallNow = canvas.width < 440;
+      const wasSmall = previousWidth < 440;
+
+      if (isSmallNow !== wasSmall) {
+        // Viewport crossed mobile/desktop threshold - reinitialize particles
+        initializeParticles();
+      } else {
+        // Same viewport type - just update viewport state without recreating particles
+        const isSmallContainer = canvas.width < 440;
+        const zoomLevel = 2.5;
+        const zoomOffsetX = canvas.width / 18;
+        const zoomOffsetY = canvas.height / 18 - 60;
+        const centerX = canvas.width / (2 * zoomLevel) + zoomOffsetX;
+        const centerY = canvas.height / (2 * zoomLevel) + zoomOffsetY;
+
+        currentViewportState = {
+          isSmallContainer,
+          zoomLevel,
+          zoomOffsetX,
+          zoomOffsetY,
+          centerX,
+          centerY,
+          numParticles: currentViewportState.numParticles,
+          maxConnectionDistance: isSmallContainer ? 120 / zoomLevel : 180 / zoomLevel,
+          fadeZoneWidth: 60 / zoomLevel
+        };
+      }
+    };
+
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const isSmallContainer = canvas.width < 440;
-    const zoomLevel = isSmallContainer ? 2.5 : 2.5;
-    const zoomOffsetX = canvas.width / 18;
-    const zoomOffsetY = canvas.height / 18 - 60;
-
-    const particles = [];
-
-    const numParticles = isSmallContainer ? 15 : 50;
-    const centerX = canvas.width / (2 * zoomLevel) + zoomOffsetX;
-    const centerY = canvas.height / (2 * zoomLevel) + zoomOffsetY;
-
-    for (let i = 0; i < numParticles; i++) {
-      const angle = (i / numParticles) * Math.PI * 2;
-      const radius = Math.random() * 180 + 80;
-      const clusterChance = Math.random();
-      const clusterOffset = clusterChance < 0.2 ? 40 : (clusterChance > 0.8 ? -40 : 0);
-
-      particles.push({
-        x: centerX + Math.cos(angle) * (radius + clusterOffset),
-        y: centerY + Math.sin(angle) * (radius + clusterOffset),
-        speedX: (Math.random() - 0.5) * 0.05,
-        speedY: (Math.random() - 0.5) * 0.05,
-        size: Math.random() * 1.5 + 0.8,
-        connections: [],
-        noiseOffset: Math.random() * 1000,
-        idealSpace: 60 + Math.random() * 20,
-        allowClustering: clusterChance < 0.35
-      });
-    }
-
-    const maxConnectionDistance = isSmallContainer ? 200 / zoomLevel : 180 / zoomLevel;
-    const fadeZoneWidth = isSmallContainer ? 40 / zoomLevel : 60 / zoomLevel;
+    let state = initializeParticles();
+    window.addEventListener('resize', handleResize);
 
     const animate = () => {
+      if (!currentViewportState) return;
+
       time += 0.0025;
 
       ctx.fillStyle = '#000000';
@@ -63,6 +127,7 @@ const ZoomedParticleAnimation = () => {
 
       particles.forEach(particle => particle.connections = []);
 
+      // Calculate connections
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const distance = Math.sqrt(
@@ -70,12 +135,12 @@ const ZoomedParticleAnimation = () => {
             Math.pow(particles[i].y - particles[j].y, 2)
           );
 
-          if (distance < maxConnectionDistance * zoomLevel) {
+          if (distance < currentViewportState.maxConnectionDistance * currentViewportState.zoomLevel) {
             let alpha;
-            if (distance < (maxConnectionDistance - fadeZoneWidth) * zoomLevel) {
-              alpha = Math.min(0.12, 0.18 * (1 - distance / ((maxConnectionDistance - fadeZoneWidth) * zoomLevel)));
+            if (distance < (currentViewportState.maxConnectionDistance - currentViewportState.fadeZoneWidth) * currentViewportState.zoomLevel) {
+              alpha = Math.min(0.12, 0.18 * (1 - distance / ((currentViewportState.maxConnectionDistance - currentViewportState.fadeZoneWidth) * currentViewportState.zoomLevel)));
             } else {
-              const fadeProgress = (distance - (maxConnectionDistance - fadeZoneWidth) * zoomLevel) / (fadeZoneWidth * zoomLevel);
+              const fadeProgress = (distance - (currentViewportState.maxConnectionDistance - currentViewportState.fadeZoneWidth) * currentViewportState.zoomLevel) / (currentViewportState.fadeZoneWidth * currentViewportState.zoomLevel);
               alpha = 0.12 * Math.pow(1 - fadeProgress, 3);
             }
 
@@ -91,19 +156,21 @@ const ZoomedParticleAnimation = () => {
         const noiseScale = 0.001;
         const noiseX = particle.x * noiseScale + particle.noiseOffset;
         const noiseY = particle.y * noiseScale + particle.noiseOffset + 100;
-        const noiseVal = Math.sin(noiseX + time) * Math.cos(noiseY - time) + 
+        const noiseVal = Math.sin(noiseX + time) * Math.cos(noiseY - time) +
                         Math.sin(noiseX * 2 + time * 0.6) * Math.cos(noiseY * 2 - time * 0.6) * 0.3;
 
-        const noiseMultiplier = isSmallContainer ? 0.0085 : 0.00125;
+        // Reduced noise multiplier for mobile (about 20x slower)
+        const noiseMultiplier = currentViewportState.isSmallContainer ? 0.00006 : 0.00125;
         particle.speedX += Math.cos(noiseVal * Math.PI * 2) * noiseMultiplier;
         particle.speedY += Math.sin(noiseVal * Math.PI * 2) * noiseMultiplier;
 
-        const dx = centerX - particle.x;
-        const dy = centerY - particle.y;
+        // Reduced center force for mobile (about 20x weaker)
+        const centerForceMultiplier = currentViewportState.isSmallContainer ? 0.05 : 1.0;
+        const dx = currentViewportState.centerX - particle.x;
+        const dy = currentViewportState.centerY - particle.y;
         const distanceToCenter = Math.sqrt(dx * dx + dy * dy);
         const centerRange = particle.allowClustering ? 130 : 200;
         const minDistance = particle.allowClustering ? 60 : 90;
-        const centerForceMultiplier = isSmallContainer ? 0.1 : 1.0;
 
         if (distanceToCenter > centerRange) {
           particle.speedX += dx / distanceToCenter * 0.002 * centerForceMultiplier;
@@ -113,13 +180,14 @@ const ZoomedParticleAnimation = () => {
           particle.speedY -= dy / distanceToCenter * 0.0025 * centerForceMultiplier;
         }
 
+        // Same particle spacing logic for BOTH mobile and desktop
         particles.forEach(other => {
           if (other === particle) return;
-          
+
           const dx = particle.x - other.x;
           const dy = particle.y - other.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          
+
           if (distance < particle.idealSpace) {
             const force = particle.allowClustering && other.allowClustering ? 0.005 : 0.015;
             if (distance < particle.idealSpace * 0.7) {
@@ -129,44 +197,28 @@ const ZoomedParticleAnimation = () => {
           }
         });
 
-        const damping = isSmallContainer ? 0.97 : 0.98;
+        // Same damping for both mobile and desktop
+        const damping = 0.98;
         particle.speedX *= damping;
         particle.speedY *= damping;
-        
+
         particle.x += particle.speedX;
         particle.y += particle.speedY;
 
-        if (isSmallContainer) {
-          const boundary = 50;
-          const screenWidth = canvas.width / zoomLevel;
-          const screenHeight = canvas.height / zoomLevel;
-          
-          if (particle.x < boundary) {
-            particle.speedX += (boundary - particle.x) * 0.01;
-          }
-          if (particle.x > screenWidth - boundary) {
-            particle.speedX -= (particle.x - (screenWidth - boundary)) * 0.01;
-          }
-          if (particle.y < boundary) {
-            particle.speedY += (boundary - particle.y) * 0.01;
-          }
-          if (particle.y > screenHeight - boundary) {
-            particle.speedY -= (particle.y - (screenHeight - boundary)) * 0.01;
-          }
-        } else {
-          if (particle.x < 0) particle.x += canvas.width / zoomLevel;
-          if (particle.x > canvas.width / zoomLevel) particle.x -= canvas.width / zoomLevel;
-          if (particle.y < 0) particle.y += canvas.height / zoomLevel;
-          if (particle.y > canvas.height / zoomLevel) particle.y -= canvas.height / zoomLevel;
-        }
+        // Same wrap-around boundaries for BOTH mobile and desktop
+        if (particle.x < 0) particle.x += canvas.width / currentViewportState.zoomLevel;
+        if (particle.x > canvas.width / currentViewportState.zoomLevel) particle.x -= canvas.width / currentViewportState.zoomLevel;
+        if (particle.y < 0) particle.y += canvas.height / currentViewportState.zoomLevel;
+        if (particle.y > canvas.height / currentViewportState.zoomLevel) particle.y -= canvas.height / currentViewportState.zoomLevel;
       });
 
       ctx.save();
-      ctx.translate(-zoomOffsetX * zoomLevel, -zoomOffsetY * zoomLevel);
-      ctx.scale(zoomLevel, zoomLevel);
-      ctx.lineWidth = 1 / zoomLevel;
+      ctx.translate(-currentViewportState.zoomOffsetX * currentViewportState.zoomLevel, -currentViewportState.zoomOffsetY * currentViewportState.zoomLevel);
+      ctx.scale(currentViewportState.zoomLevel, currentViewportState.zoomLevel);
+      ctx.lineWidth = 1 / currentViewportState.zoomLevel;
       ctx.lineCap = 'round';
 
+      // Draw connections
       particles.forEach(particle => {
         particle.connections.forEach(conn => {
           ctx.strokeStyle = `rgba(255, 3, 3, ${conn.alpha})`;
@@ -177,12 +229,13 @@ const ZoomedParticleAnimation = () => {
         });
       });
 
+      // Draw particles - same for BOTH mobile and desktop
       particles.forEach(particle => {
         const distanceToCenter = Math.sqrt(
-          Math.pow(particle.x - centerX, 2) +
-          Math.pow(particle.y - centerY, 2)
+          Math.pow(particle.x - currentViewportState.centerX, 2) +
+          Math.pow(particle.y - currentViewportState.centerY, 2)
         );
-        const alphaVariation = isSmallContainer ? 0.4 : 0.5;
+        const alphaVariation = 0.5;
         const alpha = Math.max(0.15, Math.min(0.35, 1 - distanceToCenter / (500 + alphaVariation * 100)));
 
         ctx.fillStyle = `rgba(255, 3, 3, ${alpha})`;
@@ -199,14 +252,15 @@ const ZoomedParticleAnimation = () => {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', resizeCanvas);
-      
+      window.removeEventListener('resize', handleResize);
+
       if (canvas && ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
-      
+
       particles.length = 0;
       time = 0;
+      currentViewportState = null;
     };
   }, []);
 
