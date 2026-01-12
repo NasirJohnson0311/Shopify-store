@@ -27,8 +27,8 @@ const ZoomedParticleAnimation = () => {
       // Same zoom level for both mobile and desktop
       const zoomLevel = 2.5;
 
-      // Same offsets for both mobile and desktop
-      const zoomOffsetX = canvas.width / 18;
+      // Different offsets for mobile to push particles to screen edge
+      const zoomOffsetX = isSmallContainer ? 0 : canvas.width / 18;
       const zoomOffsetY = canvas.height / 18 - 60;
 
       // Same particle count for both
@@ -48,14 +48,20 @@ const ZoomedParticleAnimation = () => {
         const clusterChance = Math.random();
         const clusterOffset = clusterChance < 0.2 ? 40 : (clusterChance > 0.8 ? -40 : 0);
 
-        const speedMultiplier = isSmallContainer ? 0.05 : 1.0;
+        // Much slower initial speed on mobile to reduce flickering (95% slower)
+        const speedMultiplier = isSmallContainer ? 0.0005 : 1.0;
+
+        // Smaller particle size on mobile
+        const particleSize = isSmallContainer
+          ? Math.random() * 0.8 + 0.4  // Mobile: 0.4-1.2
+          : Math.random() * 1.5 + 0.8; // Desktop: 0.8-2.3
 
         particles.push({
           x: centerX + Math.cos(angle) * (radius + clusterOffset),
           y: centerY + Math.sin(angle) * (radius + clusterOffset),
           speedX: (Math.random() - 0.5) * 0.05 * speedMultiplier,
           speedY: (Math.random() - 0.5) * 0.05 * speedMultiplier,
-          size: Math.random() * 1.5 + 0.8,
+          size: particleSize,
           connections: [],
           noiseOffset: Math.random() * 1000,
           idealSpace: 60 + Math.random() * 20,
@@ -94,7 +100,7 @@ const ZoomedParticleAnimation = () => {
         // Same viewport type - just update viewport state without recreating particles
         const isSmallContainer = canvas.width < 440;
         const zoomLevel = 2.5;
-        const zoomOffsetX = canvas.width / 18;
+        const zoomOffsetX = isSmallContainer ? 0 : canvas.width / 18;
         const zoomOffsetY = canvas.height / 18 - 60;
         const centerX = canvas.width / (2 * zoomLevel) + zoomOffsetX;
         const centerY = canvas.height / (2 * zoomLevel) + zoomOffsetY;
@@ -120,7 +126,9 @@ const ZoomedParticleAnimation = () => {
     const animate = () => {
       if (!currentViewportState) return;
 
-      time += 0.0025;
+      // Much slower time increment on mobile to reduce flickering (90% slower)
+      const timeIncrement = currentViewportState.isSmallContainer ? 0.0001 : 0.0025;
+      time += timeIncrement;
 
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -159,13 +167,13 @@ const ZoomedParticleAnimation = () => {
         const noiseVal = Math.sin(noiseX + time) * Math.cos(noiseY - time) +
                         Math.sin(noiseX * 2 + time * 0.6) * Math.cos(noiseY * 2 - time * 0.6) * 0.3;
 
-        // Reduced noise multiplier for mobile (about 20x slower)
-        const noiseMultiplier = currentViewportState.isSmallContainer ? 0.00006 : 0.00125;
+        // Much reduced noise multiplier for mobile to reduce flickering (97% slower)
+        const noiseMultiplier = currentViewportState.isSmallContainer ? 0.0000005 : 0.00125;
         particle.speedX += Math.cos(noiseVal * Math.PI * 2) * noiseMultiplier;
         particle.speedY += Math.sin(noiseVal * Math.PI * 2) * noiseMultiplier;
 
-        // Reduced center force for mobile (about 20x weaker)
-        const centerForceMultiplier = currentViewportState.isSmallContainer ? 0.05 : 1.0;
+        // Reduced center force for mobile (95% slower)
+        const centerForceMultiplier = currentViewportState.isSmallContainer ? 0.002 : 1.0;
         const dx = currentViewportState.centerX - particle.x;
         const dy = currentViewportState.centerY - particle.y;
         const distanceToCenter = Math.sqrt(dx * dx + dy * dy);
@@ -205,9 +213,14 @@ const ZoomedParticleAnimation = () => {
         particle.x += particle.speedX;
         particle.y += particle.speedY;
 
-        // Same wrap-around boundaries for BOTH mobile and desktop
-        if (particle.x < 0) particle.x += canvas.width / currentViewportState.zoomLevel;
-        if (particle.x > canvas.width / currentViewportState.zoomLevel) particle.x -= canvas.width / currentViewportState.zoomLevel;
+        // Extended left/right boundaries on mobile
+        const horizontalPadding = currentViewportState.isSmallContainer ? 80 : 0;
+        const minX = -horizontalPadding / currentViewportState.zoomLevel;
+        const maxX = (canvas.width / currentViewportState.zoomLevel) + (horizontalPadding / currentViewportState.zoomLevel);
+
+        // Wrap-around boundaries
+        if (particle.x < minX) particle.x += (maxX - minX);
+        if (particle.x > maxX) particle.x -= (maxX - minX);
         if (particle.y < 0) particle.y += canvas.height / currentViewportState.zoomLevel;
         if (particle.y > canvas.height / currentViewportState.zoomLevel) particle.y -= canvas.height / currentViewportState.zoomLevel;
       });
@@ -218,10 +231,15 @@ const ZoomedParticleAnimation = () => {
       ctx.lineWidth = 1 / currentViewportState.zoomLevel;
       ctx.lineCap = 'round';
 
-      // Draw connections
+      // Draw connections - reduced opacity on mobile
       particles.forEach(particle => {
         particle.connections.forEach(conn => {
-          ctx.strokeStyle = `rgba(255, 3, 3, ${conn.alpha})`;
+          // Reduce connection opacity by 40% on mobile
+          const connectionAlpha = currentViewportState.isSmallContainer
+            ? conn.alpha * 0.6
+            : conn.alpha;
+
+          ctx.strokeStyle = `rgba(255, 3, 3, ${connectionAlpha})`;
           ctx.beginPath();
           ctx.moveTo(particle.x, particle.y);
           ctx.lineTo(conn.particle.x, conn.particle.y);
@@ -229,14 +247,19 @@ const ZoomedParticleAnimation = () => {
         });
       });
 
-      // Draw particles - same for BOTH mobile and desktop
+      // Draw particles - reduced opacity on mobile
       particles.forEach(particle => {
         const distanceToCenter = Math.sqrt(
           Math.pow(particle.x - currentViewportState.centerX, 2) +
           Math.pow(particle.y - currentViewportState.centerY, 2)
         );
         const alphaVariation = 0.5;
-        const alpha = Math.max(0.15, Math.min(0.35, 1 - distanceToCenter / (500 + alphaVariation * 100)));
+        let alpha = Math.max(0.15, Math.min(0.35, 1 - distanceToCenter / (500 + alphaVariation * 100)));
+
+        // Reduce opacity by 40% on mobile
+        if (currentViewportState.isSmallContainer) {
+          alpha *= 0.6;
+        }
 
         ctx.fillStyle = `rgba(255, 3, 3, ${alpha})`;
         ctx.beginPath();
