@@ -38,7 +38,8 @@
       "Bash(rm:*)",
       "Bash(npx vite:*)",
       "Bash(/Users/nasirjohnson/shopify-store/art-storefront/app/styles/app.css)",
-      "WebFetch(domain:use.typekit.net)"
+      "WebFetch(domain:use.typekit.net)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

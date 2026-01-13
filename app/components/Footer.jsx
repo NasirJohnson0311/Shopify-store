@@ -1,15 +1,18 @@
 import {Suspense} from 'react';
 import {Await, NavLink} from 'react-router';
+import {useFadeInOnScroll} from '~/hooks/useFadeInOnScroll';
 
 /**
  * @param {FooterProps}
  */
 export function Footer({footer: footerPromise, header, publicStoreDomain}) {
+  const [footerRef, isFooterVisible] = useFadeInOnScroll();
+
   return (
     <Suspense>
       <Await resolve={footerPromise}>
         {(footer) => (
-          <footer className="footer">
+          <footer ref={footerRef} className={`footer fade-in-on-scroll ${isFooterVisible ? 'visible' : ''}`}>
             <div className="footer-container">
               {/* Divider */}
               <div style={{
