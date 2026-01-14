@@ -27,10 +27,12 @@ export default async function handleRequest(
       "'unsafe-inline'",
       'https://cdn.shopify.com',
       'https://use.typekit.net',
+      'https://fonts.googleapis.com',
     ],
     fontSrc: [
       "'self'",
       'https://use.typekit.net',
+      'https://fonts.gstatic.com',
       'data:',
     ],
   });

@@ -1,5 +1,5 @@
 import {useLoaderData, Await} from 'react-router';
-import {Suspense} from 'react';
+import {Suspense, useState} from 'react';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -128,7 +128,10 @@ export default function Product() {
       >
         <ProductImage image={selectedVariant?.image} />
         <div className="product-main">
-          <h1>{title}</h1>
+          <div className="product-title-row">
+            <h1>{title}</h1>
+            <ShareButton productTitle={title} productHandle={product.handle} />
+          </div>
           <div style={{ marginTop: '0.5rem' }}>
             <ProductPrice
               price={selectedVariant?.price}
@@ -173,6 +176,60 @@ export default function Product() {
       </div>
       <RecommendedProducts products={recommendedProducts} currentProductHandle={product.handle} />
     </>
+  );
+}
+
+function ShareButton({productTitle, productHandle}) {
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const handleShare = async () => {
+    const url = `${window.location.origin}/products/${productHandle}`;
+    const shareData = {
+      title: productTitle,
+      text: `Check out ${productTitle}`,
+      url: url,
+    };
+
+    // Check if Web Share API is available (typically on mobile)
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        // User cancelled or error occurred
+        if (err.name !== 'AbortError') {
+          console.error('Error sharing:', err);
+        }
+      }
+    } else {
+      // Fallback to copying link to clipboard
+      try {
+        await navigator.clipboard.writeText(url);
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+    }
+  };
+
+  return (
+    <button
+      onClick={handleShare}
+      className="share-button"
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 50 50"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M30.3 13.7L25 8.4l-5.3 5.3-1.4-1.4L25 5.6l6.7 6.7z"/>
+        <path d="M24 7h2v21h-2z"/>
+        <path d="M35 40H15c-1.7 0-3-1.3-3-3V19c0-1.7 1.3-3 3-3h7v2h-7c-.6 0-1 .4-1 1v18c0 .6.4 1 1 1h20c.6 0 1-.4 1-1V19c0-.6-.4-1-1-1h-7v-2h7c1.7 0 3 1.3 3 3v18c0 1.7-1.3 3-3 3z"/>
+      </svg>
+      {copySuccess ? 'Link Copied!' : 'Share'}
+    </button>
   );
 }
 

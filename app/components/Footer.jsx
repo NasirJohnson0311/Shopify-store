@@ -14,14 +14,22 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
         {(footer) => (
           <footer ref={footerRef} className={`footer fade-in-on-scroll ${isFooterVisible ? 'visible' : ''}`}>
             <div className="footer-container">
-              {/* Divider */}
-              <div style={{
+              {/* Divider - Desktop */}
+              <div className="footer-divider-desktop" style={{
                 width: '100%',
                 height: '15px',
                 backgroundImage: 'url(/LINE_07.png)',
                 backgroundSize: '100% 100%',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
+                marginBottom: '16px'
+              }} />
+
+              {/* Divider - Mobile */}
+              <div className="footer-divider-mobile" style={{
+                width: '100%',
+                height: '1px',
+                backgroundColor: 'rgba(255, 255, 255, 0.2)',
                 marginBottom: '16px'
               }} />
 
@@ -203,18 +211,6 @@ function FooterMenu({menu, header, primaryDomainUrl, publicStoreDomain}) {
           {/* Additional custom footer links */}
           <li>
             <NavLink
-              to="/faq"
-              style={{
-                fontSize: '0.75rem',
-                color: 'rgba(255, 255, 255, 0.6)',
-                textDecoration: 'none'
-              }}
-            >
-              FAQ
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
               to="/terms-of-service"
               style={{
                 fontSize: '0.75rem',
@@ -227,6 +223,18 @@ function FooterMenu({menu, header, primaryDomainUrl, publicStoreDomain}) {
           </li>
           <li>
             <NavLink
+              to="/faq"
+              style={{
+                fontSize: '0.75rem',
+                color: 'rgba(255, 255, 255, 0.6)',
+                textDecoration: 'none'
+              }}
+            >
+              FAQ
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/returns"
               style={{
                 fontSize: '0.75rem',
@@ -235,6 +243,18 @@ function FooterMenu({menu, header, primaryDomainUrl, publicStoreDomain}) {
               }}
             >
               Returns
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/policies/shipping-policy"
+              style={{
+                fontSize: '0.75rem',
+                color: 'rgba(255, 255, 255, 0.6)',
+                textDecoration: 'none'
+              }}
+            >
+              Shipping Policy
             </NavLink>
           </li>
         </ul>

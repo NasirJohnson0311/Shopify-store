@@ -25,6 +25,37 @@
   font-display: swap;
 }
 
+/* Rajdhani Font Utility Classes */
+.rajdhani-light {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.rajdhani-regular {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.rajdhani-medium {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.rajdhani-semibold {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.rajdhani-bold {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
 :root {
   --aside-width: 400px;
   --cart-aside-summary-height-with-discount: 300px;
@@ -34,8 +65,15 @@
   --color-dark: #000;
   --color-light: #fff;
 
+  /* Font System Variables */
+  --font-primary: "Rajdhani", sans-serif;
+  --font-logo: "manifold-extd-cf", sans-serif;
+  --font-decorative-urban: "Urban Calligraphy", sans-serif;
+  --font-decorative-spray: "Spray Letters", sans-serif;
+  --font-decorative-tag: "Tag it yourself", sans-serif;
+
   /* Art React App Theme */
-  font-family: "oxanium", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 400;
   font-style: normal;
   line-height: 1.5;
@@ -71,8 +109,30 @@ img {
 }
 
 h1 {
+  font-family: var(--font-primary);
   font-size: 3.2em;
   line-height: 1.1;
+  font-weight: 700;
+}
+
+h2, h3 {
+  font-family: var(--font-primary);
+  font-weight: 600;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 500;
+}
+
+p, span, div {
+  font-family: var(--font-primary);
+  font-weight: 400;
+}
+
+small, .small-text {
+  font-family: var(--font-primary);
+  font-weight: 300;
 }
 
 /* Mobile Typography */
@@ -95,11 +155,12 @@ button {
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
+  font-weight: 600;
+  font-family: var(--font-primary);
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  letter-spacing: -0.01em;
 }
 
 button:hover {
@@ -899,6 +960,7 @@ aside header::after {
 
 aside header h3 {
   margin: 0;
+  font-weight: 700;
 }
 
 aside header .close {
@@ -933,7 +995,8 @@ aside header h2 {
   margin-top: 10px;
   margin-bottom: 20px;
   color: white;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
+  font-weight: 300;
 }
 
 .cart-label-product {
@@ -1218,6 +1281,7 @@ button.reset:hover:not(:has(> *)) {
 .header a {
   color: white;
   text-decoration: none;
+  letter-spacing: -0.01em;
 }
 
 .header a:hover {
@@ -1227,7 +1291,7 @@ button.reset:hover:not(:has(> *)) {
 .header strong {
   color: white;
   font-size: 28px;
-  font-family: "manifold-extd-cf", sans-serif;
+  font-family: var(--font-logo);
   font-weight: 400;
   font-style: normal;
   letter-spacing: 2px;
@@ -1312,122 +1376,154 @@ button.reset:hover:not(:has(> *)) {
   margin-top: 150px;
 }
 
-/* Mobile Footer */
-@media (max-width: 768px) {
-  .footer {
-    margin-top: 80px;
-  }
-}
-
 .footer-container {
   background-color: transparent;
   text-align: left;
   padding: 0 80px;
 }
 
+/* Divider visibility */
+.footer-divider-mobile {
+  display: none;
+}
+
+.footer-divider-desktop {
+  display: block;
+}
+
+/* Mobile Footer */
 @media (max-width: 768px) {
+  .footer {
+    margin-top: 60px;
+  }
+
   .footer-container {
-    padding: 0 20px;
+    padding: 0 20px 24px;
   }
 
-  /* Reduce space between PNG divider and content below */
-  .footer-container > div:first-child {
-    margin-bottom: 4px !important;
+  /* Swap dividers on mobile */
+  .footer-divider-mobile {
+    display: block !important;
+    margin-bottom: 20px !important;
   }
 
-  /* Reduce padding around email signup section */
-  .footer-container > div:nth-child(2) {
-    margin-bottom: 2px !important;
-    gap: 4px !important;
+  .footer-divider-desktop {
+    display: none !important;
   }
 
-  /* Footer menu container - row layout with wrapping */
-  .footer-container > div:last-child {
-    padding-top: 4px !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    gap: 6px !important;
+  /* Email section - left aligned and stacked */
+  .footer-container > div:nth-child(3) {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    margin-bottom: 16px !important;
+    gap: 0 !important;
   }
 
-  /* Copyright - order 1, stay inline */
-  .footer-container > div:last-child > div:first-child {
-    order: 1;
-    flex: 0 0 auto !important;
-    display: flex !important;
-    align-items: center !important;
-  }
-
-  /* Social icons - order 2, stay inline with copyright */
-  .footer-container > div:last-child > div:last-child {
-    order: 2;
-    flex: 0 0 auto !important;
-    display: flex !important;
-    align-items: center !important;
-    width: auto !important;
-    justify-content: center !important;
-  }
-
-  /* Policy links - order 3, force to new line */
-  .footer-container > div:last-child > nav {
-    order: 3;
-    flex: 1 1 100% !important;
-    display: flex !important;
-    justify-content: center !important;
-  }
-
-  /* Reduce social media icon size */
-  .footer-container > div:last-child > div:last-child svg {
-    width: 16px !important;
-    height: 16px !important;
-  }
-
-  /* Reduce "Join our email list" heading size on mobile */
-  .footer-container > div:nth-child(2) > div:first-child h4 {
+  /* Email heading */
+  .footer-container > div:nth-child(3) > div:first-child h4 {
     font-size: 1.1rem !important;
+    margin-bottom: 8px !important;
   }
 
-  /* Center email signup section on mobile */
-  .footer-container > div:nth-child(2) {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    width: 100% !important;
-    gap: 8px !important;
+  /* Email text */
+  .footer-container > div:nth-child(3) > div:first-child p {
+    font-size: 0.8rem !important;
+    margin-bottom: 12px !important;
   }
 
-  /* Center the heading and description */
-  .footer-container > div:nth-child(2) > div:first-child {
+  /* Email heading and description container */
+  .footer-container > div:nth-child(3) > div:first-child {
     width: 100% !important;
-    max-width: 100% !important;
     min-width: 100% !important;
-    text-align: center !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
+    flex: none !important;
   }
 
-  /* Center the email input form */
-  .footer-container > div:nth-child(2) > div:last-child {
+  /* Email input form - full width */
+  .footer-container > div:nth-child(3) > div:last-child {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 100% !important;
     margin-left: 0 !important;
   }
 
-  /* Make copyright text smaller on mobile */
-  .footer-container > div:last-child > div:first-child,
-  .footer-container > div:last-child > div:first-child p {
-    font-size: 0.65rem !important;
+  /* Footer menu container - grid layout with left/right sections */
+  .footer-container > div:last-child {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    grid-template-rows: auto auto !important;
+    gap: 12px 20px !important;
+    padding-top: 8px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
-  /* Reduce top padding on policy links section */
+  /* Policy links - left side, spans both rows */
+  .footer-container > div:last-child > nav {
+    grid-column: 1 !important;
+    grid-row: 1 / 3 !important;
+    align-self: end !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   .footer-menu {
-    padding-top: 0.25rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: left !important;
+    display: block !important;
+  }
+
+  .footer-menu ul {
+    display: grid !important;
+    grid-template-columns: repeat(2, auto) !important;
+    grid-auto-flow: column !important;
+    grid-template-rows: repeat(3, auto) !important;
+    gap: 10px 20px !important;
+    justify-content: start !important;
+    justify-items: start !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .footer-menu li {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    text-align: left !important;
+  }
+
+  .footer-menu a {
+    font-size: 0.7rem !important;
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: left !important;
+  }
+
+  /* Copyright - right side, bottom row */
+  .footer-container > div:last-child > div:first-child {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    font-size: 0.7rem !important;
+    text-align: right !important;
+  }
+
+  .footer-container > div:last-child > div:first-child p {
+    font-size: 0.7rem !important;
+  }
+
+  /* Social icons - right side, top row */
+  .footer-container > div:last-child > div:last-child {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    gap: 10px !important;
+    justify-content: flex-end !important;
+  }
+
+  .footer-container > div:last-child > div:last-child svg {
+    width: 15px !important;
+    height: 15px !important;
   }
 }
 
@@ -1457,6 +1553,12 @@ button.reset:hover:not(:has(> *)) {
   color: rgb(246, 245, 245);
   display: inline;
   margin: 20px;
+}
+
+/* Desktop social icons - reduce by 15% */
+.footer-container > div:last-child > div:last-child svg {
+  width: 17px;
+  height: 17px;
 }
 
 /*
@@ -2207,10 +2309,12 @@ button.reset:hover:not(:has(> *)) {
 .recommended-products-grid .product-item h4 {
   margin: 0;
   font-size: 0.875rem;
-  font-family: "oxanium", sans-serif !important;
-  font-weight: 400;
+  font-family: var(--font-primary);
+  font-weight: 600;
   font-style: normal;
   line-height: 1.3;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -2220,7 +2324,8 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .recommended-products-grid .product-item small {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
+  font-weight: 300;
   opacity: 0.9;
 }
 
@@ -2346,15 +2451,18 @@ button.reset:hover:not(:has(> *)) {
 .product-item h4 {
   margin: 0.75rem 0 0.25rem 0;
   font-size: 0.875rem;
-  font-family: "oxanium", sans-serif !important;
-  font-weight: 400;
+  font-family: var(--font-primary);
+  font-weight: 600;
   font-style: normal;
   line-height: 1.4;
   color: white;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
 }
 
 .product-item small {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
+  font-weight: 300;
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -2386,8 +2494,8 @@ button.reset:hover:not(:has(> *)) {
 .product h1 {
   margin-top: 0;
   font-size: 1.5rem;
-  font-family: "oxanium", sans-serif !important;
-  font-weight: 400;
+  font-family: var(--font-primary);
+  font-weight: 600;
   font-style: normal;
   margin-bottom: 0.5rem;
 }
@@ -2415,6 +2523,18 @@ button.reset:hover:not(:has(> *)) {
   overflow-y: auto;
 }
 
+.product-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.product-title-row h1 {
+  margin: 0;
+  flex: 1;
+}
+
 .product-main p {
   margin: 0;
   font-size: 0.85rem;
@@ -2424,6 +2544,31 @@ button.reset:hover:not(:has(> *)) {
 .product-main strong {
   font-size: 1rem;
   font-weight: 500;
+}
+
+.share-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: opacity 0.2s ease;
+  font-family: var(--font-primary);
+  font-weight: 400;
+  font-size: 0.875rem;
+  width: fit-content;
+}
+
+.share-button:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+.share-button svg {
+  flex-shrink: 0;
 }
 
 .recommended-products-section {
@@ -2442,7 +2587,7 @@ button.reset:hover:not(:has(> *)) {
 
 .recommended-products-section h2 {
   font-size: 1.75rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 2rem;
   color: white;
 }
@@ -2844,14 +2989,20 @@ body:has(.cart-page) canvas {
 
 .cart-header-product {
   text-align: left;
+  font-weight: 300;
+  font-size: 0.8rem;
 }
 
 .cart-header-quantity {
   text-align: center;
+  font-weight: 300;
+  font-size: 0.8rem;
 }
 
 .cart-header-total {
   text-align: right;
+  font-weight: 300;
+  font-size: 0.8rem;
 }
 
 @media (max-width: 768px) {

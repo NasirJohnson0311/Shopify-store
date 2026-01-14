@@ -39,7 +39,8 @@
       "Bash(npx vite:*)",
       "Bash(/Users/nasirjohnson/shopify-store/art-storefront/app/styles/app.css)",
       "WebFetch(domain:use.typekit.net)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git revert:*)"
     ],
     "deny": [],
     "ask": []
