@@ -1312,215 +1312,151 @@ button.reset:hover:not(:has(> *)) {
   margin-top: 150px;
 }
 
+/* Mobile Footer */
+@media (max-width: 768px) {
+  .footer {
+    margin-top: 80px;
+  }
+}
+
 .footer-container {
   background-color: transparent;
   text-align: left;
   padding: 0 80px;
 }
 
-/* Divider Line */
-.footer-divider-line {
-  width: 100%;
-  height: 15px;
-  background-image: url(/LINE_07.png);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-bottom: 24px;
-}
-
-/* Email Section - Left Aligned */
-.footer-email-section {
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-.footer-email-heading {
-  margin: 0 0 8px 0;
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.87);
-}
-
-.footer-email-text {
-  margin: 0 0 16px 0;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.4;
-}
-
-.footer-email-form {
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 39px;
-  overflow: hidden;
-  max-width: 400px;
-}
-
-.footer-email-input {
-  flex: 1;
-  padding: 10px 16px;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  color: white;
-  font-size: 0.9rem;
-}
-
-.footer-email-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.footer-email-button {
-  padding: 10px 20px;
-  background-color: transparent;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: opacity 0.2s ease;
-}
-
-.footer-email-button:hover {
-  opacity: 0.8;
-}
-
-/* Bottom Row - Links on Left, Copyright & Social on Right */
-.footer-bottom-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 40px;
-  padding-top: 8px;
-}
-
-/* Left Section - Links Only */
-.footer-links {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-auto-flow: column;
-  grid-template-rows: repeat(3, auto);
-  gap: 10px 32px;
-  justify-content: flex-start;
-  flex-shrink: 1;
-}
-
-/* Right Section - Copyright + Social Stacked */
-.footer-right-section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
-  flex-shrink: 0;
-}
-
-.footer-copyright {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
-  white-space: nowrap;
-}
-
-.footer-link-item {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  white-space: nowrap;
-  transition: color 0.2s ease;
-}
-
-.footer-link-item:hover {
-  color: rgba(255, 255, 255, 1);
-}
-
-.footer-social-icons {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.footer-social-icon {
-  color: rgba(255, 255, 255, 0.6);
-  transition: color 0.2s ease;
-}
-
-.footer-social-icon:hover {
-  color: rgba(255, 255, 255, 1);
-}
-
-.footer-social-icon svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* Mobile Footer */
 @media (max-width: 768px) {
-  .footer {
-    margin-top: 60px;
-  }
-
   .footer-container {
-    padding: 0 20px 24px;
+    padding: 0 20px;
   }
 
-  .footer-divider-line {
-    margin-bottom: 20px;
+  /* Reduce space between PNG divider and content below */
+  .footer-container > div:first-child {
+    margin-bottom: 4px !important;
   }
 
-  .footer-email-section {
-    margin-bottom: 16px;
+  /* Reduce padding around email signup section */
+  .footer-container > div:nth-child(2) {
+    margin-bottom: 2px !important;
+    gap: 4px !important;
   }
 
-  .footer-email-heading {
-    font-size: 1.1rem;
+  /* Footer menu container - row layout with wrapping */
+  .footer-container > div:last-child {
+    padding-top: 4px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 6px !important;
   }
 
-  .footer-email-text {
-    font-size: 0.8rem;
-    margin-bottom: 12px;
+  /* Copyright - order 1, stay inline */
+  .footer-container > div:last-child > div:first-child {
+    order: 1;
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
   }
 
-  .footer-email-form {
-    max-width: 100%;
+  /* Social icons - order 2, stay inline with copyright */
+  .footer-container > div:last-child > div:last-child {
+    order: 2;
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    width: auto !important;
+    justify-content: center !important;
   }
 
-  .footer-bottom-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    padding-top: 8px;
+  /* Policy links - order 3, force to new line */
+  .footer-container > div:last-child > nav {
+    order: 3;
+    flex: 1 1 100% !important;
+    display: flex !important;
+    justify-content: center !important;
   }
 
-  .footer-links {
-    grid-template-columns: repeat(2, auto);
-    grid-auto-flow: column;
-    grid-template-rows: repeat(3, auto);
-    justify-content: flex-start;
-    gap: 10px 16px;
+  /* Reduce social media icon size */
+  .footer-container > div:last-child > div:last-child svg {
+    width: 16px !important;
+    height: 16px !important;
   }
 
-  .footer-right-section {
-    align-items: flex-start;
-    gap: 10px;
+  /* Reduce "Join our email list" heading size on mobile */
+  .footer-container > div:nth-child(2) > div:first-child h4 {
+    font-size: 1.1rem !important;
   }
 
-  .footer-copyright {
-    font-size: 0.7rem;
+  /* Center email signup section on mobile */
+  .footer-container > div:nth-child(2) {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    gap: 8px !important;
   }
 
-  .footer-social-icons {
-    gap: 10px;
+  /* Center the heading and description */
+  .footer-container > div:nth-child(2) > div:first-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
   }
 
-  .footer-link-item {
-    font-size: 0.7rem;
+  /* Center the email input form */
+  .footer-container > div:nth-child(2) > div:last-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    margin-left: 0 !important;
   }
 
-  .footer-social-icon svg {
-    width: 18px;
-    height: 18px;
+  /* Make copyright text smaller on mobile */
+  .footer-container > div:last-child > div:first-child,
+  .footer-container > div:last-child > div:first-child p {
+    font-size: 0.65rem !important;
   }
+
+  /* Reduce top padding on policy links section */
+  .footer-menu {
+    padding-top: 0.25rem !important;
+  }
+}
+
+.footer-menu {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 1rem;
+  padding: 1rem;
+}
+
+.footer-menu li {
+  display: inline;
+  margin: 20px;
+}
+
+.footer-menu a {
+  color: var(--color-light);
+  min-width: fit-content;
+}
+
+.footer-menu svg {
+  vertical-align: middle;
+}
+
+.footer p {
+  color: rgb(246, 245, 245);
+  display: inline;
+  margin: 20px;
 }
 
 /*
@@ -2634,6 +2570,11 @@ button.reset:hover:not(:has(> *)) {
 
   .recommended-products-section h2 {
     font-size: 1.5rem;
+  }
+
+  /* Footer menu adjustments */
+  .footer-menu li {
+    margin: 10px;
   }
 
   /* Header CTAs */
