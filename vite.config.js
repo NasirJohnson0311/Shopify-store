@@ -10,6 +10,16 @@ export default defineConfig({
     // Allow a strict Content-Security-Policy
     // withtout inlining assets as base64:
     assetsInlineLimit: 0,
+    // Suppress sourcemap warnings for dependencies
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Suppress sourcemap warnings for framer-motion
+        if (warning.code === 'SOURCEMAP_ERROR' && warning.message.includes('framer-motion')) {
+          return;
+        }
+        warn(warning);
+      },
+    },
   },
   ssr: {
     optimizeDeps: {
@@ -23,8 +33,10 @@ export default defineConfig({
        * Include 'example-dep' in the array below.
        * @see https://vitejs.dev/config/dep-optimization-options
        */
-      include: ['set-cookie-parser', 'cookie', 'react-router'],
+      include: ['set-cookie-parser', 'cookie', 'react-router', 'framer-motion'],
     },
+    // Ensure framer-motion is bundled for SSR instead of externalized
+    noExternal: ['framer-motion'],
   },
   server: {
     allowedHosts: ['.tryhydrogen.dev', '.trycloudflare.com'],
