@@ -40,7 +40,10 @@
       "Bash(/Users/nasirjohnson/shopify-store/art-storefront/app/styles/app.css)",
       "WebFetch(domain:use.typekit.net)",
       "Bash(find:*)",
-      "Bash(git revert:*)"
+      "Bash(git revert:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
