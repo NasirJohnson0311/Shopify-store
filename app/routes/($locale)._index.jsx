@@ -10,7 +10,7 @@ const STORE_IS_CLOSED = true; // Change to true to enable coming soon page
  * @type {Route.MetaFunction}
  */
 export const meta = () => {
-  return [{title: STORE_IS_CLOSED ? 'ULTRLX | Coming Soon' : 'Hydrogen | Home'}];
+  return [{title: STORE_IS_CLOSED ? 'ULTRLX | COMING SOON' : 'Hydrogen | Home'}];
 };
 
 /**
