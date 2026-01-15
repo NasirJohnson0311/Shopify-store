@@ -87,25 +87,36 @@ export default function Homepage() {
  */
 function ComingSoonPage() {
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      width: '100vw',
-      height: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundImage: 'url(/coming-soon-bg.png)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      padding: '2rem',
-      zIndex: 9999,
-      overflow: 'hidden',
-    }}>
+    <>
+      <style dangerouslySetInnerHTML={{__html: `
+        .coming-soon-bg {
+          background-image: url(/coming-soon-bg.png);
+        }
+
+        @media (max-width: 768px) {
+          .coming-soon-bg {
+            background-image: url(/coming-soon-bg-mobile.png);
+          }
+        }
+      `}} />
+      <div className="coming-soon-bg" style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        padding: 0,
+        zIndex: 9999,
+        overflow: 'hidden',
+      }}>
       {/* Dark overlay for better text readability */}
       <div style={{
         position: 'absolute',
@@ -113,7 +124,7 @@ function ComingSoonPage() {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0)',
         zIndex: 1,
       }} />
       <div style={{
@@ -121,7 +132,7 @@ function ComingSoonPage() {
         width: '100%',
         background: 'rgba(0, 0, 0, 0.8)',
         backdropFilter: 'blur(10px)',
-        padding: '3rem',
+        padding: '2rem',
         borderRadius: '16px',
         boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
         textAlign: 'center',
@@ -135,6 +146,7 @@ function ComingSoonPage() {
           margin: '0 0 2rem 0',
           color: '#ffffff',
           textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
+          fontFamily: '"manifold-extd-cf", sans-serif',
         }}>
           ULTRLX
         </h1>
@@ -171,6 +183,7 @@ function ComingSoonPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
