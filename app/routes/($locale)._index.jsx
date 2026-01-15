@@ -4,7 +4,7 @@ import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 
 // Set this to true to show "Coming Soon" page, false to show the store
-const STORE_IS_CLOSED = true; // Change to true to enable coming soon page
+const STORE_IS_CLOSED = false; // Change to true to enable coming soon page
 
 /**
  * @type {Route.MetaFunction}
