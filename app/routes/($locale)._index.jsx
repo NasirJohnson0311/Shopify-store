@@ -3,11 +3,14 @@ import {Suspense} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 
+// Set this to true to show "Coming Soon" page, false to show the store
+const STORE_IS_CLOSED = true; // Change to true to enable coming soon page
+
 /**
  * @type {Route.MetaFunction}
  */
 export const meta = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{title: STORE_IS_CLOSED ? 'ULTRLX | Coming Soon' : 'Hydrogen | Home'}];
 };
 
 /**
@@ -62,12 +65,88 @@ function loadDeferredData({context}) {
 export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
+
+  // Show "Coming Soon" page if store is closed
+  if (STORE_IS_CLOSED) {
+    return <ComingSoonPage />;
+  }
+
+  // Regular homepage
   return (
     <div className="home" style={{ position: 'relative', zIndex: 1 }}>
       <div className="featured-section">
         <p className="featured-items">Products</p>
       </div>
       <RecommendedProducts products={data.recommendedProducts} />
+    </div>
+  );
+}
+
+/**
+ * Coming Soon Page Component
+ */
+function ComingSoonPage() {
+  return (
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      padding: '2rem',
+    }}>
+      <div style={{
+        maxWidth: '500px',
+        width: '100%',
+        background: 'rgba(255, 255, 255, 0.95)',
+        padding: '3rem',
+        borderRadius: '16px',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+        textAlign: 'center',
+      }}>
+        {/* Logo */}
+        <h1 style={{
+          fontSize: '3rem',
+          fontWeight: '700',
+          margin: '0 0 2rem 0',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}>
+          ULTRLX
+        </h1>
+
+        {/* Message */}
+        <h2 style={{
+          fontSize: '2rem',
+          margin: '0 0 1rem 0',
+          color: '#1a202c',
+        }}>
+          Coming Soon
+        </h2>
+        <p style={{
+          fontSize: '1.1rem',
+          color: '#4a5568',
+          margin: '0 0 2rem 0',
+          lineHeight: '1.6',
+        }}>
+          We're putting the finishing touches on our new art storefront.
+          Check back soon!
+        </p>
+
+        {/* Optional: Add social links */}
+        <div style={{
+          marginTop: '2rem',
+          paddingTop: '2rem',
+          borderTop: '1px solid #e2e8f0',
+        }}>
+          <p style={{ color: '#718096', marginBottom: '0.5rem' }}>
+            Follow us for updates
+          </p>
+          {/* Add your social media links here */}
+        </div>
+      </div>
     </div>
   );
 }
