@@ -4,7 +4,7 @@ import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 
 // Set this to true to show "Coming Soon" page, false to show the store
-const STORE_IS_CLOSED = false; // Change to true to enable coming soon page
+const STORE_IS_CLOSED = true; // Change to true to enable coming soon page
 
 /**
  * @type {Route.MetaFunction}
@@ -88,31 +88,53 @@ export default function Homepage() {
 function ComingSoonPage() {
   return (
     <div style={{
-      minHeight: '100vh',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      width: '100vw',
+      height: '100vh',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      backgroundImage: 'url(/coming-soon-bg.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
       padding: '2rem',
+      zIndex: 9999,
+      overflow: 'hidden',
     }}>
+      {/* Dark overlay for better text readability */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 1,
+      }} />
       <div style={{
         maxWidth: '500px',
         width: '100%',
-        background: 'rgba(255, 255, 255, 0.95)',
+        background: 'rgba(0, 0, 0, 0.8)',
+        backdropFilter: 'blur(10px)',
         padding: '3rem',
         borderRadius: '16px',
-        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
         textAlign: 'center',
+        position: 'relative',
+        zIndex: 2,
       }}>
         {/* Logo */}
         <h1 style={{
           fontSize: '3rem',
           fontWeight: '700',
           margin: '0 0 2rem 0',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
+          color: '#ffffff',
+          textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
         }}>
           ULTRLX
         </h1>
@@ -121,13 +143,14 @@ function ComingSoonPage() {
         <h2 style={{
           fontSize: '2rem',
           margin: '0 0 1rem 0',
-          color: '#1a202c',
+          color: '#ffffff',
+          textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
         }}>
           Coming Soon
         </h2>
         <p style={{
           fontSize: '1.1rem',
-          color: '#4a5568',
+          color: '#e2e8f0',
           margin: '0 0 2rem 0',
           lineHeight: '1.6',
         }}>
@@ -139,9 +162,9 @@ function ComingSoonPage() {
         <div style={{
           marginTop: '2rem',
           paddingTop: '2rem',
-          borderTop: '1px solid #e2e8f0',
+          borderTop: '1px solid rgba(255, 255, 255, 0.2)',
         }}>
-          <p style={{ color: '#718096', marginBottom: '0.5rem' }}>
+          <p style={{ color: '#a0aec0', marginBottom: '0.5rem' }}>
             Follow us for updates
           </p>
           {/* Add your social media links here */}
