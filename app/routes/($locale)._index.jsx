@@ -86,9 +86,22 @@ export default function Homepage() {
  * Coming Soon Page Component
  */
 function ComingSoonPage() {
+  // Prevent scrolling on the body when coming soon page is displayed
+  if (typeof document !== 'undefined') {
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
+
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
+        html, body {
+          overflow: hidden !important;
+          position: fixed !important;
+          width: 100% !important;
+          height: 100% !important;
+        }
+
         .coming-soon-bg {
           background-image: url(/coming-soon-bg.png);
         }
@@ -107,6 +120,8 @@ function ComingSoonPage() {
         bottom: 0,
         width: '100vw',
         height: '100vh',
+        minHeight: '100vh',
+        minHeight: '-webkit-fill-available',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -114,8 +129,10 @@ function ComingSoonPage() {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         padding: 0,
+        margin: 0,
         zIndex: 9999,
         overflow: 'hidden',
+        touchAction: 'none',
       }}>
       {/* Dark overlay for better text readability */}
       <div style={{
