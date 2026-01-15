@@ -1,7 +1,0 @@
-node_modules
-.react-router
-.shopify
-.env
-.env.local
-*.log
-.DS_Store
