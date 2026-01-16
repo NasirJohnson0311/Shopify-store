@@ -24,10 +24,6 @@ export async function action({request, context}) {
           customer {
             id
             email
-            emailMarketingConsent {
-              marketingState
-              marketingOptInLevel
-            }
           }
           customerUserErrors {
             code
@@ -43,10 +39,6 @@ export async function action({request, context}) {
         input: {
           email: email,
           acceptsMarketing: true,
-          emailMarketingConsent: {
-            marketingState: 'SUBSCRIBED',
-            marketingOptInLevel: 'SINGLE_OPT_IN',
-          },
         },
       },
     });
