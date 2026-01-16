@@ -14,6 +14,8 @@ import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
+import {STORE_IS_CLOSED} from '~/config/store';
+import {ComingSoonPage} from '~/components/ComingSoonPage';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -172,6 +174,11 @@ export function Layout({children}) {
 export default function App() {
   /** @type {RootLoader} */
   const data = useRouteLoaderData('root');
+
+  // If store is closed, show Coming Soon page for ALL routes
+  if (STORE_IS_CLOSED) {
+    return <ComingSoonPage />;
+  }
 
   if (!data) {
     return <Outlet />;

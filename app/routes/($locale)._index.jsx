@@ -1,16 +1,16 @@
 import {Await, useLoaderData, Link} from 'react-router';
 import {Suspense} from 'react';
+import * as React from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
-
-// Set this to true to show "Coming Soon" page, false to show the store
-const STORE_IS_CLOSED = true; // Change to true to enable coming soon page
+import {STORE_IS_CLOSED} from '~/config/store';
+import {ComingSoonPage} from '~/components/ComingSoonPage';
 
 /**
  * @type {Route.MetaFunction}
  */
 export const meta = () => {
-  return [{title: STORE_IS_CLOSED ? 'ULTRLX | COMING SOON' : 'Hydrogen | Home'}];
+  return [{title: STORE_IS_CLOSED ? 'ULTRLX IS COMING' : 'Hydrogen | Home'}];
 };
 
 /**
@@ -82,127 +82,6 @@ export default function Homepage() {
   );
 }
 
-/**
- * Coming Soon Page Component
- */
-function ComingSoonPage() {
-  // Prevent scrolling on the body when coming soon page is displayed
-  if (typeof document !== 'undefined') {
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-  }
-
-  return (
-    <>
-      <style dangerouslySetInnerHTML={{__html: `
-        html, body {
-          overflow: hidden !important;
-          position: fixed !important;
-          width: 100% !important;
-          height: 100% !important;
-        }
-
-        .coming-soon-bg {
-          background-image: url(/coming-soon-bg.png);
-        }
-
-        @media (max-width: 768px) {
-          .coming-soon-bg {
-            background-image: url(/coming-soon-bg-mobile.png);
-          }
-        }
-      `}} />
-      <div className="coming-soon-bg" style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: '100vw',
-        height: '100vh',
-        minHeight: '100vh',
-        minHeight: '-webkit-fill-available',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        padding: 0,
-        margin: 0,
-        zIndex: 9999,
-        overflow: 'hidden',
-        touchAction: 'none',
-      }}>
-      {/* Dark overlay for better text readability */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0)',
-        zIndex: 1,
-      }} />
-      <div style={{
-        maxWidth: '500px',
-        width: '100%',
-        background: 'rgba(0, 0, 0, 0.8)',
-        backdropFilter: 'blur(10px)',
-        padding: '2rem',
-        borderRadius: '16px',
-        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
-        textAlign: 'center',
-        position: 'relative',
-        zIndex: 2,
-      }}>
-        {/* Logo */}
-        <h1 style={{
-          fontSize: '3rem',
-          fontWeight: '700',
-          margin: '0 0 2rem 0',
-          color: '#ffffff',
-          textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
-          fontFamily: '"manifold-extd-cf", sans-serif',
-        }}>
-          ULTRLX
-        </h1>
-
-        {/* Message */}
-        <h2 style={{
-          fontSize: '2rem',
-          margin: '0 0 1rem 0',
-          color: '#ffffff',
-          textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
-        }}>
-          Coming Soon
-        </h2>
-        <p style={{
-          fontSize: '1.1rem',
-          color: '#e2e8f0',
-          margin: '0 0 2rem 0',
-          lineHeight: '1.6',
-        }}>
-          We're putting the finishing touches on our new art storefront.
-          Check back soon!
-        </p>
-
-        {/* Optional: Add social links */}
-        <div style={{
-          marginTop: '2rem',
-          paddingTop: '2rem',
-          borderTop: '1px solid rgba(255, 255, 255, 0.2)',
-        }}>
-          <p style={{ color: '#a0aec0', marginBottom: '0.5rem' }}>
-            Follow us for updates
-          </p>
-          {/* Add your social media links here */}
-        </div>
-      </div>
-    </div>
-    </>
-  );
-}
 
 /**
  * @param {{

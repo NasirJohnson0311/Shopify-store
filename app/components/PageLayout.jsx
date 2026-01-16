@@ -10,6 +10,7 @@ import {
 } from '~/components/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
 import ZoomedParticleAnimation from '~/components/ZoomedParticleAnimation';
+import {STORE_IS_CLOSED} from '~/config/store';
 
 /**
  * @param {PageLayoutProps}
@@ -22,6 +23,11 @@ export function PageLayout({
   isLoggedIn,
   publicStoreDomain,
 }) {
+  // If store is closed, render children directly without layout wrapper
+  if (STORE_IS_CLOSED) {
+    return <>{children}</>;
+  }
+
   return (
     <Aside.Provider>
       <ZoomedParticleAnimation />
