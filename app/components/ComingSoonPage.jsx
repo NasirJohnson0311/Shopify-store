@@ -7,9 +7,18 @@ function NewsletterForm() {
   const [email, setEmail] = React.useState('');
   const [status, setStatus] = React.useState('idle'); // idle, loading, success, error
   const [message, setMessage] = React.useState('');
+  const [lastSubmitTime, setLastSubmitTime] = React.useState(0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Prevent rapid resubmissions (must wait at least 2 seconds between attempts)
+    const now = Date.now();
+    if (now - lastSubmitTime < 2000) {
+      return;
+    }
+    setLastSubmitTime(now);
+
     setStatus('loading');
 
     try {
@@ -36,7 +45,7 @@ function NewsletterForm() {
       setMessage('An error occurred. Please try again.');
     }
 
-    // Reset status after 5 seconds
+    // Reset status and message after 5 seconds
     setTimeout(() => {
       setStatus('idle');
       setMessage('');
@@ -58,24 +67,44 @@ function NewsletterForm() {
           name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          placeholder={message ? '' : 'Enter your email'}
           required
-          disabled={status === 'loading'}
+          disabled={status === 'loading' || !!message}
           style={{
             width: '100%',
             padding: '0.625rem 1rem',
             fontSize: '16px',
             borderRadius: '8px',
-            border: `1px solid ${status === 'error' ? 'rgba(239, 68, 68, 0.5)' : status === 'success' ? 'rgba(34, 197, 94, 0.5)' : 'rgba(255, 255, 255, 0.3)'}`,
+            border: '1px solid rgba(255, 255, 255, 0.3)',
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            color: '#ffffff',
+            color: message ? 'transparent' : '#ffffff',
             outline: 'none',
-            transition: 'all 0.3s ease',
+            transition: 'color 0.3s ease',
             opacity: status === 'loading' ? 0.6 : 1,
             boxSizing: 'border-box',
             paddingRight: '3rem',
           }}
         />
+        {message && (
+          <span style={{
+            position: 'absolute',
+            left: '0',
+            right: '0',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            textAlign: 'center',
+            fontSize: '16px',
+            color: status === 'error' ? '#fca5a5' : '#86efac',
+            pointerEvents: 'none',
+            animation: 'fadeInOut 5s ease-in-out',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            lineHeight: '1',
+          }}>
+            {message}
+          </span>
+        )}
         <button
           type="submit"
           disabled={status === 'loading'}
@@ -86,10 +115,10 @@ function NewsletterForm() {
             transform: 'translateY(-50%)',
             background: 'none',
             border: 'none',
-            color: status === 'success' ? '#22c55e' : status === 'error' ? '#ef4444' : '#ffffff',
+            color: '#ffffff',
             cursor: status === 'loading' ? 'not-allowed' : 'pointer',
             padding: '0.5rem',
-            display: 'flex',
+            display: message ? 'none' : 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             transition: 'all 0.3s ease',
@@ -97,19 +126,9 @@ function NewsletterForm() {
           }}
           aria-label="Subscribe"
         >
-          {status === 'loading' ? '...' : status === 'success' ? '✓' : status === 'error' ? '✗' : '→'}
+          {status === 'loading' ? '...' : '→'}
         </button>
       </form>
-      {message && (
-        <p style={{
-          fontSize: '0.75rem',
-          color: status === 'error' ? '#fca5a5' : '#86efac',
-          margin: '0.5rem 0 0 0',
-          textAlign: 'left',
-        }}>
-          {message}
-        </p>
-      )}
     </div>
   );
 }
@@ -161,6 +180,21 @@ export function ComingSoonPage() {
           font-size: 1.1rem;
         }
 
+        @keyframes fadeInOut {
+          0% {
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
+        }
+
         @media (max-width: 768px) {
           .coming-soon-bg {
             background-image: url(/coming-soon-bg-mobile.png);
@@ -185,7 +219,6 @@ export function ComingSoonPage() {
         bottom: 0,
         width: '100vw',
         height: '100vh',
-        minHeight: '100vh',
         minHeight: '-webkit-fill-available',
         display: 'flex',
         alignItems: 'center',
