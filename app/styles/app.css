@@ -1378,6 +1378,7 @@ button.reset:hover:not(:has(> *)) {
 .footer {
   background: transparent;
   margin-top: 150px;
+  padding-top: 80px;
 }
 
 .footer-container {
