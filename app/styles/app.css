@@ -1415,11 +1415,11 @@ button.reset:hover:not(:has(> *)) {
     display: none !important;
   }
 
-  /* Email section - left aligned and stacked */
+  /* Email section - centered and stacked */
   .footer-container > div:nth-child(3) {
     flex-direction: column !important;
-    align-items: flex-start !important;
-    text-align: left !important;
+    align-items: center !important;
+    text-align: center !important;
     margin-bottom: 16px !important;
     gap: 0 !important;
   }
@@ -1428,12 +1428,14 @@ button.reset:hover:not(:has(> *)) {
   .footer-container > div:nth-child(3) > div:first-child h4 {
     font-size: 1.1rem !important;
     margin-bottom: 8px !important;
+    text-align: center !important;
   }
 
   /* Email text */
   .footer-container > div:nth-child(3) > div:first-child p {
     font-size: 0.8rem !important;
     margin-bottom: 12px !important;
+    text-align: center !important;
   }
 
   /* Email heading and description container */
@@ -1441,6 +1443,7 @@ button.reset:hover:not(:has(> *)) {
     width: 100% !important;
     min-width: 100% !important;
     flex: none !important;
+    text-align: center !important;
   }
 
   /* Email input form - full width */
@@ -1659,7 +1662,7 @@ button.reset:hover:not(:has(> *)) {
   border-top: none;
   bottom: 0;
   padding: 0.75rem 1rem 0 1rem;
-  padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0));
+  padding-bottom: 0;
   position: absolute;
   width: 100%;
   left: 0;

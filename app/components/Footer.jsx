@@ -1,4 +1,4 @@
-import {Suspense} from 'react';
+import {Suspense, useState} from 'react';
 import {Await, NavLink} from 'react-router';
 import {useFadeInOnScroll} from '~/hooks/useFadeInOnScroll';
 
@@ -7,12 +7,76 @@ import {useFadeInOnScroll} from '~/hooks/useFadeInOnScroll';
  */
 export function Footer({footer: footerPromise, header, publicStoreDomain}) {
   const [footerRef, isFooterVisible] = useFadeInOnScroll();
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('idle'); // idle, loading, success, error
+  const [message, setMessage] = useState('');
+  const [lastSubmitTime, setLastSubmitTime] = useState(0);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Prevent rapid resubmissions (must wait at least 2 seconds between attempts)
+    const now = Date.now();
+    if (now - lastSubmitTime < 2000) {
+      return;
+    }
+    setLastSubmitTime(now);
+
+    setStatus('loading');
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({email}),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus('success');
+        setMessage(data.message || 'Successfully subscribed!');
+        setEmail('');
+      } else {
+        setStatus('error');
+        setMessage(data.error || 'An error occurred');
+      }
+    } catch (error) {
+      setStatus('error');
+      setMessage('An error occurred. Please try again.');
+    }
+
+    // Reset status and message after 5 seconds
+    setTimeout(() => {
+      setStatus('idle');
+      setMessage('');
+    }, 5000);
+  };
 
   return (
     <Suspense>
       <Await resolve={footerPromise}>
         {(footer) => (
-          <footer ref={footerRef} className={`footer fade-in-on-scroll ${isFooterVisible ? 'visible' : ''}`}>
+          <>
+            <style dangerouslySetInnerHTML={{__html: `
+              @keyframes fadeInOut {
+                0% {
+                  opacity: 0;
+                }
+                10% {
+                  opacity: 1;
+                }
+                90% {
+                  opacity: 1;
+                }
+                100% {
+                  opacity: 0;
+                }
+              }
+            `}} />
+            <footer ref={footerRef} className={`footer fade-in-on-scroll ${isFooterVisible ? 'visible' : ''}`}>
             <div className="footer-container">
               {/* Divider - Desktop */}
               <div className="footer-divider-desktop" style={{
@@ -75,39 +139,78 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
                   maxWidth: '500px',
                   marginLeft: 'auto'
                 }}>
-                  <form style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    backgroundColor: 'transparent',
-                    border: '2px solid rgba(255, 255, 255, 0.3)',
-                    borderRadius: '39px',
-                    overflow: 'hidden'
-                  }}>
+                  <form
+                    onSubmit={handleSubmit}
+                    style={{
+                      position: 'relative',
+                      display: 'flex',
+                      alignItems: 'center',
+                      backgroundColor: 'transparent',
+                      border: '2px solid rgba(255, 255, 255, 0.3)',
+                      borderRadius: '39px',
+                      overflow: 'hidden'
+                    }}
+                  >
                     <input
                       type="email"
-                      placeholder="Enter your email"
+                      name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={message ? '' : 'Enter your email'}
+                      required
+                      disabled={status === 'loading' || !!message}
                       style={{
                         flex: 1,
                         padding: '8px 14px',
                         backgroundColor: 'transparent',
                         border: 'none',
                         outline: 'none',
-                        color: 'white',
-                        fontSize: '0.9rem'
+                        color: message ? 'transparent' : 'white',
+                        fontSize: '0.9rem',
+                        transition: 'color 0.3s ease',
+                        opacity: status === 'loading' ? 0.6 : 1,
                       }}
                     />
+                    {message && (
+                      <span style={{
+                        position: 'absolute',
+                        left: '0',
+                        right: '0',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        textAlign: 'center',
+                        fontSize: '0.9rem',
+                        color: status === 'error' ? '#fca5a5' : '#86efac',
+                        pointerEvents: 'none',
+                        animation: 'fadeInOut 5s ease-in-out',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        lineHeight: '1',
+                        paddingLeft: '14px',
+                        paddingRight: '14px',
+                      }}>
+                        {message}
+                      </span>
+                    )}
                     <button
                       type="submit"
+                      disabled={status === 'loading'}
                       style={{
                         padding: '8px 16px',
                         backgroundColor: 'transparent',
                         border: 'none',
                         color: 'white',
-                        cursor: 'pointer',
-                        fontSize: '0.9rem'
+                        cursor: status === 'loading' ? 'not-allowed' : 'pointer',
+                        fontSize: '0.9rem',
+                        display: message ? 'none' : 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.3s ease',
+                        opacity: status === 'loading' ? 0.6 : 1,
                       }}
                     >
-                      Sign up →
+                      {status === 'loading' ? '...' : 'Sign up →'}
                     </button>
                   </form>
                 </div>
@@ -124,6 +227,7 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
               )}
             </div>
           </footer>
+          </>
         )}
       </Await>
     </Suspense>

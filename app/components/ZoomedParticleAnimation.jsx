@@ -85,38 +85,66 @@ const ZoomedParticleAnimation = () => {
       return currentViewportState;
     };
 
+    let resizeTimeout = null;
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
+
     const handleResize = () => {
-      const previousWidth = canvas.width;
-      resizeCanvas();
-
-      // Only reinitialize particles when crossing mobile/desktop threshold
-      const isSmallNow = canvas.width < 440;
-      const wasSmall = previousWidth < 440;
-
-      if (isSmallNow !== wasSmall) {
-        // Viewport crossed mobile/desktop threshold - reinitialize particles
-        initializeParticles();
-      } else {
-        // Same viewport type - just update viewport state without recreating particles
-        const isSmallContainer = canvas.width < 440;
-        const zoomLevel = 2.5;
-        const zoomOffsetX = isSmallContainer ? 0 : canvas.width / 18;
-        const zoomOffsetY = canvas.height / 18 - 60;
-        const centerX = canvas.width / (2 * zoomLevel) + zoomOffsetX;
-        const centerY = canvas.height / (2 * zoomLevel) + zoomOffsetY;
-
-        currentViewportState = {
-          isSmallContainer,
-          zoomLevel,
-          zoomOffsetX,
-          zoomOffsetY,
-          centerX,
-          centerY,
-          numParticles: currentViewportState.numParticles,
-          maxConnectionDistance: isSmallContainer ? 120 / zoomLevel : 180 / zoomLevel,
-          fadeZoneWidth: 60 / zoomLevel
-        };
+      // Clear any pending resize operations
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
       }
+
+      // Debounce resize events to prevent excessive updates
+      resizeTimeout = setTimeout(() => {
+        const currentWidth = window.innerWidth;
+        const currentHeight = window.innerHeight;
+
+        // Check if width changed significantly (ignore minor height changes from mobile address bar)
+        const widthChanged = Math.abs(currentWidth - lastWidth) > 10;
+        const heightChanged = Math.abs(currentHeight - lastHeight) > 100; // Only trigger on significant height changes
+
+        // Only process if there's a significant change
+        if (!widthChanged && !heightChanged) {
+          return;
+        }
+
+        const previousWidth = canvas.width;
+        resizeCanvas();
+
+        // Update tracking dimensions
+        lastWidth = currentWidth;
+        lastHeight = currentHeight;
+
+        // Only reinitialize particles when crossing mobile/desktop threshold
+        const isSmallNow = canvas.width < 440;
+        const wasSmall = previousWidth < 440;
+
+        if (isSmallNow !== wasSmall) {
+          // Viewport crossed mobile/desktop threshold - reinitialize particles
+          initializeParticles();
+        } else {
+          // Same viewport type - just update viewport state without recreating particles
+          const isSmallContainer = canvas.width < 440;
+          const zoomLevel = 2.5;
+          const zoomOffsetX = isSmallContainer ? 0 : canvas.width / 18;
+          const zoomOffsetY = canvas.height / 18 - 60;
+          const centerX = canvas.width / (2 * zoomLevel) + zoomOffsetX;
+          const centerY = canvas.height / (2 * zoomLevel) + zoomOffsetY;
+
+          currentViewportState = {
+            isSmallContainer,
+            zoomLevel,
+            zoomOffsetX,
+            zoomOffsetY,
+            centerX,
+            centerY,
+            numParticles: currentViewportState.numParticles,
+            maxConnectionDistance: isSmallContainer ? 120 / zoomLevel : 180 / zoomLevel,
+            fadeZoneWidth: 60 / zoomLevel
+          };
+        }
+      }, 250); // 250ms debounce delay
     };
 
     resizeCanvas();
@@ -276,6 +304,11 @@ const ZoomedParticleAnimation = () => {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
+
+      // Clear any pending resize timeout
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
 
       if (canvas && ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
