@@ -13,7 +13,7 @@ export default function ContactUs() {
       <p>For general inquiries & sales</p>
 
       <p>
-        <a href="mailto:support@ultrlx.com">ultrlx.studio@gmail.com</a>
+        <a href="mailto:ultrlx.studio@gmail.com">ultrlx.studio@gmail.com</a>
       </p>
     </div>
   );
