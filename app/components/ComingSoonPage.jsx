@@ -204,7 +204,7 @@ export function ComingSoonPage() {
           textAlign: 'center',
           fontWeight: '400',
         }}>
-          IT'S FUCKING HERE
+          IT'S HERE
         </h2>
         <p className="signup-text" style={{
           color: '#e2e8f0',
