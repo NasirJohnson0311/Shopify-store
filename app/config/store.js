@@ -13,4 +13,4 @@ export const STORE_IS_CLOSED = true;
  * Must be a format parseable by `new Date(...)`, e.g. '2026-09-01T09:00:00-04:00'.
  * Include a timezone offset so the countdown is the same for every visitor regardless of their local timezone.
  */
-export const LAUNCH_DATE = '2026-08-21T12:00:00-06:00';
+export const LAUNCH_DATE = '2026-08-21T12:00:00-05:00';
