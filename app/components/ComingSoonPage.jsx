@@ -1,134 +1,65 @@
 import * as React from 'react';
+import {LAUNCH_DATE} from '~/config/store';
+
+function getTimeLeft(targetDate) {
+  const difference = new Date(targetDate).getTime() - Date.now();
+
+  if (difference <= 0) {
+    return {days: 0, hours: 0, minutes: 0, seconds: 0};
+  }
+
+  return {
+    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((difference / (1000 * 60)) % 60),
+    seconds: Math.floor((difference / 1000) % 60),
+  };
+}
+
+function pad(value) {
+  return String(value).padStart(2, '0');
+}
 
 /**
- * Newsletter Signup Form Component
+ * Countdown Timer Component
+ * Counts down to LAUNCH_DATE (app/config/store.js) in dd:hh:mm:ss format.
  */
-function NewsletterForm() {
-  const [email, setEmail] = React.useState('');
-  const [status, setStatus] = React.useState('idle'); // idle, loading, success, error
-  const [message, setMessage] = React.useState('');
-  const [lastSubmitTime, setLastSubmitTime] = React.useState(0);
+function CountdownTimer() {
+  const [timeLeft, setTimeLeft] = React.useState(() => getTimeLeft(LAUNCH_DATE));
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Prevent rapid resubmissions (must wait at least 2 seconds between attempts)
-    const now = Date.now();
-    if (now - lastSubmitTime < 2000) {
-      return;
-    }
-    setLastSubmitTime(now);
-
-    setStatus('loading');
-
-    try {
-      const response = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({email}),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus('success');
-        setMessage(data.message || 'Successfully subscribed!');
-        setEmail('');
-      } else {
-        setStatus('error');
-        setMessage(data.error || 'An error occurred');
-      }
-    } catch (error) {
-      setStatus('error');
-      setMessage('An error occurred. Please try again.');
-    }
-
-    // Reset status and message after 5 seconds
-    setTimeout(() => {
-      setStatus('idle');
-      setMessage('');
-    }, 5000);
-  };
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(getTimeLeft(LAUNCH_DATE));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div style={{ marginBottom: '0.75rem', width: '100%', display: 'flex', justifyContent: 'center' }}>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          position: 'relative',
-          width: '100%',
-          maxWidth: '475px',
-        }}
-      >
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={message ? '' : 'Enter your email'}
-          required
-          disabled={status === 'loading' || !!message}
-          style={{
-            width: '100%',
-            padding: '0.625rem 1rem',
-            fontSize: '16px',
-            borderRadius: '8px',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            color: message ? 'transparent' : '#ffffff',
-            outline: 'none',
-            transition: 'color 0.3s ease',
-            opacity: status === 'loading' ? 0.6 : 1,
-            boxSizing: 'border-box',
-            paddingRight: '3rem',
-          }}
-        />
-        {message && (
-          <span style={{
-            position: 'absolute',
-            left: '0',
-            right: '0',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            textAlign: 'center',
-            fontSize: '16px',
-            color: status === 'error' ? '#fca5a5' : '#86efac',
-            pointerEvents: 'none',
-            animation: 'fadeInOut 5s ease-in-out',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            lineHeight: '1',
-          }}>
-            {message}
-          </span>
-        )}
-        <button
-          type="submit"
-          disabled={status === 'loading'}
-          style={{
-            position: 'absolute',
-            right: '1rem',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            background: 'none',
-            border: 'none',
-            color: '#ffffff',
-            cursor: status === 'loading' ? 'not-allowed' : 'pointer',
-            padding: '0.5rem',
-            display: message ? 'none' : 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'all 0.3s ease',
-            opacity: status === 'loading' ? 0.6 : 1,
-          }}
-          aria-label="Subscribe"
-        >
-          {status === 'loading' ? '...' : '→'}
-        </button>
-      </form>
+    <div style={{ marginBottom: '0.75rem', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{
+        fontSize: '2.25rem',
+        fontWeight: '600',
+        color: '#ffffff',
+        letterSpacing: '0.05em',
+        fontVariantNumeric: 'tabular-nums',
+        textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
+      }}>
+        {pad(timeLeft.days)}:{pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
+      </div>
+      <div style={{
+        display: 'flex',
+        gap: '1.5rem',
+        marginTop: '0.35rem',
+        fontSize: '0.7rem',
+        color: '#e2e8f0',
+        textTransform: 'uppercase',
+        letterSpacing: '0.1em',
+      }}>
+        <span>Days</span>
+        <span>Hours</span>
+        <span>Min</span>
+        <span>Sec</span>
+      </div>
     </div>
   );
 }
@@ -178,21 +109,6 @@ export function ComingSoonPage() {
 
         .signup-text {
           font-size: 1.1rem;
-        }
-
-        @keyframes fadeInOut {
-          0% {
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          90% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
         }
 
         @media (max-width: 768px) {
@@ -288,7 +204,7 @@ export function ComingSoonPage() {
           textAlign: 'center',
           fontWeight: '400',
         }}>
-          It's Coming
+          IT'S HERE
         </h2>
         <p className="signup-text" style={{
           color: '#e2e8f0',
@@ -296,11 +212,10 @@ export function ComingSoonPage() {
           lineHeight: '1.6',
           textAlign: 'center',
         }}>
-          Sign up for our newsletter to be the first to know when we launch.
         </p>
 
-        {/* Email Signup Form */}
-        <NewsletterForm />
+        {/* Countdown Timer */}
+        <CountdownTimer />
 
         {/* Social Media Icons */}
         <div style={{

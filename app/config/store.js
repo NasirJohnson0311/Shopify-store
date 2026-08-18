@@ -7,3 +7,10 @@
  * Change this value here and it will update everywhere automatically.
  */
 export const STORE_IS_CLOSED = true;
+
+/**
+ * LAUNCH_DATE: The date/time the countdown timer on the Coming Soon page counts down to.
+ * Must be a format parseable by `new Date(...)`, e.g. '2026-09-01T09:00:00-04:00'.
+ * Include a timezone offset so the countdown is the same for every visitor regardless of their local timezone.
+ */
+export const LAUNCH_DATE = '2026-08-21T09:00:00-04:00';

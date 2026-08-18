@@ -43,7 +43,11 @@
       "Bash(git revert:*)",
       "Bash(git add:*)",
       "Bash(git reset:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(curl -s http://localhost:3001/)",
+      "Bash(curl -s http://localhost:3001/ -o /tmp/page.html)",
+      "Read(//tmp/**)",
+      "Bash(node -e \"console.log\\(new Date\\(\\).toString\\(\\)\\); console.log\\(new Date\\('2026-09-01T09:00:00-04:00'\\).toString\\(\\)\\); console.log\\(\\(new Date\\('2026-09-01T09:00:00-04:00'\\) - new Date\\(\\)\\)/1000/60/60/24\\)\")"
     ],
     "deny": [],
     "ask": []
