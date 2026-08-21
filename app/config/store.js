@@ -6,7 +6,7 @@
  * This is the SINGLE SOURCE OF TRUTH for the store open/closed state.
  * Change this value here and it will update everywhere automatically.
  */
-export const STORE_IS_CLOSED = true;
+export const STORE_IS_CLOSED = false;
 
 /**
  * LAUNCH_DATE: The date/time the countdown timer on the Coming Soon page counts down to.
